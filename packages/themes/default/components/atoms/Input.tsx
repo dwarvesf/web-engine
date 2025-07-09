@@ -1,4 +1,5 @@
 import { InputHTMLAttributes, forwardRef } from 'react';
+import { cn } from '../lib/utils';
 
 interface InputProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> {
@@ -37,7 +38,13 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     const inputId = id || `input-${Math.random().toString(36).substr(2, 9)}`;
     const baseClasses =
       'w-full rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2';
-    const classes = `${baseClasses} ${variants[variant]} ${sizes[size]} ${error ? 'border-red-500' : ''} ${className}`;
+    const classes = cn(
+      baseClasses,
+      variants[variant],
+      sizes[size],
+      error ? 'border-red-500' : '',
+      className,
+    );
 
     return (
       <div className="w-full">

@@ -1,3 +1,5 @@
+import { cn } from '../lib/utils';
+
 interface ListProps {
   children: React.ReactNode;
   className?: string;
@@ -11,7 +13,7 @@ export function UnorderedList({
 }: ListProps) {
   return (
     <ul
-      className={`mb-4 list-inside list-disc space-y-1 ${className}`}
+      className={cn('mb-4 list-inside list-disc space-y-1', className)}
       {...props}
     >
       {children}
@@ -22,7 +24,7 @@ export function UnorderedList({
 export function OrderedList({ children, className = '', ...props }: ListProps) {
   return (
     <ol
-      className={`mb-4 list-inside list-decimal space-y-1 ${className}`}
+      className={cn('mb-4 list-inside list-decimal space-y-1', className)}
       {...props}
     >
       {children}
@@ -32,7 +34,7 @@ export function OrderedList({ children, className = '', ...props }: ListProps) {
 
 export function ListItem({ children, className = '', ...props }: ListProps) {
   return (
-    <li className={`text-foreground ${className}`} {...props}>
+    <li className={cn('text-foreground', className)} {...props}>
       {children}
     </li>
   );

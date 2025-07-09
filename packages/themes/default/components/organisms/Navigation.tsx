@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { cn } from '../lib/utils';
 import { Logo, Icon, Button, ThemeToggle } from '../atoms';
 import { NavigationItem } from '../molecules';
 
@@ -60,13 +61,23 @@ export default function Navigation({
       );
     }
 
-    return <NavigationItem key={index} tab={tab} isMobile={false} />;
+    return (
+      <NavigationItem
+        key={index}
+        tab={tab}
+        isMobile={false}
+        alignRight={index === tabs.length - 1}
+      />
+    );
   };
 
   if (isAsidePosition) {
     return (
       <aside
-        className={`bg-background/95 border-border fixed left-0 top-0 z-50 h-full w-64 border-r backdrop-blur-sm ${className}`}
+        className={cn(
+          'bg-background/95 border-border fixed top-0 left-0 z-50 h-full w-64 border-r backdrop-blur-sm',
+          className,
+        )}
       >
         <div className="p-4">
           <div className="mb-8">
@@ -95,7 +106,10 @@ export default function Navigation({
 
   return (
     <nav
-      className={`bg-background/95 border-border fixed left-0 right-0 top-0 z-50 border-b backdrop-blur-sm ${className}`}
+      className={cn(
+        'bg-background/95 border-border fixed top-0 right-0 left-0 z-50 border-b backdrop-blur-sm',
+        className,
+      )}
     >
       <div className="mx-auto max-w-6xl px-4">
         <div className="flex h-16 items-center justify-between">

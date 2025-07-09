@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { cn } from '../lib/utils';
 import Icon from './Icon';
 
 interface ThemeToggleProps {
@@ -58,7 +59,11 @@ export default function ThemeToggle({
   if (!mounted) {
     return (
       <button
-        className={`text-foreground hover:text-primary transition-colors duration-200 ${sizeClasses[size]} ${className}`}
+        className={cn(
+          'text-foreground hover:text-primary transition-colors duration-200',
+          sizeClasses[size],
+          className,
+        )}
         aria-label="Toggle theme"
         disabled
       >
@@ -70,7 +75,11 @@ export default function ThemeToggle({
   return (
     <button
       onClick={toggleTheme}
-      className={`text-foreground hover:text-primary transition-colors duration-200 ${sizeClasses[size]} ${className}`}
+      className={cn(
+        'text-foreground hover:text-primary transition-colors duration-200',
+        sizeClasses[size],
+        className,
+      )}
       aria-label={`Switch to ${isDark ? 'light' : 'dark'} theme`}
     >
       <Icon name={isDark ? 'moon' : 'sun'} size={size} />

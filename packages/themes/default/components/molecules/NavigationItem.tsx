@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react'; // Import useRef
 import { Icon } from '../atoms';
+import { cn } from '../lib/utils';
 
 interface TabType {
   tab: string;
@@ -16,15 +17,31 @@ interface NavigationItemProps {
   tab: TabType;
   isMobile?: boolean;
   onItemClick?: () => void;
+  alignRight?: boolean; // New prop for alignment
 }
 
 export default function NavigationItem({
   tab,
   isMobile = false,
   onItemClick,
+  alignRight = false, // Default to false
 }: NavigationItemProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null); // Ref for timeout
   const hasGroups = tab.groups && tab.groups.length > 0;
+
+  const handleMouseEnter = () => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+    setIsOpen(true);
+  };
+
+  const handleMouseLeave = () => {
+    timeoutRef.current = setTimeout(() => {
+      setIsOpen(false);
+    }, 100); // 100ms delay
+  };
 
   const handleClick = () => {
     if (hasGroups && isMobile) {
@@ -43,7 +60,9 @@ export default function NavigationItem({
       <a
         key={index}
         href={href}
-        className="text-foreground hover:bg-secondary hover:text-primary block px-4 py-2 transition-colors duration-200"
+        className={cn(
+          'text-foreground hover:bg-secondary hover:text-primary block px-4 py-2 transition-colors duration-200',
+        )}
         onClick={onItemClick}
       >
         {label}
@@ -57,7 +76,9 @@ export default function NavigationItem({
         <div className="flex items-center justify-between">
           <a
             href={tab.href || '#'}
-            className="text-foreground hover:text-primary block font-medium transition-colors duration-200"
+            className={cn(
+              'text-foreground hover:text-primary block font-medium transition-colors duration-200',
+            )}
             onClick={onItemClick}
           >
             {tab.tab}
@@ -70,12 +91,17 @@ export default function NavigationItem({
           {hasGroups && (
             <button
               onClick={handleClick}
-              className="text-foreground hover:text-primary transition-colors duration-200"
+              className={cn(
+                'text-foreground hover:text-primary transition-colors duration-200',
+              )}
             >
               <Icon
                 name="chevronDown"
                 size="sm"
-                className={`transform transition-transform ${isOpen ? 'rotate-180' : ''}`}
+                className={cn(
+                  'transform transition-transform',
+                  isOpen ? 'rotate-180' : '',
+                )}
               />
             </button>
           )}
@@ -111,9 +137,11 @@ export default function NavigationItem({
     <div className="group relative">
       <a
         href={tab.href || '#'}
-        className="text-foreground hover:text-primary flex items-center font-medium transition-colors duration-200"
-        onMouseEnter={() => setIsOpen(true)}
-        onMouseLeave={() => setIsOpen(false)}
+        className={cn(
+          'text-foreground hover:text-primary flex items-center font-medium transition-colors duration-200',
+        )}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
       >
         {tab.tab}
         {tab.tag && (
@@ -125,9 +153,12 @@ export default function NavigationItem({
       </a>
       {hasGroups && isOpen && (
         <div
-          className="bg-background border-border absolute top-full left-0 z-50 mt-2 w-80 rounded-lg border py-4 shadow-lg"
-          onMouseEnter={() => setIsOpen(true)}
-          onMouseLeave={() => setIsOpen(false)}
+          className={cn(
+            'bg-background border-border absolute top-full z-50 mt-2 w-80 rounded-lg border py-4 shadow-lg',
+            alignRight ? 'right-0' : 'left-0', // Conditional positioning
+          )}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
         >
           <div className="grid grid-cols-2 gap-6 px-4">
             {tab.groups!.map((group, groupIndex) => (

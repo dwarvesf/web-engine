@@ -1,4 +1,4 @@
-import staticConfig from '../../generated/site-config.json';
+import _staticConfig from '../../generated/site-config.json';
 
 export interface TabType {
   tab: string;
@@ -99,10 +99,10 @@ export const defaultSiteConfig: SiteConfig = {
       'A software development firm based in Asia. Helping tech startups, entrepreneurs and makers build world-class products since 2013.',
     url: 'https://dwarves.foundation',
   },
-  favicon: '/favicon.ico',
+  favicon: 'content/favicon.ico',
   header: {
     logo: {
-      src: '/logo.svg',
+      src: 'content/logo.svg',
       alt: 'Dwarves Foundation Logo',
       href: '/',
     },
@@ -127,6 +127,9 @@ export const defaultSiteConfig: SiteConfig = {
 class SiteConfigLoader {
   private static instance: SiteConfigLoader;
   private config: SiteConfig | null = null;
+  private readonly staticConfig = this.recursivePathResolver(
+    _staticConfig,
+  ) as unknown as SiteConfig | undefined;
 
   private constructor() {}
 
@@ -137,13 +140,56 @@ class SiteConfigLoader {
     return SiteConfigLoader.instance;
   }
 
+  private pathResolver(path: string): string {
+    if (path.startsWith('http://') || path.startsWith('https://')) {
+      return path; // External URL, no change needed
+    }
+    if (path.startsWith('/') && !path.startsWith('/content/')) {
+      // If the path starts with '/', treat it as an absolute path
+      return `content${path}`;
+    }
+    if (path.startsWith('content/')) {
+      return path; // Already a content-relative path
+    }
+    // Resolve relative paths based on the current working directory
+    return `content/${path}`;
+  }
+
+  private recursivePathResolver(
+    obj?: Record<string, unknown>,
+  ): Record<string, unknown> | undefined {
+    if (!obj || typeof obj !== 'object') {
+      return;
+    }
+    const resolvedObj: Record<string, unknown> = {};
+    const keys = ['src', 'url', 'favicon', 'icon'];
+    for (const [key, value] of Object.entries(obj)) {
+      if (typeof value === 'string' && keys.includes(key)) {
+        resolvedObj[key] = this.pathResolver(value);
+      } else if (Array.isArray(value)) {
+        resolvedObj[key] = value.map(item =>
+          typeof item === 'string' && keys.includes(key)
+            ? this.pathResolver(item)
+            : item,
+        );
+      } else if (typeof value === 'object' && value !== null) {
+        resolvedObj[key] = this.recursivePathResolver(
+          value as Record<string, unknown>,
+        );
+      } else {
+        resolvedObj[key] = value; // Keep other types as is
+      }
+    }
+    return resolvedObj;
+  }
+
   loadConfig(): SiteConfig {
     if (this.config) {
       return this.config;
     }
 
     try {
-      this.config = staticConfig as unknown as SiteConfig;
+      this.config = this.staticConfig as unknown as SiteConfig;
       return this.config || defaultSiteConfig;
     } catch (error) {
       console.warn(

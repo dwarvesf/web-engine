@@ -1,7 +1,6 @@
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  transpilePackages: ['@wse-themes/default'],
   output: 'export',
   reactStrictMode: true,
   pageExtensions: ['ts', 'tsx', 'js', 'jsx'],
@@ -9,6 +8,7 @@ const nextConfig: NextConfig = {
     mdxRs: false, // Use @next/mdx instead of experimental MDX support
     largePageDataBytes: 1024 * 1024,
   },
+  transpilePackages: ['@wse-themes/default'],
   turbopack: {
     resolveExtensions: ['.ts', '.tsx', '.js', '.jsx'],
   },

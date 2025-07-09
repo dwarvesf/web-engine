@@ -1,4 +1,5 @@
 import React from 'react';
+import { cn } from '../lib/utils';
 
 interface HeadingProps {
   children: React.ReactNode;
@@ -22,7 +23,7 @@ export default function Heading({
   className = '',
   ...props
 }: HeadingProps) {
-  const classes = `${headingClasses[level]} ${className}`;
+  const classes = cn(headingClasses[level], className);
 
   return React.createElement(
     `h${level}`,

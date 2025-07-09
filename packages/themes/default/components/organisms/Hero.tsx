@@ -1,3 +1,4 @@
+import { cn } from '../lib/utils';
 import { Button } from '../atoms';
 
 interface HeroProps {
@@ -21,7 +22,10 @@ export default function Hero({
 }: HeroProps) {
   return (
     <section
-      className={`relative flex min-h-screen items-center justify-center overflow-hidden ${className}`}
+      className={cn(
+        'relative flex min-h-screen items-center justify-center overflow-hidden',
+        className,
+      )}
       style={{
         backgroundImage: backgroundImage
           ? `url(${backgroundImage})`

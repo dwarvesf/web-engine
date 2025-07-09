@@ -1,3 +1,5 @@
+import { cn } from '../lib/utils';
+
 interface ImageProps {
   src: string;
   alt: string;
@@ -15,7 +17,7 @@ export default function Image({
     <img
       src={src}
       alt={alt}
-      className={`h-auto max-w-full rounded-lg ${className}`}
+      className={cn('h-auto max-w-full rounded-lg', className)}
       {...props}
     />
   );

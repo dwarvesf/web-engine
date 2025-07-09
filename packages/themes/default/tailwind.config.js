@@ -4,6 +4,9 @@ import plugin from 'tailwindcss/plugin';
 /** @type {import('tailwindcss').Config} */
 const config = {
   darkMode: ['class', '[data-theme="dark"]'],
+  content: [
+    './components/**/*.{js,ts,jsx,tsx,mdx}',
+  ],
   theme: {
     screens: {
       xs: '475px',

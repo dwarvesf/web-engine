@@ -1,5 +1,35 @@
+import { cn } from '../lib/utils';
 import { Logo } from '../atoms';
 import { SocialLink } from '../molecules';
+
+// Helper function to transform social links from site config format
+function transformSocialLinks(
+  socials: Record<string, string | [string, string] | [string, string, string]>,
+) {
+  return Object.entries(socials).map(([key, value]) => {
+    if (typeof value === 'string') {
+      return {
+        name: key,
+        href: value,
+        icon: key.toLowerCase(),
+      };
+    }
+
+    if (Array.isArray(value)) {
+      return {
+        name: value[2] || key,
+        href: value[0],
+        icon: value[1] || key.toLowerCase(),
+      };
+    }
+
+    return {
+      name: key,
+      href: '#',
+      icon: key.toLowerCase(),
+    };
+  });
+}
 
 interface FooterLink {
   label: string;
@@ -7,49 +37,70 @@ interface FooterLink {
 }
 
 interface FooterSection {
-  title: string;
-  links: FooterLink[];
+  title?: string;
+  href?: string;
+  'hide-title'?: boolean;
+  content?: {
+    type: string;
+    title: string;
+    text: string;
+  }[];
+  socials?: Record<
+    string,
+    string | [string, string] | [string, string, string]
+  >;
+  tabs?: {
+    tab: string;
+    href: string;
+    type?: string[];
+    tag?: string;
+  }[];
+  links?: FooterLink[];
 }
 
-interface SocialLinkData {
-  name: string;
-  href: string;
-  icon: string;
+interface SocialConfig {
+  [key: string]: string | [string, string] | [string, string, string];
+}
+
+interface FooterConfig {
+  global?: {
+    text: string;
+    email: string;
+    socials?: SocialConfig;
+  };
+  'column-sections'?: FooterSection[];
+  sections?: FooterSection[];
 }
 
 interface FooterProps {
-  logo?: string;
-  logoText?: string;
-  description?: string;
-  sections: FooterSection[];
-  socialLinks: SocialLinkData[];
-  copyright?: string;
+  footer?: FooterConfig;
   className?: string;
 }
 
-export default function Footer({
-  logo,
-  logoText = 'Dwarves Foundation',
-  description,
-  sections,
-  socialLinks,
-  copyright,
-  className = '',
-}: FooterProps) {
+export default function Footer({ footer, className = '' }: FooterProps) {
+  if (!footer) return null;
+
+  const sections = footer.sections || footer['column-sections'] || [];
+  const socialLinks = transformSocialLinks(footer.global?.socials || {});
+  const copyright = footer.global?.text;
+  const email = footer.global?.email;
   return (
-    <footer
-      className={`bg-secondary-background border-border border-t ${className}`}
-    >
+    <footer className={cn('bg-background border-border border-t', className)}>
       <div className="mx-auto max-w-6xl px-4 py-12">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-4">
           {/* Logo and Description */}
-          <div className="md:col-span-2">
+          <div className="sm:col-span-2 md:col-span-2">
             <div className="mb-4">
-              <Logo src={logo} text={logoText} />
+              <Logo text="Dwarves Foundation" />
             </div>
-            {description && (
-              <p className="text-muted-foreground mb-6 leading-relaxed">
-                {description}
+            {email && (
+              <p className="text-muted-foreground mb-6 text-sm">
+                <a
+                  href={`mailto:${email}`}
+                  className="hover:text-primary transition-colors duration-200"
+                >
+                  {email}
+                </a>
               </p>
             )}
             {/* Social Links */}
@@ -68,17 +119,38 @@ export default function Footer({
           {/* Footer Sections */}
           {sections.map((section, index) => (
             <div key={index}>
-              <h4 className="text-foreground mb-4 font-semibold">
-                {section.title}
-              </h4>
+              {!section['hide-title'] && section.title && (
+                <h4 className="text-foreground mb-4 text-sm font-semibold">
+                  {section.href ? (
+                    <a
+                      href={section.href}
+                      className="hover:text-primary transition-colors duration-200"
+                    >
+                      {section.title}
+                    </a>
+                  ) : (
+                    section.title
+                  )}
+                </h4>
+              )}
               <ul className="space-y-2">
-                {section.links.map((link, linkIndex) => (
+                {section.links?.map((link, linkIndex) => (
                   <li key={linkIndex}>
                     <a
                       href={link.href}
-                      className="text-muted-foreground hover:text-primary transition-colors duration-200"
+                      className="text-muted-foreground hover:text-primary text-sm transition-colors duration-200"
                     >
                       {link.label}
+                    </a>
+                  </li>
+                ))}
+                {section.tabs?.map((tab, tabIndex) => (
+                  <li key={tabIndex}>
+                    <a
+                      href={tab.href}
+                      className="text-muted-foreground hover:text-primary text-sm transition-colors duration-200"
+                    >
+                      {tab.tab}
                     </a>
                   </li>
                 ))}
@@ -88,10 +160,10 @@ export default function Footer({
         </div>
 
         {/* Copyright */}
-        <div className="border-border mt-8 border-t pt-8 text-center">
+        <div className="border-border mt-12 border-t pt-8 text-center">
           <p className="text-muted-foreground text-sm">
             {copyright ||
-              `© ${new Date().getFullYear()} ${logoText}. All rights reserved.`}
+              `© ${new Date().getFullYear()} Dwarves Foundation. All rights reserved.`}
           </p>
         </div>
       </div>

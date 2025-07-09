@@ -14,15 +14,5 @@
     "themes:clean": "pnpm -r --filter='./packages/themes/*' run clean",
     "themes:lint": "pnpm -r --filter='./packages/themes/*' run lint",
     "themes:type-check": "pnpm -r --filter='./packages/themes/*' run type-check"
-  },
-  "devDependencies": {
-    "@eslint/eslintrc": "^3",
-    "eslint": "^9",
-    "eslint-config-next": "15.3.5",
-    "eslint-config-prettier": "^10.1.5",
-    "eslint-plugin-prettier": "^5.5.1",
-    "prettier": "^3.6.2",
-    "prettier-plugin-tailwindcss": "^0.6.13",
-    "typescript": "^5"
   }
 }

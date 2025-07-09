@@ -1,3 +1,5 @@
+import { cn } from '../lib/utils';
+
 interface LogoProps {
   src?: string;
   alt?: string;
@@ -22,10 +24,14 @@ export default function Logo({
   size = 'md',
 }: LogoProps) {
   const LogoContent = () => (
-    <div className={`flex items-center space-x-2 ${className}`}>
+    <div className={cn('flex items-center gap-2', className)}>
       {src && <img src={src} alt={alt} className={sizeClasses[size]} />}
       {text && (
-        <span className="text-foreground text-xl font-bold">{text}</span>
+        <div className="text-foreground flex flex-col text-xl font-bold">
+          {text.split(' ').map((word, index) => (
+            <h5 key={index}>{word}</h5>
+          ))}
+        </div>
       )}
     </div>
   );

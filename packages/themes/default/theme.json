@@ -58,6 +58,7 @@
     "organisms": [
       "Navigation",
       "Hero",
+      "Header",
       "Footer",
       "ClientShowcase"
     ]

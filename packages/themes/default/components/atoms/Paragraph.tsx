@@ -1,3 +1,5 @@
+import { cn } from '../lib/utils';
+
 interface ParagraphProps {
   children: React.ReactNode;
   className?: string;
@@ -11,7 +13,7 @@ export default function Paragraph({
 }: ParagraphProps) {
   return (
     <p
-      className={`text-foreground mb-4 leading-relaxed ${className}`}
+      className={cn('text-foreground mb-4 leading-relaxed', className)}
       {...props}
     >
       {children}

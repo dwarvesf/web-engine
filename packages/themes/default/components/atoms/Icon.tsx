@@ -1,3 +1,5 @@
+import { cn } from '../lib/utils';
+
 interface IconProps {
   name: string;
   size?: 'sm' | 'md' | 'lg' | 'xl';
@@ -128,7 +130,7 @@ export default function Icon({ name, size = 'md', className = '' }: IconProps) {
 
   return (
     <svg
-      className={`${sizes[size]} ${className}`}
+      className={cn(sizes[size], className)}
       fill="none"
       stroke="currentColor"
       viewBox="0 0 24 24"

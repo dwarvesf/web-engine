@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { themeAdapter } from '../adapters';
-import { getSiteConfig } from '../config/site-config';
+import { getSiteConfig, SiteConfig } from '../config/site-config';
 
 export interface MDXComponents {
   [key: string]: React.ComponentType<any>;
@@ -9,7 +9,7 @@ export interface MDXComponents {
 interface MDXContextType {
   components: MDXComponents;
   theme: string;
-  siteConfig: any;
+  siteConfig: SiteConfig | null;
   loading: boolean;
 }
 

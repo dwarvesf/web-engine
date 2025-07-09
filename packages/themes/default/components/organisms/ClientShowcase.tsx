@@ -1,3 +1,4 @@
+import { cn } from '../lib/utils';
 import { ClientLogo } from '../molecules';
 
 interface Client {
@@ -18,7 +19,7 @@ export default function ClientShowcase({
   className = '',
 }: ClientShowcaseProps) {
   return (
-    <section className={`py-16 ${className}`}>
+    <section className={cn('py-16', className)}>
       <div className="mx-auto max-w-6xl px-4">
         {title && (
           <h2 className="text-foreground mb-12 text-center text-2xl font-bold md:text-3xl">

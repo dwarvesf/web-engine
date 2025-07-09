@@ -1,3 +1,4 @@
+import { cn } from '../lib/utils';
 import { Icon } from '../atoms';
 
 interface SocialLinkProps {
@@ -16,7 +17,10 @@ export default function SocialLink({
   return (
     <a
       href={href}
-      className={`text-muted-foreground hover:text-primary transition-colors duration-200 ${className}`}
+      className={cn(
+        'text-muted-foreground hover:text-primary transition-colors duration-200',
+        className,
+      )}
       target="_blank"
       rel="noopener noreferrer"
       aria-label={name}

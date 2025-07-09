@@ -1,3 +1,5 @@
+import { cn } from '../lib/utils';
+
 interface CardGroupProps {
   children: React.ReactNode;
   className?: string;
@@ -17,7 +19,7 @@ export default function CardGroup({
   };
 
   return (
-    <div className={`grid gap-6 ${gridClasses[cols]} ${className}`}>
+    <div className={cn('grid gap-6', gridClasses[cols], className)}>
       {children}
     </div>
   );

@@ -1,3 +1,5 @@
+import { cn } from '../lib/utils';
+
 interface CodeBlockProps {
   children: React.ReactNode;
   className?: string;
@@ -11,7 +13,7 @@ export function CodeBlock({
 }: CodeBlockProps) {
   return (
     <pre
-      className={`bg-muted mb-4 overflow-x-auto rounded-lg p-4 ${className}`}
+      className={cn('bg-muted mb-4 overflow-x-auto rounded-lg p-4', className)}
       {...props}
     >
       {children}
@@ -26,7 +28,7 @@ export function InlineCode({
 }: CodeBlockProps) {
   return (
     <code
-      className={`bg-muted rounded px-2 py-1 text-sm ${className}`}
+      className={cn('bg-muted rounded px-2 py-1 text-sm', className)}
       {...props}
     >
       {children}

@@ -1,3 +1,5 @@
+import { cn } from '../lib/utils';
+
 interface CardProps {
   children: React.ReactNode;
   className?: string;
@@ -16,7 +18,10 @@ export default function Card({
   return (
     <CardWrapper
       href={href}
-      className={`bg-card border-border hover:bg-card-hover rounded-lg border p-6 transition-colors duration-200 ${className}`}
+      className={cn(
+        'bg-card border-border hover:bg-card-hover rounded-lg border p-6 transition-colors duration-200',
+        className,
+      )}
     >
       {title && (
         <h3 className="text-foreground mb-3 text-lg font-semibold">{title}</h3>

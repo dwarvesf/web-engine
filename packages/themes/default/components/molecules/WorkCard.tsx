@@ -1,3 +1,4 @@
+import { cn } from '../lib/utils';
 import { Tag } from '../atoms';
 
 interface WorkCardProps {
@@ -24,7 +25,10 @@ export default function WorkCard({
   return (
     <CardComponent
       href={href}
-      className={`group bg-card border-border hover:border-border-hover hover:bg-card-hover dwarves-hover-lift overflow-hidden rounded-lg border transition-all duration-200 ${className}`}
+      className={cn(
+        'bg-card border-border hover:border-border-hover hover:bg-card-hover dwarves-hover-lift group overflow-hidden rounded-lg border transition-all duration-200',
+        className,
+      )}
     >
       <div className="aspect-video overflow-hidden">
         <img

@@ -1,3 +1,5 @@
+import { cn } from '../lib/utils';
+
 interface TagProps {
   children: React.ReactNode;
   variant?: 'default' | 'primary' | 'secondary';
@@ -23,7 +25,7 @@ export default function Tag({
   className = '',
 }: TagProps) {
   const baseClasses = 'inline-block rounded-full font-medium';
-  const classes = `${baseClasses} ${variants[variant]} ${sizes[size]} ${className}`;
+  const classes = cn(baseClasses, variants[variant], sizes[size], className);
 
   return <span className={classes}>{children}</span>;
 }

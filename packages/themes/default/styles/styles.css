@@ -1,4 +1,10 @@
-@import "tailwindcss";
+@import 'tailwindcss';
+@import 'tailwindcss/preflight' layer(base);
+@import 'tailwindcss/utilities' layer(utilities);
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+@config "../tailwind.config.js";
 
 @theme {
   /* Light Theme Colors */

@@ -1,3 +1,5 @@
+import { cn } from '../lib/utils';
+
 interface ClientLogoProps {
   name: string;
   logo: string;
@@ -16,7 +18,7 @@ export default function ClientLogo({
   return (
     <LogoComponent
       href={href}
-      className={`flex justify-center ${className}`}
+      className={cn('flex justify-center', className)}
       target={href ? '_blank' : undefined}
       rel={href ? 'noopener noreferrer' : undefined}
     >

@@ -30,30 +30,16 @@ export default function MDXPage({
     ...templateComponents,
     // Navigation and Footer are automatically configured from site config
     Header: () => {
-      const NavigationComponent = components.Navigation;
-      if (!NavigationComponent) return null;
+      const HeaderComponent = components.Header;
+      if (!HeaderComponent || !siteConfig?.header) return null;
 
-      return (
-        <NavigationComponent
-          items={siteConfig?.navigation?.tabs || []}
-          logoText={siteConfig?.site?.title}
-        />
-      );
+      return <HeaderComponent header={siteConfig?.header} />;
     },
     Footer: () => {
       const FooterComponent = components.Footer;
-      if (!FooterComponent) return null;
+      if (!FooterComponent || !siteConfig?.footer) return null;
 
-      return (
-        <FooterComponent
-          logoText={siteConfig?.site?.title}
-          copyright={siteConfig?.footer?.global?.text}
-          sections={siteConfig?.footer?.sections || []}
-          socialLinks={transformSocialLinks(
-            siteConfig?.footer?.global?.socials || {},
-          )}
-        />
-      );
+      return <FooterComponent footer={siteConfig?.footer} />;
     },
   };
 
@@ -69,33 +55,4 @@ export default function MDXPage({
       />
     </div>
   );
-}
-
-// Helper function to transform social links from site config format
-function transformSocialLinks(
-  socials: Record<string, string | [string, string] | [string, string, string]>,
-) {
-  return Object.entries(socials).map(([key, value]) => {
-    if (typeof value === 'string') {
-      return {
-        name: key,
-        href: value,
-        icon: key.toLowerCase(),
-      };
-    }
-
-    if (Array.isArray(value)) {
-      return {
-        name: value[2] || key,
-        href: value[0],
-        icon: value[1] || key.toLowerCase(),
-      };
-    }
-
-    return {
-      name: key,
-      href: '#',
-      icon: key.toLowerCase(),
-    };
-  });
 }

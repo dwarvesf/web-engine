@@ -1,3 +1,5 @@
+import { cn } from '../lib/utils';
+
 interface BlockquoteProps {
   children: React.ReactNode;
   className?: string;
@@ -11,7 +13,10 @@ export default function Blockquote({
 }: BlockquoteProps) {
   return (
     <blockquote
-      className={`border-primary text-muted-foreground mb-4 border-l-4 pl-4 italic ${className}`}
+      className={cn(
+        'border-primary text-muted-foreground mb-4 border-l-4 pl-4 italic',
+        className,
+      )}
       {...props}
     >
       {children}

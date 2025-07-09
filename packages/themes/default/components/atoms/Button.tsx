@@ -1,4 +1,5 @@
 import { ButtonHTMLAttributes, forwardRef } from 'react';
+import { cn } from '../lib/utils';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
@@ -36,7 +37,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ) => {
     const baseClasses =
       'inline-flex items-center justify-center rounded-lg font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed';
-    const classes = `${baseClasses} ${variants[variant]} ${sizes[size]} ${className}`;
+    const classes = cn(baseClasses, variants[variant], sizes[size], className);
 
     if (href) {
       return (

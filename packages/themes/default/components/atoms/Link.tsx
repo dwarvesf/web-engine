@@ -1,3 +1,5 @@
+import { cn } from '../lib/utils';
+
 interface LinkProps {
   children: React.ReactNode;
   href?: string;
@@ -14,7 +16,10 @@ export default function Link({
   return (
     <a
       href={href}
-      className={`text-primary hover:text-primary-hover underline transition-colors ${className}`}
+      className={cn(
+        'text-primary hover:text-primary-hover underline transition-colors',
+        className,
+      )}
       {...props}
     >
       {children}

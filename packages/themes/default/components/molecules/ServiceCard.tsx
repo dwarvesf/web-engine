@@ -1,3 +1,4 @@
+import { cn } from '../lib/utils';
 import { Icon, Button } from '../atoms';
 
 interface ServiceCardProps {
@@ -17,7 +18,10 @@ export default function ServiceCard({
 }: ServiceCardProps) {
   return (
     <div
-      className={`group bg-card border-border hover:border-border-hover hover:bg-card-hover dwarves-hover-lift rounded-lg border p-6 transition-all duration-200 ${className}`}
+      className={cn(
+        'bg-card border-border hover:border-border-hover hover:bg-card-hover dwarves-hover-lift group rounded-lg border p-6 transition-all duration-200',
+        className,
+      )}
     >
       <div className="text-primary mb-4">
         <Icon name={icon} size="lg" />
