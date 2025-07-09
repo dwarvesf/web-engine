@@ -10,7 +10,8 @@
     "dev:types": "tsc --watch",
     "dev:css": "npx -y @tailwindcss/cli -i packages/themes/default/styles/styles.css -o packages/themes/default/dist/styles.css --watch",
     "clean": "rm -rf dist",
-    "lint": "eslint components/**/*.{ts,tsx} --fix",
+    "lint": "eslint **/*.{ts,tsx} --fix",
+    "format": "prettier --write **/*.{ts,tsx,css}",
     "type-check": "tsc --noEmit",
     "prepublishOnly": "pnpm run clean && pnpm run build"
   },

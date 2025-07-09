@@ -103,7 +103,7 @@
 }
 
 /* Manual Dark Mode Support */
-[data-theme="dark"] {
+[data-theme='dark'] {
   --color-primary: #e13f5e;
   --color-primary-hover: #f55a7a;
   --color-primary-foreground: #ffffff;

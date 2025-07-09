@@ -13,6 +13,23 @@
     "themes:dev": "pnpm -r --filter='./packages/themes/*' run dev",
     "themes:clean": "pnpm -r --filter='./packages/themes/*' run clean",
     "themes:lint": "pnpm -r --filter='./packages/themes/*' run lint",
-    "themes:type-check": "pnpm -r --filter='./packages/themes/*' run type-check"
+    "themes:format": "pnpm -r --filter='./packages/themes/*' run format",
+    "themes:type-check": "pnpm -r --filter='./packages/themes/*' run type-check",
+    "prepare": "husky",
+    "lint-staged": "lint-staged"
+  },
+  "devDependencies": {
+    "husky": "^9.1.7",
+    "lint-staged": "^16.1.2"
+  },
+  "lint-staged": {
+    "packages/app/**/*.{js,jsx,ts,tsx}": [
+      "pnpm lint:fix",
+      "pnpm format"
+    ],
+    "packages/themes/**/*.{js,jsx,ts,tsx}": [
+      "pnpm themes:lint",
+      "pnpm themes:format"
+    ]
   }
 }

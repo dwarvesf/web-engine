@@ -36,7 +36,7 @@ export const validateEmail = (email: string): boolean => {
 
 export const debounce = <T extends (...args: any[]) => void>(
   func: T,
-  delay: number
+  delay: number,
 ): ((...args: Parameters<T>) => void) => {
   let timeoutId: NodeJS.Timeout;
   return (...args: Parameters<T>) => {
@@ -47,7 +47,7 @@ export const debounce = <T extends (...args: any[]) => void>(
 
 export const throttle = <T extends (...args: any[]) => void>(
   func: T,
-  delay: number
+  delay: number,
 ): ((...args: Parameters<T>) => void) => {
   let lastCall = 0;
   return (...args: Parameters<T>) => {

@@ -10,7 +10,8 @@ export { default as themeConfig } from './tailwind.config';
 // Theme metadata
 export const themeName = 'default';
 export const themeVersion = '1.0.0';
-export const themeDescription = 'Default app theme for Dwarves Foundation websites';
+export const themeDescription =
+  'Default app theme for Dwarves Foundation websites';
 
 // Theme capabilities
 export const themeCapabilities = {
