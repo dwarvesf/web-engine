@@ -1,0 +1,326 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Site Configuration",
+  "description": "Configuration schema for the website engine",
+  "type": "object",
+  "properties": {
+    "theme": {
+      "type": "string",
+      "description": "The theme to use for the website",
+      "default": "default"
+    },
+    "language": {
+      "type": "string",
+      "description": "The default language for the website",
+      "default": "en"
+    },
+    "plugins": {
+      "type": "object",
+      "description": "Plugin configuration",
+      "patternProperties": {
+        "^[a-zA-Z0-9-_]+$": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "description": "Whether the plugin is enabled"
+            },
+            "config": {
+              "description": "Plugin-specific configuration"
+            }
+          },
+          "required": ["enabled"],
+          "additionalProperties": true
+        }
+      }
+    },
+    "site": {
+      "type": "object",
+      "description": "Basic site information",
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "The site title"
+        },
+        "description": {
+          "type": "string",
+          "description": "The site description"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "The site URL"
+        }
+      },
+      "required": ["title", "description", "url"],
+      "additionalProperties": false
+    },
+    "favicon": {
+      "type": "string",
+      "description": "Path to the favicon file",
+      "default": "/favicon.ico"
+    },
+    "header": {
+      "type": "object",
+      "description": "Header configuration",
+      "properties": {
+        "logo": {
+          "type": "object",
+          "description": "Logo configuration",
+          "properties": {
+            "src": {
+              "type": "string",
+              "description": "Logo image source"
+            },
+            "alt": {
+              "type": "string",
+              "description": "Logo alt text"
+            },
+            "href": {
+              "type": "string",
+              "description": "Logo link href"
+            }
+          },
+          "required": ["src", "alt", "href"],
+          "additionalProperties": false
+        },
+        "navigation": {
+          "type": "object",
+          "description": "Navigation configuration",
+          "properties": {
+            "position": {
+              "type": "string",
+              "enum": ["header", "aside"],
+              "description": "Navigation position",
+              "default": "header"
+            },
+            "tabs": {
+              "type": "array",
+              "description": "Navigation tabs",
+              "items": {
+                "$ref": "#/definitions/tab"
+              }
+            }
+          },
+          "required": ["tabs"],
+          "additionalProperties": false
+        }
+      },
+      "required": ["logo", "navigation"],
+      "additionalProperties": false
+    },
+    "footer": {
+      "type": "object",
+      "description": "Footer configuration",
+      "properties": {
+        "global": {
+          "type": "object",
+          "description": "Global footer information",
+          "properties": {
+            "text": {
+              "type": "string",
+              "description": "Copyright or global text"
+            },
+            "email": {
+              "type": "string",
+              "format": "email",
+              "description": "Contact email"
+            },
+            "socials": {
+              "$ref": "#/definitions/socials"
+            }
+          },
+          "required": ["text", "email"],
+          "additionalProperties": false
+        },
+        "column-sections": {
+          "type": "array",
+          "description": "Footer column sections",
+          "items": {
+            "$ref": "#/definitions/footerColumnSection"
+          }
+        },
+        "sections": {
+          "type": "array",
+          "description": "Footer sections",
+          "items": {
+            "$ref": "#/definitions/footerColumnSection"
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "required": ["theme", "language", "site", "header"],
+  "additionalProperties": true,
+  "definitions": {
+    "tab": {
+      "type": "object",
+      "properties": {
+        "tab": {
+          "type": "string",
+          "description": "Tab label"
+        },
+        "href": {
+          "type": "string",
+          "description": "Tab URL"
+        },
+        "type": {
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          ],
+          "description": "Tab type (e.g., button, primary)"
+        },
+        "tag": {
+          "type": "string",
+          "description": "Tag for the tab (e.g., new, beta)"
+        },
+        "groups": {
+          "type": "array",
+          "description": "Tab groups for dropdown navigation",
+          "items": {
+            "type": "object",
+            "properties": {
+              "group": {
+                "type": "string",
+                "description": "Group name"
+              },
+              "tag": {
+                "type": "string",
+                "description": "Group tag"
+              },
+              "pages": {
+                "type": "array",
+                "description": "Pages in the group",
+                "items": {
+                  "oneOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "minItems": 2,
+                      "maxItems": 2
+                    }
+                  ]
+                }
+              }
+            },
+            "required": ["group", "pages"],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": ["tab"],
+      "additionalProperties": false
+    },
+    "socials": {
+      "type": "object",
+      "description": "Social media links",
+      "patternProperties": {
+        "^[a-zA-Z0-9-_]+$": {
+          "oneOf": [
+            {
+              "type": "string",
+              "description": "Social media URL"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "minItems": 2,
+              "maxItems": 3,
+              "description": "Social media [url, icon] or [url, icon, label]"
+            }
+          ]
+        }
+      }
+    },
+    "footerColumnSection": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "Section title"
+        },
+        "href": {
+          "type": "string",
+          "description": "Section URL"
+        },
+        "hide-title": {
+          "type": "boolean",
+          "description": "Whether to hide the section title"
+        },
+        "content": {
+          "type": "array",
+          "description": "Section content",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "description": "Content type"
+              },
+              "title": {
+                "type": "string",
+                "description": "Content title"
+              },
+              "text": {
+                "type": "string",
+                "description": "Content text"
+              }
+            },
+            "required": ["type", "title", "text"],
+            "additionalProperties": false
+          }
+        },
+        "socials": {
+          "$ref": "#/definitions/socials"
+        },
+        "tabs": {
+          "type": "array",
+          "description": "Section tabs",
+          "items": {
+            "type": "object",
+            "properties": {
+              "tab": {
+                "type": "string",
+                "description": "Tab label"
+              },
+              "href": {
+                "type": "string",
+                "description": "Tab URL"
+              },
+              "type": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Tab type"
+              },
+              "tag": {
+                "type": "string",
+                "description": "Tab tag"
+              }
+            },
+            "required": ["tab", "href"],
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

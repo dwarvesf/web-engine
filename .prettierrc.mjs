@@ -11,7 +11,7 @@ const config = {
   tabWidth: 2,
   plugins: ['prettier-plugin-tailwindcss'],
   useTabs: false,
-  bracketSpacing: true
+  bracketSpacing: true,
 };
 
 export default config;
