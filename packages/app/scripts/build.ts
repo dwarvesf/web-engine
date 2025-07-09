@@ -3,11 +3,14 @@ import { execSync } from 'child_process';
 // This script runs a series of commands to build the project.
 // The commands are executed in sequence for valid build and deployment.
 const commands = [
-  'pnpm run clone:repo ',
-  'pnpm run cp:content ',
-  'pnpm run process:config ',
+  'pnpm run clone:repo',
+  'pnpm run cp:content',
+  'pnpm run process:config',
   'next build',
-  'mv out ../../out',
+  'pnpm run clean:outdir-md',
+  'rm -rf ../../out',
+  'cp -R out ../../out',
+  'rm -rf out',
 ];
 
 function runCommands() {

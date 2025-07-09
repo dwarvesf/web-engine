@@ -18,7 +18,7 @@ const ORIGINAL_SITE_CONFIG_CONTENT = path.join(ORIGINAL_CONTENT, 'site.json');
 // Public content directory (where content is copied to for serving)
 const BASE_APP_DIR = path.join(baseDirName, '..');
 const PUBLIC_CONTENT = path.join(baseDirName, '..', 'public', 'content');
-const BUILD_OUT_DIR = path.join(baseDirName, '../../..', 'out');
+const BUILD_OUT_DIR = path.join(baseDirName, '..', 'out');
 const CONTENT_HASH_FILE = path.join(PUBLIC_CONTENT, '.content-hash');
 const GENERATED_OUTDIR = path.join(baseDirName, '..', 'src', 'generated');
 const COPIED_SITE_CONTENT_JSON = path.join(
