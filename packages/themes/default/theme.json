@@ -1,0 +1,75 @@
+{
+  "name": "default",
+  "displayName": "Dwarves Foundation Default Theme",
+  "description": "The default theme for Dwarves Foundation websites with a modern, professional design",
+  "version": "1.0.0",
+  "author": "Dwarves Foundation",
+  "license": "MIT",
+  "preview": {
+    "thumbnail": "/previews/default.jpg",
+    "demo": "https://demo.dwarves.foundation"
+  },
+  "features": [
+    "Responsive design",
+    "Dark mode support",
+    "Atomic design components",
+    "TailwindCSS integration",
+    "TypeScript support",
+    "Customizable color scheme",
+    "Built-in animations"
+  ],
+  "colorScheme": {
+    "primary": "#e13f5e",
+    "primaryHover": "#c73650",
+    "background": "#ffffff",
+    "foreground": "#171717"
+  },
+  "typography": {
+    "fontFamily": {
+      "sans": "IBM Plex Sans",
+      "mono": "IBM Plex Mono"
+    }
+  },
+  "components": {
+    "atoms": [
+      "Logo",
+      "Button",
+      "Input",
+      "Icon",
+      "Tag",
+      "Heading",
+      "Paragraph",
+      "Link",
+      "Image",
+      "CodeBlock",
+      "List",
+      "Table",
+      "Blockquote"
+    ],
+    "molecules": [
+      "Card",
+      "CardGroup",
+      "ServiceCard",
+      "WorkCard",
+      "NavigationItem",
+      "ClientLogo",
+      "SocialLink"
+    ],
+    "organisms": [
+      "Navigation",
+      "Hero",
+      "Footer",
+      "ClientShowcase"
+    ]
+  },
+  "layouts": [],
+  "dependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "tailwindcss": "^3.4.0"
+  },
+  "compatibility": {
+    "websiteEngine": "^1.0.0",
+    "nextjs": "^15.0.0"
+  }
+}
