@@ -1,10 +1,9 @@
 import { MDXClient } from 'next-mdx-remote-client/csr';
 import { useMDXContext } from './MDXProvider';
 import type { SerializeResult } from 'next-mdx-remote-client/serialize';
-import { getComponentsForTemplate } from './MDXContent';
 
 interface MDXPageProps {
-  frontmatter: Record<string, any>;
+  frontmatter: Record<string, unknown>;
   mdxSource: Omit<SerializeResult, 'error'> & {
     compiledSource: string;
   };
@@ -18,16 +17,9 @@ export default function MDXPage({
 }: MDXPageProps) {
   const { components, siteConfig } = useMDXContext();
 
-  // Get template-specific components if template is specified
-  const template = frontmatter?.template as string;
-  const templateComponents = template
-    ? getComponentsForTemplate(template, components)
-    : {};
-
   // Create enhanced components with site config integration
   const enhancedComponents = {
     ...components,
-    ...templateComponents,
     // Navigation and Footer are automatically configured from site config
     Header: () => {
       const HeaderComponent = components.Header;

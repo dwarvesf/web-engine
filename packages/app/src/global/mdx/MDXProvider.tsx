@@ -2,7 +2,50 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import { themeAdapter } from '../adapters';
 import { getSiteConfig, SiteConfig } from '../config/site-config';
 
+// Helper function to load all components from a theme
+async function loadThemeComponents(themeName: string): Promise<MDXComponents> {
+  try {
+    // Use the theme adapter to load all components
+    const themeComponents =
+      await themeAdapter.loadAllThemeComponents(themeName);
+
+    // Return a flat object with all components
+    return {
+      ...themeComponents,
+      // Map HTML elements to theme components
+      h1: themeComponents.H1,
+      h2: themeComponents.H2,
+      h3: themeComponents.H3,
+      h4: themeComponents.H4,
+      h5: themeComponents.H5,
+      h6: themeComponents.H6,
+      p: themeComponents.Paragraph,
+      a: themeComponents.Link,
+      img: themeComponents.Image,
+      pre: themeComponents.CodeBlock,
+      code: themeComponents.InlineCode,
+      blockquote: themeComponents.Blockquote,
+      ul: themeComponents.UnorderedList,
+      ol: themeComponents.OrderedList,
+      li: themeComponents.ListItem,
+      table: themeComponents.Table,
+      thead: themeComponents.TableHead,
+      tbody: themeComponents.TableBody,
+      tr: themeComponents.TableRow,
+      th: themeComponents.TableHeader,
+      td: themeComponents.TableCell,
+    };
+  } catch (error) {
+    console.error(
+      `Failed to load components from theme "${themeName}":`,
+      error,
+    );
+    return {};
+  }
+}
+
 export interface MDXComponents {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: React.ComponentType<any>;
 }
 
@@ -30,7 +73,7 @@ export default function MDXProvider({ children }: MDXProviderProps) {
   const [components, setComponents] = useState<MDXComponents>({});
   const [loading, setLoading] = useState(true);
   const [theme, setTheme] = useState('default');
-  const [siteConfig, setSiteConfig] = useState<any>(null);
+  const [siteConfig, setSiteConfig] = useState<SiteConfig | null>(null);
 
   useEffect(() => {
     const loadComponents = async () => {
@@ -62,46 +105,4 @@ export default function MDXProvider({ children }: MDXProviderProps) {
   return (
     <MDXContext.Provider value={contextValue}>{children}</MDXContext.Provider>
   );
-}
-
-// Helper function to load all components from a theme
-async function loadThemeComponents(themeName: string): Promise<MDXComponents> {
-  try {
-    // Use the theme adapter to load all components
-    const themeComponents =
-      await themeAdapter.loadAllThemeComponents(themeName);
-
-    // Return a flat object with all components
-    return {
-      ...themeComponents,
-      // Map HTML elements to theme components
-      h1: themeComponents.H1 as any,
-      h2: themeComponents.H2 as any,
-      h3: themeComponents.H3 as any,
-      h4: themeComponents.H4 as any,
-      h5: themeComponents.H5 as any,
-      h6: themeComponents.H6 as any,
-      p: themeComponents.Paragraph as any,
-      a: themeComponents.Link as any,
-      img: themeComponents.Image as any,
-      pre: themeComponents.CodeBlock as any,
-      code: themeComponents.InlineCode as any,
-      blockquote: themeComponents.Blockquote as any,
-      ul: themeComponents.UnorderedList as any,
-      ol: themeComponents.OrderedList as any,
-      li: themeComponents.ListItem as any,
-      table: themeComponents.Table as any,
-      thead: themeComponents.TableHead as any,
-      tbody: themeComponents.TableBody as any,
-      tr: themeComponents.TableRow as any,
-      th: themeComponents.TableHeader as any,
-      td: themeComponents.TableCell as any,
-    };
-  } catch (error) {
-    console.error(
-      `Failed to load components from theme "${themeName}":`,
-      error,
-    );
-    return {};
-  }
 }

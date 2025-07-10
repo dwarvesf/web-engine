@@ -1,0 +1,12 @@
+{
+  "eslint.useFlatConfig": true,
+  "eslint.workingDirectories": [
+    { "mode": "auto" },
+    { "directory": "packages/app" },
+    { "directory": "packages/themes/default" }
+  ],
+  "eslint.validate": [
+    "typescript",
+    "typescriptreact"
+  ]
+}
