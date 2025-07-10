@@ -9,12 +9,12 @@
     "lint": "pnpm --filter=@wse/app run lint",
     "lint:fix": "pnpm --filter=@wse/app run lint:fix",
     "format": "pnpm --filter=@wse/app run format",
-    "themes:build": "pnpm -r --filter='./packages/themes/*' run build",
-    "themes:dev": "pnpm -r --filter='./packages/themes/*' run dev",
-    "themes:clean": "pnpm -r --filter='./packages/themes/*' run clean",
-    "themes:lint": "pnpm -r --filter='./packages/themes/*' run lint",
-    "themes:format": "pnpm -r --filter='./packages/themes/*' run format",
-    "themes:type-check": "pnpm -r --filter='./packages/themes/*' run type-check",
+    "themes:build": "pnpm -r --filter='./themes/*' run build",
+    "themes:dev": "pnpm -r --filter='./themes/*' run dev",
+    "themes:clean": "pnpm -r --filter='./themes/*' run clean",
+    "themes:lint": "pnpm -r --filter='./themes/*' run lint",
+    "themes:format": "pnpm -r --filter='./themes/*' run format",
+    "themes:type-check": "pnpm -r --filter='./themes/*' run type-check",
     "prepare": "husky",
     "lint-staged": "lint-staged"
   },
@@ -24,11 +24,11 @@
     "prettier": "^3.6.2"
   },
   "lint-staged": {
-    "packages/app/**/*.{js,jsx,ts,tsx}": [
+    "app/**/*.{js,jsx,ts,tsx}": [
       "pnpm lint:fix",
       "pnpm format"
     ],
-    "packages/themes/**/*.{js,jsx,ts,tsx}": [
+    "themes/**/*.{js,jsx,ts,tsx}": [
       "pnpm themes:lint",
       "pnpm themes:format"
     ]
