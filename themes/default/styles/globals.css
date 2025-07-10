@@ -9,7 +9,7 @@
 @theme {
   /* Light Theme Colors */
   --color-primary: #e13f5e;
-  --color-primary-hover: #c73650;
+  --color-primary-hover: #d95870;
   --color-primary-foreground: #ffffff;
   --color-primary-light: #f5a3b4;
 
@@ -63,43 +63,6 @@
   --font-size-2xl: 1.5rem;
   --font-size-3xl: 1.875rem;
   --font-size-4xl: 2.25rem;
-}
-
-/* Dark Mode Support */
-@media (prefers-color-scheme: dark) {
-  @theme {
-    --color-primary: #e13f5e;
-    --color-primary-hover: #f55a7a;
-    --color-primary-foreground: #ffffff;
-    --color-primary-light: #f5a3b4;
-
-    --color-background: #0a0a0a;
-    --color-foreground: #ededed;
-
-    --color-secondary: #1f1f1f;
-    --color-secondary-foreground: #ededed;
-    --color-secondary-background: #141414;
-
-    --color-tertiary-background: #1a1a1a;
-    --color-tertiary-background-light: #252525;
-
-    --color-muted: #1f1f1f;
-    --color-muted-foreground: #a1a1aa;
-
-    --color-border: #2d2d2d;
-    --color-border-hover: #404040;
-    --color-border-light: #262626;
-
-    --color-card: #141414;
-    --color-card-foreground: #ededed;
-    --color-card-hover: #1a1a1a;
-
-    --color-tag: #2d2d2d;
-    --color-tag-foreground: #a1a1aa;
-
-    --color-input: #141414;
-    --color-input-hover: #1a1a1a;
-  }
 }
 
 /* Manual Dark Mode Support */

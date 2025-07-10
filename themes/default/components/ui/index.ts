@@ -8,7 +8,7 @@ export { default as Input } from './input';
 export { default as Link } from './link';
 export { ListItem, OrderedList, default as UnorderedList } from './list';
 export { default as Logo } from './logo';
-export { default as Paragraph } from './paragraph';
+export { default as Paragraph } from './praragraph';
 export {
   default as Table,
   TableBody,

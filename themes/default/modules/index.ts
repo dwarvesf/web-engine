@@ -1,1 +1,1 @@
-export { default as TemplateRender } from './TemplateRender';
+export { default as TemplateRender } from './template-render';

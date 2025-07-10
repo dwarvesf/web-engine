@@ -28,11 +28,6 @@ export class ThemeAdapter {
     return components;
   }
 
-  loadThemeFunctions() {
-    const functions = ThemePackage.THEME_FUNCTIONS;
-    return functions;
-  }
-
   loadThemeModules() {
     const modules = ThemePackage.THEME_MODULES;
     return modules;

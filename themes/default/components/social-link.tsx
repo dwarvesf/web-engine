@@ -6,6 +6,7 @@ interface SocialLinkProps {
   href: string;
   icon: string;
   className?: string;
+  showLabel?: boolean;
 }
 
 export default function SocialLink({
@@ -13,19 +14,21 @@ export default function SocialLink({
   href,
   icon,
   className = '',
+  showLabel = false,
 }: SocialLinkProps) {
   return (
     <a
       href={href}
       className={cn(
-        'text-muted-foreground hover:text-primary transition-colors duration-200',
+        'text-muted-foreground hover:text-primary block space-x-1 text-sm transition-colors duration-200',
         className,
       )}
       target="_blank"
       rel="noopener noreferrer"
       aria-label={name}
     >
-      <Icon name={icon} size="md" />
+      {showLabel && <span className="inline-block">{name}</span>}
+      <Icon name={icon} size="sm" className="inline-block" />
     </a>
   );
 }
