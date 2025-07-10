@@ -6,8 +6,7 @@ import { getSiteConfig, SiteConfig } from '../config/site-config';
 async function loadThemeComponents(themeName: string): Promise<MDXComponents> {
   try {
     // Use the theme adapter to load all components
-    const themeComponents =
-      await themeAdapter.loadAllThemeComponents(themeName);
+    const themeComponents = await themeAdapter.loadAllThemeComponents();
 
     // Return a flat object with all components
     return {

@@ -13,7 +13,8 @@
     "format": "prettier --write src",
     "clean:outdir-md": "tsx scripts/clean-outdir.ts",
     "clone:repo": "tsx scripts/clone-repo.ts",
-    "process:config": "tsx scripts/process-site-config.ts"
+    "process:config": "tsx scripts/process-site-config.ts",
+    "generate:theme-import": "tsx scripts/generate-theme-import.ts"
   },
   "dependencies": {
     "@wse-themes/default": "workspace:*",

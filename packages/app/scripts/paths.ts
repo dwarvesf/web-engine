@@ -26,6 +26,10 @@ const COPIED_SITE_CONTENT_JSON = path.join(
   'site-config.json',
 );
 
+// Themes
+const THEMES_DIR = path.resolve(baseDirName, '../../themes');
+const THEMES_IMPORT_FILE = path.join(GENERATED_OUTDIR, 'theme.ts');
+
 export {
   PUBLIC_CONTENT,
   ORIGINAL_CONTENT,
@@ -35,4 +39,6 @@ export {
   ORIGINAL_SITE_CONFIG_CONTENT,
   GENERATED_OUTDIR,
   COPIED_SITE_CONTENT_JSON,
+  THEMES_DIR,
+  THEMES_IMPORT_FILE,
 };

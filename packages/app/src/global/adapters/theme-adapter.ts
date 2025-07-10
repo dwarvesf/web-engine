@@ -1,3 +1,5 @@
+import * as ThemePackage from '@wse/generated/theme';
+
 export interface ThemeConfig {
   name: string;
   cssPath: string;
@@ -6,18 +8,11 @@ export interface ThemeConfig {
   functions?: unknown;
 }
 
-enum ThemeName {
-  Default = 'default',
-}
-
 export class ThemeAdapter {
   private static instance: ThemeAdapter;
-  private currentTheme: string = ThemeName.Default;
-  private themeRegistry: Map<string, ThemeConfig> = new Map();
   private isDarkMode: boolean = false;
 
   private constructor() {
-    this.registerDefaultThemes();
     this.initializeDarkMode();
   }
 
@@ -28,70 +23,13 @@ export class ThemeAdapter {
     return ThemeAdapter.instance;
   }
 
-  private registerDefaultThemes() {
-    this.themeRegistry.set('default', {
-      name: 'default',
-      cssPath: '@wse/theme-default-app/styles',
-    });
-  }
-
-  registerTheme(config: ThemeConfig) {
-    this.themeRegistry.set(config.name, config);
-  }
-
-  setTheme(themeName: string) {
-    if (this.themeRegistry.has(themeName)) {
-      this.currentTheme = themeName;
-    } else {
-      console.warn(`Theme "${themeName}" not found. Using default theme.`);
-    }
-  }
-
-  initializeFromConfig(themeName: string) {
-    this.setTheme(themeName);
-  }
-
-  getCurrentTheme(): string {
-    return this.currentTheme;
-  }
-
-  getThemeConfig(themeName?: string): ThemeConfig | undefined {
-    return this.themeRegistry.get(themeName || this.currentTheme);
-  }
-
-  getThemeCssPath(themeName?: string): string | undefined {
-    return this.getThemeConfig(themeName)?.cssPath;
-  }
-
-  getAllThemes(): string[] {
-    return Array.from(this.themeRegistry.keys()) as string[];
-  }
-
-  loadImportComponents(themeName?: string) {
-    switch (themeName || this.currentTheme) {
-      case ThemeName.Default:
-      default:
-        return import('@wse-themes/default/components');
-    }
-  }
-
-  async loadAllThemeComponents(themeName?: string) {
-    const theme = themeName || this.currentTheme;
-    const components = await this.loadImportComponents(theme);
+  loadAllThemeComponents() {
+    const components = ThemePackage.THEME_COMPONENTS;
     return components;
   }
 
-  loadImportThemeFunctions(themeName?: string) {
-    switch (themeName || this.currentTheme) {
-      case ThemeName.Default:
-      default:
-        return import('@wse-themes/default/functions');
-    }
-  }
-
-  async loadThemeFunctions(themeName?: string) {
-    const theme = themeName || this.currentTheme;
-    const functions = await this.loadImportThemeFunctions(theme);
+  loadThemeFunctions() {
+    const functions = ThemePackage.THEME_FUNCTIONS;
     return functions;
   }
 
