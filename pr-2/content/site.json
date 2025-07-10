@@ -1,0 +1,286 @@
+{
+  "theme": "default",
+  "language": "en",
+  "site": {
+    "title": "Dwarves Foundation - We build software with Go, React, K8s, Swift and Flutter",
+    "description": "A software development firm based in Asia. Helping tech startups, entrepreneurs and makers build world-class products since 2013.",
+    "url": "https://dwarves.foundation"
+  },
+  "favicon": "/favicon.ico",
+  "header": {
+    "logo": {
+      "src": "/logo.svg",
+      "alt": "Dwarves Foundation",
+      "href": "/"
+    },
+    "navigation": {
+      "tabs": [
+        {
+          "tab": "Services",
+          "groups": [
+            {
+              "group": "Expertise",
+              "pages": [
+                [
+                  "Go",
+                  "services/go"
+                ],
+                [
+                  "Elixir",
+                  "services/elixir"
+                ],
+                "Node.js",
+                [
+                  "React",
+                  "services/react"
+                ],
+                [
+                  "TypeScript",
+                  "services/typescript"
+                ],
+                "Docker",
+                "Kubernetes",
+                "GCP/AWS",
+                [
+                  "Swift",
+                  "services/swift"
+                ],
+                "React Native",
+                "Blockchain",
+                "Hyperledger"
+              ]
+            },
+            {
+              "group": "Offshore",
+              "pages": [
+                [
+                  "Body Leasing",
+                  "services/body-leasing"
+                ],
+                [
+                  "Development Center",
+                  "services/odc"
+                ],
+                "Build-Operate-Transfer"
+              ]
+            },
+            {
+              "group": "Design",
+              "pages": [
+                "User Research",
+                "User Interface",
+                "Experience Design",
+                "Digital Product Design"
+              ]
+            },
+            {
+              "group": "Consulting",
+              "pages": [
+                "Digital Transformation",
+                "Strategy & Architecture",
+                "Web Development",
+                [
+                  "Mobile Development",
+                  "services/mobile"
+                ],
+                "Tooling Development",
+                "API Integration",
+                "Managed Services",
+                [
+                  "Level Up",
+                  "services/level-up"
+                ]
+              ]
+            },
+            {
+              "group": "For startups",
+              "tag": "new",
+              "pages": [
+                [
+                  "Ideate",
+                  "startup/ideate"
+                ],
+                [
+                  "Validation",
+                  "startup/validation"
+                ],
+                [
+                  "MVP Development",
+                  "startup/mvp"
+                ],
+                [
+                  "Scale Up",
+                  "startup/scale"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "tab": "Work",
+          "href": "work"
+        },
+        {
+          "tab": "Manifesto",
+          "href": "manifesto"
+        },
+        {
+          "tab": "Memo",
+          "href": "https://memo.d.foundation"
+        },
+        {
+          "tab": "Build with us",
+          "type": [
+            "button",
+            "primary"
+          ],
+          "href": "contact"
+        }
+      ]
+    }
+  },
+  "footer": {
+    "global": {
+      "text": "Dwarves, LLC © 2015 - 2025 All rights reserved.",
+      "email": "team@dwarves.foundation",
+      "socials": {
+        "telegram": ["https://t.me/dwarvesfoundation", "telegram-icon", "@dwarvesf"]
+      }
+    },
+    "column-sections": [
+      {
+        "hide-title": true,
+        "content": [
+          {
+            "type": "text",
+            "title": "CA",
+            "text": "8 Leavey Court, Toronto"
+          },
+          {
+            "type": "text",
+            "title": "US",
+            "text": "2035 Sunset Lake, Delaware"
+          },
+          {
+            "type": "text",
+            "title": "VN",
+            "text": "200 Ba Thang Hai, Ho Chi Minh"
+          }
+        ],
+        "socials": {
+          "facebook": ["https://www.facebook.com/dwarvesf", "facebook-icon"],
+          "linkedin": ["https://linkedin.com/company/dwarvesf", "linkedin-icon"],
+          "x": ["https://twitter.com/dwarvesf", "x-icon"],
+          "github": ["https://github.com/dwarvesf", "github-icon"],
+          "discord": ["https://discord.gg/VCeYSNzm", "discord-icon"],
+          "instagram": ["https://www.instagram.com/dwarves.foundation/", "instagram-icon"],
+          "behance": ["https://www.behance.net/dwarvesf", "behance-icon"],
+          "dribbble": ["https://dribbble.com/dwarvesf", "dribbble-icon"]
+        }
+      },
+      {
+        "title": "Foundation",
+        "href": "#",
+        "tabs": [
+          {
+            "tab": "Services",
+            "href": "#services"
+          },
+          {
+            "tab": "Our Work",
+            "href": "work"
+          },
+          {
+            "tab": "Playbook",
+            "href": "https://github.com/dwarvesf/playbook"
+          },
+          {
+            "tab": "Open Source",
+            "href": "opensource"
+          },
+          {
+            "tab": "About us",
+            "href": "about"
+          },
+          {
+            "tab": "Hire us",
+            "href": "contact",
+            "type": ["link", "primary"]
+          }
+        ]
+      },
+      {
+        "title": "Bits",
+        "href": "https://superbits.co/all-products",
+        "tabs": [
+          {
+            "tab": "Hidden",
+            "href": "https://superbits.co/hidden"
+          },
+          {
+            "tab": "Vim Motion",
+            "href": "https://superbits.co/vim-motion"
+          },
+          {
+            "tab": "Micro Sniff",
+            "href": "https://superbits.co/micro-sniff"
+          },
+          {
+            "tab": "Sudo",
+            "href": "https://sudo.fm"
+          }
+        ]
+      },
+      {
+        "title": "Careers",
+        "href": "https://dwarves.careers",
+        "tabs": [
+          {
+            "tab": "Life at Dwarves",
+            "href": "https://dwarves.careers/life"
+          },
+          {
+            "tab": "Internship",
+            "href": "https://internship.dwarves.foundation/"
+          },
+          {
+            "tab": "Join us",
+            "href": "https://dwarves.careers/",
+            "type": ["link", "primary"]
+          }
+        ]
+      },
+      {
+        "title": "Company",
+        "href": "#",
+        "tabs": [
+          {
+            "tab": "5 Years",
+            "href": "five"
+          },
+          {
+            "tab": "Our Story",
+            "href": "about"
+          },
+          {
+            "tab": "Alumni",
+            "href": "alumni"
+          },
+          {
+            "tab": "Privacy Policy",
+            "href": "https://www.iubenda.com/privacy-policy/23856015"
+          },
+          {
+            "tab": "Partnership",
+            "tag": "new",
+            "href": "partner"
+          },
+          {
+            "tab": "CSR",
+            "href": "csr"
+          }
+        ]
+      }
+    ]
+  }
+}
