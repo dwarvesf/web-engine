@@ -44,7 +44,7 @@ next-env.d.ts
 .submodule_update_cache
 
 # Build artifacts
-packages/app/public/content
-packages/app/out
+app/public/content
+app/out
 /content
-packages/app/src/generated
+app/src/generated

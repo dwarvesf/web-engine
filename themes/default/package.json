@@ -1,0 +1,60 @@
+{
+  "name": "default",
+  "version": "0.0.1",
+  "description": "Default app theme for Dwarves Foundation websites",
+  "type": "module",
+  "scripts": {
+    "build": "pnpm run build:types && pnpm run build:css",
+    "build:types": "tsc",
+    "build:css": "npx -y @tailwindcss/cli -i styles/styles.css -o dist/styles/styles.css",
+    "dev": "concurrently \"pnpm run dev:types\" \"pnpm run dev:css\"",
+    "dev:types": "tsc --watch",
+    "dev:css": "npx -y @tailwindcss/cli -i themes/default/styles/styles.css -o themes/default/dist/styles.css --watch",
+    "clean": "rm -rf dist",
+    "lint": "eslint **/*.{ts,tsx} --fix",
+    "format": "prettier --write **/*.{ts,tsx,css}",
+    "type-check": "tsc --noEmit",
+    "prepublishOnly": "pnpm run clean && pnpm run build"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@tailwindcss/postcss": "^4",
+    "@tailwindcss/typography": "^0.5.16",
+    "@types/node": "^20.19.4",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@typescript-eslint/eslint-plugin": "^8.36.0",
+    "@typescript-eslint/parser": "^8.36.0",
+    "concurrently": "^8.0.0",
+    "eslint": "^9",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-prettier": "^5.5.1",
+    "prettier": "^3.6.2",
+    "prettier-plugin-tailwindcss": "^0.6.13",
+    "tailwindcss": "^4",
+    "typescript": "^5",
+    "typescript-eslint": "^8.36.0"
+  },
+  "author": "Dwarves Foundation",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dwarvesf/websites-engine.git",
+    "directory": "themes/default"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^3.3.1",
+    "tw-animate-css": "^1.3.5"
+  }
+}
