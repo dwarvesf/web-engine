@@ -18,3 +18,16 @@ export {
   TableRow,
 } from './table';
 export { default as Tag } from './tag';
+
+// UI components (not directly exported to avoid conflicts with modules/partials)
+// Import these directly from ./hero, ./footer, ./navigation when needed
+export {
+  default as Skeleton,
+  SkeletonCard,
+  SkeletonButton,
+  SkeletonAvatar,
+  SkeletonImage,
+  SkeletonList,
+  SkeletonTable,
+} from './skeleton';
+export { default as Toggle } from './toggle';

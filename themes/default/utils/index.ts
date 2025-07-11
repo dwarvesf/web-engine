@@ -1,8 +1,36 @@
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import { SocialConfig } from '../types/theme';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
+}
+
+// Helper function to transform social links from site config format
+export function transformSocialLinks(socials: SocialConfig) {
+  return Object.entries(socials).map(([key, value]) => {
+    if (typeof value === 'string') {
+      return {
+        name: key,
+        href: value,
+        icon: key.toLowerCase(),
+      };
+    }
+
+    if (Array.isArray(value)) {
+      return {
+        name: value[2] || key,
+        href: value[0],
+        icon: value[1] || key.toLowerCase(),
+      };
+    }
+
+    return {
+      name: key,
+      href: '#',
+      icon: key.toLowerCase(),
+    };
+  });
 }
 
 // Theme utility functions

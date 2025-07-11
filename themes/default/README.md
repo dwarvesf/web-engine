@@ -12,43 +12,12 @@ The default theme for Dwarves Foundation websites, featuring a modern and profes
 - 🎨 **TailwindCSS**: Utility-first CSS framework integration
 - ✨ **Animations**: Smooth transitions and hover effects
 
-## Components
-
-### Atoms
-- `Logo` - Brand logo with customizable styling
-- `Button` - Flexible button with variants and sizes
-- `Input` - Form input with validation support
-- `Icon` - SVG icon system
-- `Tag` - Labels and badges
-- `Heading` - H1-H6 heading components
-- `Paragraph` - Text paragraphs
-- `Link` - Styled links
-- `Image` - Optimized images
-- `CodeBlock` - Code syntax highlighting
-- `List` - Ordered and unordered lists
-- `Table` - Data tables
-- `Blockquote` - Quote blocks
-
-### Molecules
-- `Card` - Content cards
-- `CardGroup` - Card layouts
-- `ServiceCard` - Service showcases
-- `WorkCard` - Portfolio items
-- `NavigationItem` - Menu items
-- `ClientLogo` - Client showcases
-- `SocialLink` - Social media links
-
-### Organisms
-- `Navigation` - Main navigation with dropdown support
-- `Hero` - Landing page heroes
-- `Footer` - Site footers
-- `ClientShowcase` - Client galleries
-
 ## Installation
 
 This theme is automatically included with the Website Engine. To use it:
 
 1. Set the theme in your `site.json`:
+
 ```json
 {
   "theme": "default"

@@ -1,8 +1,8 @@
 {
   "name": "default",
   "displayName": "Dwarves Foundation Default Theme",
-  "description": "The default theme for Dwarves Foundation websites with a modern, professional design",
-  "version": "1.0.0",
+  "description": "The default theme for Dwarves Foundation websites with a modern, professional design inspired by the main website",
+  "version": "2.0.0",
   "author": "Dwarves Foundation",
   "license": "MIT",
   "preview": {
@@ -13,21 +13,110 @@
     "Responsive design",
     "Dark mode support",
     "Atomic design components",
-    "TailwindCSS integration",
+    "TailwindCSS 4.x integration",
     "TypeScript support",
     "Customizable color scheme",
-    "Built-in animations"
+    "Built-in animations",
+    "Advanced utility classes",
+    "Professional gradient system",
+    "Enhanced hover effects",
+    "Skeleton loading states",
+    "Focus ring accessibility",
+    "Extended typography scale",
+    "Comprehensive design tokens"
   ],
   "colorScheme": {
     "primary": "#e13f5e",
-    "primaryHover": "#c73650",
+    "primaryHover": "#d95870",
+    "primaryLight": "#E38B9D",
+    "primaryLightest": "#F8D9DF",
     "background": "#ffffff",
-    "foreground": "#171717"
+    "foreground": "#23252C",
+    "info": "#368DF3",
+    "error": "#d0021b",
+    "warning": "#FB8F47",
+    "success": "#10b981",
+    "grayscale": {
+      "50": "#f9fafb",
+      "100": "#f3f4f6",
+      "200": "#e5e7eb",
+      "300": "#d1d5db",
+      "400": "#9ca3af",
+      "500": "#6b7280",
+      "600": "#4b5563",
+      "700": "#374151",
+      "800": "#1f2937",
+      "900": "#111827"
+    },
+    "special": {
+      "dustyGray": "#999999",
+      "alto": "#dfdfdf",
+      "alabaster": "#f8f8f8",
+      "fedora": "#716b7f"
+    },
+    "pink": {
+      "dark": "#eb5286",
+      "darker": "#6f213f",
+      "darkest": "#451225"
+    }
   },
   "typography": {
     "fontFamily": {
       "sans": "IBM Plex Sans",
-      "mono": "IBM Plex Mono"
+      "mono": "IBM Plex Mono",
+      "serif": "Charter"
+    },
+    "fontWeights": {
+      "regular": 400,
+      "medium": 500,
+      "demibold": 600,
+      "bold": 700
+    },
+    "fontSizes": {
+      "xxs": "0.6875rem",
+      "xs": "0.75rem",
+      "sm": "0.875rem",
+      "base": "1rem",
+      "lg": "1.125rem",
+      "xl": "1.25rem",
+      "2xl": "1.5rem",
+      "3xl": "1.875rem",
+      "4xl": "2.25rem",
+      "5xl": "3rem",
+      "6xl": "3.75rem",
+      "26": "1.625rem",
+      "40": "2.5rem"
+    },
+    "lineHeights": {
+      "tight": 1.25,
+      "snug": 1.375,
+      "normal": 1.5,
+      "relaxed": 1.625,
+      "loose": 2
+    }
+  },
+  "designTokens": {
+    "shadows": {
+      "sm": "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
+      "md": "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
+      "lg": "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
+      "xl": "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+      "2xl": "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+      "avatar": "0 8px 16px rgba(0, 0, 0, 0.15)"
+    },
+    "transitions": {
+      "fast": "0.15s",
+      "normal": "0.25s",
+      "slow": "0.3s"
+    },
+    "zIndex": {
+      "dropdown": 1000,
+      "sticky": 1020,
+      "fixed": 1030,
+      "modalBackdrop": 1040,
+      "modal": 1050,
+      "popover": 1060,
+      "tooltip": 1070
     }
   },
   "components": {
@@ -55,13 +144,7 @@
       "ClientLogo",
       "SocialLink"
     ],
-    "organisms": [
-      "Navigation",
-      "Hero",
-      "Header",
-      "Footer",
-      "ClientShowcase"
-    ]
+    "organisms": ["Navigation", "Hero", "Header", "Footer", "ClientShowcase"]
   },
   "layouts": [],
   "dependencies": {

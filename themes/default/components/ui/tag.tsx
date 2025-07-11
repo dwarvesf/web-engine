@@ -3,7 +3,7 @@ import { cn } from '../../utils';
 interface TagProps {
   children: React.ReactNode;
   variant?: 'default' | 'primary' | 'secondary';
-  size?: 'sm' | 'md';
+  size?: 'xs' | 'sm' | 'md';
   className?: string;
 }
 
@@ -14,17 +14,18 @@ const variants = {
 };
 
 const sizes = {
+  xs: 'px-1 py-1 text-xs',
   sm: 'px-2 py-1 text-xs',
   md: 'px-3 py-1 text-sm',
 };
 
 export default function Tag({
   children,
-  variant = 'default',
+  variant = 'primary',
   size = 'sm',
   className = '',
 }: TagProps) {
-  const baseClasses = 'inline-block rounded-full font-medium';
+  const baseClasses = 'inline-block rounded-full font-semibold uppercase';
   const classes = cn(baseClasses, variants[variant], sizes[size], className);
 
   return <span className={classes}>{children}</span>;

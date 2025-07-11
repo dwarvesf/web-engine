@@ -29,12 +29,12 @@ export default function WorkTemplate(props: TemplateRenderArgs) {
                 Technologies
               </h3>
               <div className="flex flex-wrap gap-2">
-                {frontmatter!.tags.map((tag: string, index: number) => (
+                {frontmatter?.tags?.map((tag, index) => (
                   <span
                     key={index}
                     className="bg-tag text-tag-foreground rounded px-2 py-1 text-xs"
                   >
-                    {tag}
+                    {typeof tag === 'string' ? tag : tag.name}
                   </span>
                 ))}
               </div>
@@ -74,7 +74,7 @@ export default function WorkTemplate(props: TemplateRenderArgs) {
       {children}
 
       <section className="bg-secondary-background py-16">
-        <div className="mx-auto max-w-6xl px-4">
+        <div className="mx-auto">
           <h2 className="text-foreground mb-12 text-center text-3xl font-bold">
             Related Work
           </h2>

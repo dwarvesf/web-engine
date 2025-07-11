@@ -57,7 +57,7 @@ export default function AboutTemplate(props: TemplateRenderArgs) {
       {children}
 
       <section className="bg-secondary-background py-16">
-        <div className="mx-auto max-w-6xl px-4">
+        <div className="mx-auto">
           <div className="mb-12 text-center">
             <h2 className="text-foreground mb-4 text-3xl font-bold md:text-4xl">
               Our Expertise

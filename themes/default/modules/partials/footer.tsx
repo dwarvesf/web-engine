@@ -1,5 +1,6 @@
 import { cn } from '../../utils';
-import { SocialLink } from '../../components';
+import { H6, SocialLink, Tag } from '../../components';
+import React from 'react';
 
 // Helper function to transform social links from site config format
 function transformSocialLinks(
@@ -84,14 +85,50 @@ export default function Footer({ footer, className = '' }: FooterProps) {
   const globalMetadata = footer.global;
 
   const socialLinks = transformSocialLinks(globalMetadata?.socials || {});
-  const renderSectionContent = (section: FooterSection) => {
+
+  const renderTitle = (section: FooterSection) => {
     return (
       <>
+        {!section['hide-title'] && section.title && (
+          <H6 className="text-foreground text-sm md:text-sm lg:text-sm xl:text-sm">
+            {section.href ? (
+              <a
+                href={section.href}
+                className="hover:text-primary transition-colors duration-200"
+              >
+                {section.title}
+              </a>
+            ) : (
+              section.title
+            )}
+          </H6>
+        )}
+      </>
+    );
+  };
+
+  const renderMetaSection = (
+    section: FooterSection,
+    isHiddenSmallScreen = false,
+  ) => {
+    const isHasContentAndSocials = section.content?.length || section.socials;
+    if (!isHasContentAndSocials) {
+      return null;
+    }
+    return (
+      <div
+        className={cn(
+          'col-span-2 space-y-2 lg:block',
+          isHiddenSmallScreen && 'hidden',
+        )}
+      >
+        {renderTitle(section)}
+        {/* Render content and socials */}
         {section.content?.map((content, contentIndex) => (
           <div key={contentIndex} className="mb-2 block space-x-2">
-            <h5 className="text-foreground inline-block text-sm font-medium">
+            <h6 className="text-foreground inline-block text-sm font-medium">
               {content.title}
-            </h5>
+            </h6>
             <p className="text-tag-foreground dark:text-muted-foreground inline-block text-sm">
               {content.text}
             </p>
@@ -109,95 +146,105 @@ export default function Footer({ footer, className = '' }: FooterProps) {
             ))}
           </div>
         )}
+      </div>
+    );
+  };
+
+  const renderSectionContent = (section: FooterSection) => {
+    const isHasContentAndSocials = section.content?.length || section.socials;
+    if (isHasContentAndSocials) {
+      return renderMetaSection(section, true);
+    }
+    return (
+      <div className="space-y-2">
+        {renderTitle(section)}
+        {/* Render links and tabs */}
         <ul className="space-y-2">
           {section.links?.map((link, linkIndex) => (
             <li key={linkIndex}>
               <a
                 href={link.href}
-                className="text-tag-foreground dark:text-muted-foreground hover:text-primary text-sm transition-colors duration-200"
+                className="text-tag-foreground dark:text-muted-foreground hover:text-primary text-xs transition-colors duration-200"
               >
                 {link.label}
               </a>
             </li>
           ))}
           {section.tabs?.map((tab, tabIndex) => (
-            <li key={tabIndex}>
+            <li className="space-x-2" key={tabIndex}>
               <a
                 href={tab.href}
-                className="text-tag-foreground dark:text-muted-foreground hover:text-primary text-sm transition-colors duration-200"
+                className="text-tag-foreground dark:text-muted-foreground hover:text-primary text-xs transition-colors duration-200"
               >
                 {tab.tab}
               </a>
+              {tab.tag && (
+                <Tag size="xs" variant="primary">
+                  {tab.tag.toUpperCase()}
+                </Tag>
+              )}
             </li>
           ))}
         </ul>
-      </>
+      </div>
     );
   };
 
   return (
     <footer className={cn('bg-background border-border border-t', className)}>
-      <div className="mx-auto max-w-6xl px-4 py-12">
+      <div className="mx-auto space-y-4 py-4 sm:px-4">
         {/* Column Sections Layout */}
         {columnSections.length > 0 && (
-          <div className="mb-12 grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-4 xl:grid-cols-5">
+          <div className="grid grid-cols-2 gap-8 md:grid-cols-4 lg:grid-cols-6">
             {/* Column Sections */}
             {columnSections.map((section, index) => (
-              <div key={index}>
-                {!section['hide-title'] && section.title && (
-                  <h4 className="text-foreground mb-4 text-sm font-semibold">
-                    {section.href ? (
-                      <a
-                        href={section.href}
-                        className="hover:text-primary transition-colors duration-200"
-                      >
-                        {section.title}
-                      </a>
-                    ) : (
-                      section.title
-                    )}
-                  </h4>
-                )}
+              <React.Fragment key={index}>
                 {renderSectionContent(section)}
-              </div>
+              </React.Fragment>
+            ))}
+          </div>
+        )}
+        {columnSections.length > 0 && (
+          <div className="block lg:hidden">
+            {/* Column Meta Sections */}
+            {columnSections.map((section, index) => (
+              <React.Fragment key={index}>
+                {renderMetaSection(section)}
+              </React.Fragment>
             ))}
           </div>
         )}
 
         {/* Row Sections Layout */}
         {rowSections.length > 0 && (
-          <div className="mb-12 space-y-12">
+          <div className="space-y-12">
             {/* Row Sections */}
             {rowSections.map((section, index) => (
               <div
                 key={index}
                 className="border-border border-b pb-8 last:border-b-0"
               >
-                {!section['hide-title'] && section.title && (
-                  <h4 className="text-foreground mb-6 text-lg font-semibold">
-                    {section.href ? (
-                      <a
-                        href={section.href}
-                        className="hover:text-primary transition-colors duration-200"
-                      >
-                        {section.title}
-                      </a>
-                    ) : (
-                      section.title
-                    )}
-                  </h4>
-                )}
                 {renderSectionContent(section)}
               </div>
+            ))}
+          </div>
+        )}
+        {rowSections.length > 0 && (
+          <div className="block lg:hidden">
+            {/* Row Meta Sections */}
+            {rowSections.map((section, index) => (
+              <React.Fragment key={index}>
+                {renderMetaSection(section)}
+              </React.Fragment>
             ))}
           </div>
         )}
 
         {/* Global Metadata Section */}
         {globalMetadata && (
-          <div className="border-border mt-12 flex flex-row items-center justify-between border-t pt-8 text-sm">
+          <div className="border-border mt-4 grid grid-cols-1 items-center gap-4 border-t pt-4 text-sm sm:grid-cols-2">
             <p className="text-muted-foreground">{globalMetadata.text}</p>
-            <div className="flex flex-row justify-center gap-2">
+            <div className="flex flex-row items-center gap-4 sm:justify-end sm:gap-2">
               {globalMetadata.email && (
                 <p className="text-muted-foreground text-sm">
                   <a
