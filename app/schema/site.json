@@ -149,6 +149,46 @@
         }
       },
       "additionalProperties": false
+    },
+    "404": {
+      "type": "object",
+      "description": "404 page configuration",
+      "properties": {
+        "description": {
+          "type": "string",
+          "description": "Description text for the 404 page"
+        },
+        "image": {
+          "type": "string",
+          "description": "Path to the 404 page image"
+        },
+        "buttons": {
+          "type": "array",
+          "description": "Action buttons for the 404 page",
+          "items": {
+            "type": "object",
+            "properties": {
+              "text": {
+                "type": "string",
+                "description": "Button text"
+              },
+              "href": {
+                "type": "string",
+                "description": "Button URL"
+              },
+              "type": {
+                "type": "string",
+                "enum": ["link", "outline", "primary", "secondary", "ghost"],
+                "description": "Button type/style"
+              }
+            },
+            "required": ["text", "href", "type"],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": ["description"],
+      "additionalProperties": false
     }
   },
   "required": ["theme", "language", "site", "header"],

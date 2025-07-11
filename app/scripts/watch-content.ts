@@ -3,7 +3,13 @@ import { WebSocketServer, WebSocket } from 'ws';
 import path from 'path';
 import fs from 'fs-extra'; // Using fs-extra for recursive copy
 import net from 'net';
-import { ORIGINAL_CONTENT, PUBLIC_CONTENT } from './paths';
+import { spawn } from 'child_process';
+import {
+  ORIGINAL_CONTENT,
+  PUBLIC_CONTENT,
+  ORIGINAL_SITE_CONFIG_CONTENT,
+  PROCESS_SITE_CONFIG_SCRIPT,
+} from './paths';
 
 const contentPath = ORIGINAL_CONTENT;
 const BASE_PORT = 55980;
@@ -73,6 +79,38 @@ async function startWatcher() {
     }
   }
 
+  // Function to execute process-site-config script
+  async function processSiteConfig() {
+    return new Promise<void>((resolve, reject) => {
+      console.log('🔄 Processing site configuration...');
+      const scriptPath = PROCESS_SITE_CONFIG_SCRIPT;
+      const child = spawn('tsx', [scriptPath], {
+        cwd: process.cwd(),
+        stdio: 'inherit',
+      });
+
+      child.on('close', code => {
+        if (code === 0) {
+          console.log('✅ Site configuration processed successfully');
+          resolve();
+        } else {
+          console.error(
+            `❌ Site configuration process failed with code ${code}`,
+          );
+          reject(new Error(`Process exited with code ${code}`));
+        }
+      });
+
+      child.on('error', error => {
+        console.error(
+          '❌ Failed to execute process-site-config script:',
+          error,
+        );
+        reject(error);
+      });
+    });
+  }
+
   // Watch for content changes (add, change, unlink)
   chokidar
     .watch(contentPath, {
@@ -93,6 +131,21 @@ async function startWatcher() {
     .on('change', async (filePath: string) => {
       console.log(`📝 Content file changed: ${filePath}`);
       await copyContent(filePath);
+
+      // Check if the changed file is site.json
+      if (
+        path.resolve(filePath) === path.resolve(ORIGINAL_SITE_CONFIG_CONTENT)
+      ) {
+        try {
+          await processSiteConfig();
+          // No need to hard reload the browser here,
+          // as the site configuration change will be handled by the script
+          return;
+        } catch (error) {
+          console.error('❌ Failed to process site configuration:', error);
+        }
+      }
+
       clients.forEach(client => {
         if (client.readyState === WebSocket.OPEN) {
           client.send(JSON.stringify({ type: 'reload', file: filePath }));

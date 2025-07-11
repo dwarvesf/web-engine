@@ -162,7 +162,7 @@ class SiteConfigLoader {
       return;
     }
     const resolvedObj: Record<string, unknown> = {};
-    const keys = ['src', 'url', 'favicon', 'icon'];
+    const keys = ['src', 'url', 'favicon', 'icon', 'image'];
     for (const [key, value] of Object.entries(obj)) {
       if (typeof value === 'string' && keys.includes(key)) {
         resolvedObj[key] = this.pathResolver(value);

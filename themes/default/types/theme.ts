@@ -60,6 +60,16 @@ export interface FooterConfig {
   sections?: FooterColumnSection[];
 }
 
+export interface NotFoundConfig {
+  description: string;
+  image: string;
+  buttons: {
+    text: string;
+    href: string;
+    type: 'link' | 'outline' | 'primary' | 'secondary' | 'ghost';
+  }[];
+}
+
 export interface SiteConfig {
   theme: string;
   language: string;
@@ -79,6 +89,7 @@ export interface SiteConfig {
   header: HeaderConfig;
   navigation?: NavigationConfig;
   footer?: FooterConfig;
+  '404'?: NotFoundConfig;
 }
 
 export type TemplateRenderArgs = PropsWithChildren<{
