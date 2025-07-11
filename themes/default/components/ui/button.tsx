@@ -2,19 +2,21 @@ import { ButtonHTMLAttributes, forwardRef } from 'react';
 import { cn } from '../../utils';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'link';
   size?: 'sm' | 'md' | 'lg';
   href?: string;
   className?: string;
   children: React.ReactNode;
+  target?: string; // Optional target prop for links
 }
 
 const variants = {
   primary: 'bg-primary text-primary-foreground hover:bg-primary-hover',
   secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
   outline:
-    'border border-border text-foreground hover:bg-secondary hover:text-secondary-foreground',
-  ghost: 'text-foreground hover:bg-secondary hover:text-secondary-foreground',
+    'border border-primary text-primary hover:bg-primary-hover hover:border-primary-hover hover:text-white',
+  ghost: 'text-primary hover:bg-primary-hover hover:text-primary-foreground',
+  link: 'text-primary hover:text-primary-hover hover:underline focus:ring-0 focus:ring-offset-0',
 };
 
 const sizes = {
@@ -31,6 +33,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       href,
       className = '',
       children,
+      target,
       ...props
     },
     ref,
@@ -41,7 +44,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
     if (href) {
       return (
-        <a href={href} className={classes}>
+        <a href={href} className={classes} target={target}>
           {children}
         </a>
       );

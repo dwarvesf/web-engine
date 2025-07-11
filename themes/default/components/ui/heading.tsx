@@ -30,37 +30,55 @@ export default function Heading({
 }
 
 // Individual heading components
-export const H1 = ({ children, ...props }: HeadingProps) => (
+export const H1 = ({
+  children,
+  ...props
+}: React.HTMLAttributes<HTMLHeadingElement>) => (
   <Heading {...props} level={1}>
     {children}
   </Heading>
 );
 
-export const H2 = ({ children, ...props }: HeadingProps) => (
+export const H2 = ({
+  children,
+  ...props
+}: React.HTMLAttributes<HTMLHeadingElement>) => (
   <Heading {...props} level={2}>
     {children}
   </Heading>
 );
 
-export const H3 = ({ children, ...props }: HeadingProps) => (
+export const H3 = ({
+  children,
+  ...props
+}: React.HTMLAttributes<HTMLHeadingElement>) => (
   <Heading {...props} level={3}>
     {children}
   </Heading>
 );
 
-export const H4 = ({ children, ...props }: HeadingProps) => (
+export const H4 = ({
+  children,
+  ...props
+}: React.HTMLAttributes<HTMLHeadingElement>) => (
   <Heading {...props} level={4}>
     {children}
   </Heading>
 );
 
-export const H5 = ({ children, ...props }: HeadingProps) => (
+export const H5 = ({
+  children,
+  ...props
+}: React.HTMLAttributes<HTMLHeadingElement>) => (
   <Heading {...props} level={5}>
     {children}
   </Heading>
 );
 
-export const H6 = ({ children, ...props }: HeadingProps) => (
+export const H6 = ({
+  children,
+  ...props
+}: React.HTMLAttributes<HTMLHeadingElement>) => (
   <Heading {...props} level={6}>
     {children}
   </Heading>

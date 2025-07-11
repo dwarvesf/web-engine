@@ -96,9 +96,26 @@ export interface FooterConfig {
   sections?: FooterColumnSection[];
 }
 
+export interface NotFoundConfig {
+  description: string;
+  image: string;
+  buttons: {
+    text: string;
+    href: string;
+    type: 'link' | 'outline' | 'primary' | 'secondary' | 'ghost';
+  }[];
+}
+
 export interface SiteConfig {
   theme: string;
   language: string;
+  plugins?: Record<
+    string,
+    {
+      enabled: boolean;
+      config?: unknown;
+    }
+  >;
   site: {
     title: string;
     description: string;
@@ -108,7 +125,7 @@ export interface SiteConfig {
   header: HeaderConfig;
   navigation?: NavigationConfig;
   footer?: FooterConfig;
-  [key: string]: unknown;
+  '404'?: NotFoundConfig;
 }
 
 export const defaultSiteConfig: SiteConfig = {
@@ -209,6 +226,7 @@ class SiteConfigProcessor {
         ...defaultSiteConfig.footer,
         ...((config.footer as FooterConfig) || {}),
       },
+      '404': config['404'] as NotFoundConfig,
       ...config,
     };
   }
@@ -229,6 +247,7 @@ class SiteConfigProcessor {
       header: config.header,
       navigation: config.navigation,
       footer: config.footer,
+      '404': config['404'],
     };
 
     writeFileSync(this.outputPath, JSON.stringify(staticConfig, null, 2));
