@@ -2,6 +2,7 @@ import { visit } from 'unist-util-visit';
 import type { Node } from 'unist';
 import path from 'path';
 import { BASE_APP_DIR } from '../../../../../scripts/paths';
+import { SiteConfigLoader } from '@wse/global/config/site-config';
 
 interface ElementNode extends Node {
   type: 'element';
@@ -110,8 +111,8 @@ function transformPath(originalPath: string, fileDir: string): string {
 
   // Remove the 'public' prefix if it exists
   if (publicPath.startsWith('/public/')) {
-    publicPath = publicPath.substring(7);
+    publicPath = publicPath.substring(8);
   }
 
-  return publicPath;
+  return `${SiteConfigLoader.BASE_PATH_URL}/${publicPath}`;
 }

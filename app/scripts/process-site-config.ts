@@ -231,6 +231,46 @@ class SiteConfigProcessor {
     };
   }
 
+  private pathResolver(itemPath: string): string {
+    if (itemPath.startsWith('http://') || itemPath.startsWith('https://')) {
+      return itemPath; // External URL, no change needed
+    }
+    const baseSiteConfigPath = ORIGINAL_SITE_CONFIG_CONTENT;
+    const baseDirName = path.dirname(baseSiteConfigPath);
+    const itemPathResolved = path.join(baseDirName, itemPath);
+    const relativePath = path.relative(baseDirName, itemPathResolved);
+
+    return relativePath;
+  }
+
+  private recursivePathResolver(
+    obj?: Record<string, unknown>,
+  ): Record<string, unknown> | undefined {
+    if (!obj || typeof obj !== 'object') {
+      return;
+    }
+    const resolvedObj: Record<string, unknown> = {};
+    const keys = ['src', 'url', 'favicon', 'icon', 'image'];
+    for (const [key, value] of Object.entries(obj)) {
+      if (typeof value === 'string' && keys.includes(key)) {
+        resolvedObj[key] = this.pathResolver(value);
+      } else if (Array.isArray(value)) {
+        resolvedObj[key] = value.map(item =>
+          typeof item === 'string' && keys.includes(key)
+            ? this.pathResolver(item)
+            : item,
+        );
+      } else if (typeof value === 'object' && value !== null) {
+        resolvedObj[key] = this.recursivePathResolver(
+          value as Record<string, unknown>,
+        );
+      } else {
+        resolvedObj[key] = value; // Keep other types as is
+      }
+    }
+    return resolvedObj;
+  }
+
   private async generateStaticConfig(config: SiteConfig): Promise<SiteConfig> {
     const outputDir = GENERATED_OUTDIR;
 
@@ -238,7 +278,7 @@ class SiteConfigProcessor {
       await mkdir(outputDir, { recursive: true });
     }
 
-    const staticConfig = {
+    const staticConfig = this.recursivePathResolver({
       theme: config.theme,
       language: config.language,
       plugins: config.plugins,
@@ -248,7 +288,7 @@ class SiteConfigProcessor {
       navigation: config.navigation,
       footer: config.footer,
       '404': config['404'],
-    };
+    }) as unknown as SiteConfig;
 
     writeFileSync(this.outputPath, JSON.stringify(staticConfig, null, 2));
     console.log('✅ Generated static site config at:', this.outputPath);

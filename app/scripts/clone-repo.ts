@@ -5,7 +5,7 @@ import path from 'path';
 import fs from 'fs';
 import { ORIGINAL_CONTENT } from './paths';
 
-dotenv.config();
+dotenv.config({ quiet: true });
 
 function cloneRepository() {
   const git = simpleGit();

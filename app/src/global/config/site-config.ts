@@ -124,12 +124,24 @@ export const defaultSiteConfig: SiteConfig = {
   },
 };
 
-class SiteConfigLoader {
+export class SiteConfigLoader {
   private static instance: SiteConfigLoader;
   private config: SiteConfig | null = null;
   private readonly staticConfig = this.recursivePathResolver(
     _staticConfig,
   ) as unknown as SiteConfig | undefined;
+  /**
+   * Base path URL for the site, used to resolve relative paths.
+   * This is set from the environment variable PAGES_BASE_PATH.
+   */
+  public static BASE_PATH_URL = (() => {
+    const basePath = process.env.PAGES_BASE_PATH || '';
+    if (!basePath) {
+      return '';
+    }
+    // Ensure the base path starts with a slash
+    return basePath.startsWith('/') ? basePath : `/${basePath}`;
+  })();
 
   private constructor() {}
 
@@ -141,18 +153,19 @@ class SiteConfigLoader {
   }
 
   private pathResolver(path: string): string {
+    const prefix = SiteConfigLoader.BASE_PATH_URL;
     if (path.startsWith('http://') || path.startsWith('https://')) {
       return path; // External URL, no change needed
     }
     if (path.startsWith('/') && !path.startsWith('/content/')) {
       // If the path starts with '/', treat it as an absolute path
-      return `/content${path}`;
+      return `${prefix}/content${path}`;
     }
     if (path.startsWith('/content/')) {
-      return path; // Already a content-relative path
+      return `${prefix}${path}`; // Already a content-relative path
     }
     // Resolve relative paths based on the current working directory
-    return `/content/${path}`;
+    return `${prefix}/content/${path}`;
   }
 
   private recursivePathResolver(
