@@ -19,9 +19,33 @@ export default function DocPage({ frontmatter, mdxSource }: DocPageProps) {
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const paths = getContentMdxFilePaths();
+  // Combine all paths
+  const excludePaths = ['index', 'INDEX', '_index', '_INDEX'];
+  const allPaths = paths.filter(path => {
+    const slug = path.params.slug.join('/');
+    return !excludePaths.some(excludePath => slug.startsWith(excludePath));
+  });
 
+  // Deduplicate paths based on slug
+  const uniquePaths = Array.from(
+    new Map(
+      allPaths.map(item => {
+        const pathName = item.params.slug.join('/');
+        const isIncludedExclude = excludePaths.some(excludePath =>
+          pathName.endsWith(excludePath),
+        );
+        const removedExcludePath = isIncludedExclude
+          ? pathName.replace(/(index|INDEX|_index|_INDEX)$/, '')
+          : pathName;
+        return [
+          removedExcludePath,
+          { params: { slug: removedExcludePath.split('/') } },
+        ];
+      }),
+    ).values(),
+  );
   return {
-    paths,
+    paths: uniquePaths,
     fallback: false,
   };
 };
@@ -33,11 +57,28 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   }
 
   const props = await getMdxContent(slug);
-  if (!props || !props.mdxSource || 'error' in props.mdxSource) {
+  if (props?.mdxSource && !('error' in props.mdxSource)) {
+    return { props };
+  }
+
+  const filePaths = ['index', 'readme', '_index', '_readme']
+    .map(file => [file, file.toUpperCase()])
+    .flat();
+  let existedData: Awaited<ReturnType<typeof getMdxContent>> | null = null;
+  for (const filePath of filePaths) {
+    const props = await getMdxContent([...slug, filePath]);
+    if (!props || !props.mdxSource || 'error' in props.mdxSource) {
+      continue;
+    }
+    existedData = props;
+    break;
+  }
+
+  if (!existedData) {
     return { notFound: true };
   }
 
   return {
-    props,
+    props: existedData,
   };
 };
