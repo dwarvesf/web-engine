@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { cn } from '../../utils';
-import { NavigationItem } from '../../components';
-import { Logo } from '../../components/ui';
+import { cn, transformSocialLinks } from '../../utils';
+import { NavigationItem, SocialLink } from '../../components';
+import { Icon, Logo } from '../../components/ui';
+import { SocialConfig } from '../../types/theme';
 
 interface TabType {
   tab: string;
@@ -29,6 +30,10 @@ interface NavigationConfig {
 interface HeaderConfig {
   logo: LogoConfig;
   navigation: NavigationConfig;
+  'mobile-navigation-footer'?: {
+    email?: string;
+    socials?: SocialConfig;
+  };
 }
 
 interface HeaderProps {
@@ -41,6 +46,8 @@ export default function Header({ header, className = '' }: HeaderProps) {
 
   if (!header) return null;
 
+  const mobileNavigationFooter = header['mobile-navigation-footer'];
+
   const { logo, navigation } = header;
   const items = navigation?.tabs || [];
 
@@ -52,22 +59,22 @@ export default function Header({ header, className = '' }: HeaderProps) {
     setIsMobileMenuOpen(false);
   };
   return (
-    <header
-      className={cn(
-        'bg-background border-border sticky top-0 z-50 border-b',
-        className,
-      )}
-    >
-      <div className="mx-auto max-w-6xl px-4">
-        <div className="flex items-center justify-between py-8">
+    <header className={cn('bg-background sticky top-0 z-50', className)}>
+      <div className="mx-auto">
+        <div className="flex items-center justify-between py-4">
           {/* Logo */}
-          <div className="flex items-center">
-            <Logo src={logo?.src} text={logo?.alt} href={logo?.href} />
+          <div className="flex items-center justify-center">
+            <Logo
+              src={logo?.src}
+              text={logo?.alt}
+              href={logo?.href}
+              size="lg"
+            />
           </div>
 
           {/* Navigation */}
           {items.length > 0 && (
-            <nav className="hidden items-center space-x-8 md:flex">
+            <nav className="hidden items-center space-x-1 lg:flex">
               {items.map((item, index) => (
                 <NavigationItem key={index} tab={item} />
               ))}
@@ -76,12 +83,12 @@ export default function Header({ header, className = '' }: HeaderProps) {
 
           {/* Mobile menu button */}
           <button
-            className="border-border hover:bg-secondary flex h-10 w-10 items-center justify-center rounded-md border transition-colors md:hidden"
+            className="flex h-10 w-10 cursor-pointer items-center justify-center lg:hidden"
             aria-label="Toggle menu"
             onClick={toggleMobileMenu}
           >
             <svg
-              className="h-5 w-5"
+              className="h-8 w-8 font-bold"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -101,20 +108,54 @@ export default function Header({ header, className = '' }: HeaderProps) {
         </div>
 
         {/* Mobile menu */}
-        {isMobileMenuOpen && (
-          <div className="border-border border-t md:hidden">
-            <div className="space-y-4 px-4 py-6">
-              {items.map((item, index) => (
-                <NavigationItem
-                  key={index}
-                  tab={item}
-                  isMobile={true}
-                  onItemClick={closeMobileMenu}
-                />
-              ))}
+        <div
+          className={cn(
+            'bg-background fixed inset-0 top-18 z-50 m-auto flex flex-col overflow-auto transition-all duration-200 ease-[cubic-bezier(.22,.61,.36,1)] lg:hidden',
+            isMobileMenuOpen
+              ? 'translate-x-0 opacity-100'
+              : 'translate-x-full opacity-15',
+          )}
+        >
+          <nav className="flex flex-grow flex-col justify-center gap-4">
+            {items.map((item, index) => (
+              <NavigationItem
+                key={index}
+                tab={item}
+                isMobile={true}
+                onItemClick={closeMobileMenu}
+              />
+            ))}
+          </nav>
+          {/* Mobile navigation footer */}
+          {mobileNavigationFooter && (
+            <div className="flex flex-col items-center justify-center gap-2 p-4">
+              {mobileNavigationFooter.socials && (
+                <div className="mb-4 flex space-x-4">
+                  {transformSocialLinks(mobileNavigationFooter.socials).map(
+                    ({ name, href, icon }, index) => (
+                      <SocialLink
+                        key={index}
+                        name={name}
+                        href={href}
+                        icon={icon}
+                      />
+                    ),
+                  )}
+                </div>
+              )}
+              <hr className="border-tag w-full border-t py-2" />
+              {mobileNavigationFooter.email && (
+                <a
+                  href={`mailto:${mobileNavigationFooter.email}`}
+                  className="text-muted-foreground text-sm"
+                >
+                  <Icon name="mail" size="sm" className="mr-2 inline-block" />
+                  {mobileNavigationFooter.email}
+                </a>
+              )}
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </header>
   );

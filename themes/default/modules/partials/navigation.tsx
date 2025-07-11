@@ -62,14 +62,7 @@ export default function Navigation({
       );
     }
 
-    return (
-      <NavigationItem
-        key={index}
-        tab={tab}
-        isMobile={false}
-        alignRight={index === tabs.length - 1}
-      />
-    );
+    return <NavigationItem key={index} tab={tab} isMobile={false} />;
   };
 
   if (isAsidePosition) {
@@ -112,7 +105,7 @@ export default function Navigation({
         className,
       )}
     >
-      <div className="mx-auto max-w-6xl px-4">
+      <div className="mx-auto">
         <div className="flex h-16 items-center justify-between">
           <Logo
             src={logo?.src}

@@ -17,6 +17,7 @@ import {
   FiFacebook,
   FiInstagram,
   FiLinkedin,
+  FiMail,
 } from 'react-icons/fi';
 import { FaBehance, FaDiscord, FaTelegramPlane } from 'react-icons/fa';
 import { AiOutlineGlobal } from 'react-icons/ai';
@@ -40,6 +41,7 @@ const sizes = {
 const iconMap = {
   code: FiCode,
   mobile: FiSmartphone,
+  mail: FiMail,
   design: FiEdit3,
   security: FiShield,
   performance: FiZap,

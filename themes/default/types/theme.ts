@@ -92,9 +92,100 @@ export interface SiteConfig {
   '404'?: NotFoundConfig;
 }
 
-export type TemplateRenderArgs = PropsWithChildren<{
+// Common frontmatter types
+export interface BlogPost {
+  title: string;
+  excerpt?: string;
+  href: string;
+  date: string;
+  author: string;
+  category: string;
+  readTime?: string;
+  image?: string;
+}
+
+export interface Category {
+  name: string;
+  href: string;
+  count: number;
+}
+
+export interface Tag {
+  name: string;
+  href: string;
+}
+
+export interface Stat {
+  value: string;
+  label: string;
+  icon?: React.ReactNode;
+}
+
+export interface Feature {
+  title: string;
+  description: string;
+  icon?: React.ReactNode;
+}
+
+export interface Testimonial {
+  quote: string;
+  author: string;
+  role: string;
+  company?: string;
+  avatar?: string;
+}
+
+export interface Service {
+  title: string;
+  description: string;
+  features: string[];
+  icon?: React.ReactNode;
+  href?: string;
+  price?: string;
+  popular?: boolean;
+}
+
+export interface Process {
+  title: string;
+  description: string;
+  step: number;
+  icon?: React.ReactNode;
+}
+
+export interface Hero {
+  title: string;
+  description: string;
+  primaryCTA?: { label: string; href: string };
+  secondaryCTA?: { label: string; href: string };
+}
+
+export interface CTA {
+  title: string;
+  description: string;
+  action: { label: string; href: string };
+}
+
+export interface Frontmatter {
+  title?: string;
+  subtitle?: string;
+  posts?: BlogPost[];
+  featuredPost?: BlogPost;
+  categories?: Category[];
+  tags?: Tag[];
+  stats?: Stat[];
+  features?: Feature[];
+  testimonials?: Testimonial[];
+  services?: Service[];
+  process?: Process[];
+  testimonial?: Testimonial;
+  hero?: Hero;
+  cta?: CTA;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  frontmatter?: Record<string, any>;
+  [key: string]: any;
+}
+
+export type TemplateRenderArgs = PropsWithChildren<{
+  frontmatter?: Frontmatter;
   siteConfig?: SiteConfig;
 }>;
 

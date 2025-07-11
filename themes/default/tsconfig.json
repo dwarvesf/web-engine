@@ -19,16 +19,6 @@
     "outDir": "./dist",
     "rootDir": "."
   },
-  "include": [
-    "components/**/*",
-    "modules/**/*",
-    "utils/**/*",
-    "index.ts",
-  ],
-  "exclude": [
-    "node_modules",
-    "dist",
-    "**/*.test.ts",
-    "**/*.test.tsx"
-  ]
+  "include": ["components/**/*", "modules/**/*", "utils/**/*", "index.ts"],
+  "exclude": ["node_modules", "dist", "**/*.test.ts", "**/*.test.tsx"]
 }

@@ -7,42 +7,87 @@
 @config "../tailwind.config.mjs";
 
 @theme {
-  /* Light Theme Colors */
+  /* Brand Colors - Dwarves Foundation */
   --color-primary: #e13f5e;
   --color-primary-hover: #d95870;
   --color-primary-foreground: #ffffff;
-  --color-primary-light: #f5a3b4;
+  --color-primary-light: #e38b9d;
+  --color-primary-lightest: #f8d9df;
 
+  /* Supporting Brand Colors */
+  --color-info: #368df3;
+  --color-error: #d0021b;
+  --color-warning: #fb8f47;
+  --color-success: #10b981;
+
+  /* Background Colors */
   --color-background: #ffffff;
-  --color-foreground: #171717;
+  --color-foreground: #23252c;
 
+  /* Secondary Colors */
   --color-secondary: #f5f5f5;
   --color-secondary-foreground: #171717;
   --color-secondary-background: #f8f9fa;
 
+  /* Tertiary Colors */
   --color-tertiary-background: #f0f0f0;
   --color-tertiary-background-light: #fbfbfb;
 
+  /* Muted Colors */
   --color-muted: #f5f5f5;
   --color-muted-foreground: #6b7280;
 
+  /* Border Colors */
   --color-border: #e5e7eb;
   --color-border-hover: #d1d5db;
   --color-border-light: #f3f4f6;
 
+  /* Card Colors */
   --color-card: #ffffff;
   --color-card-foreground: #171717;
   --color-card-hover: #f9fafb;
 
+  /* Tag Colors */
   --color-tag: #e5e7eb;
   --color-tag-foreground: #374151;
 
+  /* Input Colors */
   --color-input: #ffffff;
   --color-input-hover: #f9fafb;
+
+  /* Gray Scale System */
+  --color-gray-50: #f9fafb;
+  --color-gray-100: #f3f4f6;
+  --color-gray-200: #e5e7eb;
+  --color-gray-300: #d1d5db;
+  --color-gray-400: #9ca3af;
+  --color-gray-500: #6b7280;
+  --color-gray-600: #4b5563;
+  --color-gray-700: #374151;
+  --color-gray-800: #1f2937;
+  --color-gray-900: #111827;
+
+  /* Special Colors */
+  --color-dusty-gray: #999999;
+  --color-alto: #dfdfdf;
+  --color-alabaster: #f8f8f8;
+  --color-fedora: #716b7f;
+
+  /* Pink Variations */
+  --color-pink-dark: #eb5286;
+  --color-pink-darker: #6f213f;
+  --color-pink-darkest: #451225;
 
   /* Typography */
   --font-sans: 'IBM Plex Sans', system-ui, sans-serif;
   --font-mono: 'IBM Plex Mono', monospace;
+  --font-serif: 'Charter', Georgia, serif;
+
+  /* Font Weights */
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-demibold: 600;
+  --font-weight-bold: 700;
 
   /* Spacing Variables */
   --spacing-container-max: 1200px;
@@ -54,7 +99,30 @@
   --spacing-list-item: 0.5rem;
   --spacing-header: 64px;
 
+  /* Extended Spacing Scale */
+  --spacing-px: 1px;
+  --spacing-0: 0;
+  --spacing-1: 0.25rem;
+  --spacing-2: 0.5rem;
+  --spacing-3: 0.75rem;
+  --spacing-4: 1rem;
+  --spacing-5: 1.25rem;
+  --spacing-6: 1.5rem;
+  --spacing-8: 2rem;
+  --spacing-10: 2.5rem;
+  --spacing-12: 3rem;
+  --spacing-16: 4rem;
+  --spacing-20: 5rem;
+  --spacing-24: 6rem;
+  --spacing-32: 8rem;
+  --spacing-40: 10rem;
+  --spacing-48: 12rem;
+  --spacing-56: 14rem;
+  --spacing-64: 16rem;
+  --spacing-80: 20rem;
+
   /* Font sizes */
+  --font-size-xxs: 0.6875rem;
   --font-size-xs: 0.75rem;
   --font-size-sm: 0.875rem;
   --font-size-base: 1rem;
@@ -63,41 +131,126 @@
   --font-size-2xl: 1.5rem;
   --font-size-3xl: 1.875rem;
   --font-size-4xl: 2.25rem;
+  --font-size-5xl: 3rem;
+  --font-size-6xl: 3.75rem;
+  --font-size-26: 1.625rem;
+  --font-size-40: 2.5rem;
+
+  /* Line Heights */
+  --line-height-tight: 1.25;
+  --line-height-snug: 1.375;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.625;
+  --line-height-loose: 2;
+
+  /* Border Radius */
+  --border-radius-none: 0;
+  --border-radius-sm: 0.125rem;
+  --border-radius-md: 0.375rem;
+  --border-radius-lg: 0.5rem;
+  --border-radius-xl: 0.75rem;
+  --border-radius-2xl: 1rem;
+  --border-radius-3xl: 1.5rem;
+  --border-radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl:
+    0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  --shadow-avatar: 0 8px 16px rgba(0, 0, 0, 0.15);
+
+  /* Transition Duration */
+  --transition-duration-fast: 0.15s;
+  --transition-duration-normal: 0.25s;
+  --transition-duration-slow: 0.3s;
+
+  /* Z-Index Scale */
+  --z-index-dropdown: 1000;
+  --z-index-sticky: 1020;
+  --z-index-fixed: 1030;
+  --z-index-modal-backdrop: 1040;
+  --z-index-modal: 1050;
+  --z-index-popover: 1060;
+  --z-index-tooltip: 1070;
 }
 
 /* Manual Dark Mode Support */
 [data-theme='dark'] {
+  /* Brand Colors - Dwarves Foundation */
   --color-primary: #e13f5e;
   --color-primary-hover: #f55a7a;
   --color-primary-foreground: #ffffff;
-  --color-primary-light: #f5a3b4;
+  --color-primary-light: #e38b9d;
+  --color-primary-lightest: #f8d9df;
 
+  /* Supporting Brand Colors */
+  --color-info: #368df3;
+  --color-error: #d0021b;
+  --color-warning: #fb8f47;
+  --color-success: #10b981;
+
+  /* Background Colors */
   --color-background: #0a0a0a;
   --color-foreground: #ededed;
 
+  /* Secondary Colors */
   --color-secondary: #1f1f1f;
   --color-secondary-foreground: #ededed;
   --color-secondary-background: #141414;
 
+  /* Tertiary Colors */
   --color-tertiary-background: #1a1a1a;
   --color-tertiary-background-light: #252525;
 
+  /* Muted Colors */
   --color-muted: #1f1f1f;
   --color-muted-foreground: #a1a1aa;
 
+  /* Border Colors */
   --color-border: #2d2d2d;
   --color-border-hover: #404040;
   --color-border-light: #262626;
 
+  /* Card Colors */
   --color-card: #141414;
   --color-card-foreground: #ededed;
   --color-card-hover: #1a1a1a;
 
+  /* Tag Colors */
   --color-tag: #2d2d2d;
   --color-tag-foreground: #a1a1aa;
 
+  /* Input Colors */
   --color-input: #141414;
   --color-input-hover: #1a1a1a;
+
+  /* Gray Scale System - Dark Mode */
+  --color-gray-50: #1f2937;
+  --color-gray-100: #374151;
+  --color-gray-200: #4b5563;
+  --color-gray-300: #6b7280;
+  --color-gray-400: #9ca3af;
+  --color-gray-500: #d1d5db;
+  --color-gray-600: #e5e7eb;
+  --color-gray-700: #f3f4f6;
+  --color-gray-800: #f9fafb;
+  --color-gray-900: #ffffff;
+
+  /* Special Colors - Dark Mode */
+  --color-dusty-gray: #6b7280;
+  --color-alto: #374151;
+  --color-alabaster: #1f2937;
+  --color-fedora: #9ca3af;
+
+  /* Pink Variations - Dark Mode */
+  --color-pink-dark: #eb5286;
+  --color-pink-darker: #f55a7a;
+  --color-pink-darkest: #f8a2c0;
 }
 
 body {
@@ -154,4 +307,258 @@ body {
 .dwarves-hover-lift:hover {
   transform: translateY(-2px);
   box-shadow: 0 20px 40px -10px rgba(225, 63, 94, 0.15);
+}
+
+/* Enhanced Utility Classes */
+.dwarves-button-transition {
+  transition: all var(--transition-duration-normal) ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.dwarves-button-transition:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-lg);
+}
+
+.dwarves-button-transition::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: left var(--transition-duration-slow) ease;
+}
+
+.dwarves-button-transition:hover::before {
+  left: 100%;
+}
+
+.dwarves-link-navigation:before {
+  content: ' ';
+  position: absolute;
+  z-index: -1;
+  height: 28%;
+  bottom: 15%;
+  left: 0;
+  right: 0;
+  background: #ffc1cd;
+  opacity: 0.5;
+  transition: all 0.12s ease-in-out;
+}
+
+.dwarves-link-navigation:hover:before {
+  height: 70%;
+}
+
+.dwarves-card-hover {
+  transition: all var(--transition-duration-normal) ease;
+  border: 1px solid var(--color-border);
+}
+
+.dwarves-card-hover:hover {
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-xl);
+  transform: translateY(-2px);
+}
+
+.dwarves-highlight-on-hover {
+  transition: background-color var(--transition-duration-normal) ease;
+  position: relative;
+}
+
+.dwarves-highlight-on-hover::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--color-primary);
+  opacity: 0;
+  transition: opacity var(--transition-duration-normal) ease;
+  z-index: -1;
+}
+
+.dwarves-highlight-on-hover:hover::before {
+  opacity: 0.1;
+}
+
+.dwarves-loading-spin {
+  animation: dwarves-spin 1s linear infinite;
+}
+
+@keyframes dwarves-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.dwarves-fade-in {
+  animation: dwarves-fade-in 0.5s ease-in-out;
+}
+
+@keyframes dwarves-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dwarves-skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--color-muted) 25%,
+    var(--color-border) 50%,
+    var(--color-muted) 75%
+  );
+  background-size: 200% 100%;
+  animation: dwarves-skeleton-loading 1.5s infinite;
+}
+
+@keyframes dwarves-skeleton-loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.dwarves-focus-ring {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  transition: outline-color var(--transition-duration-fast) ease;
+}
+
+.dwarves-focus-ring:focus {
+  outline-color: var(--color-primary);
+  outline-offset: 2px;
+}
+
+.dwarves-focus-ring-none {
+  outline-color: transparent !important;
+}
+
+.dwarves-text-balance {
+  text-wrap: balance;
+}
+
+.dwarves-text-pretty {
+  text-wrap: pretty;
+}
+
+/* Form Enhancement */
+.dwarves-form-input {
+  background: var(--color-input);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  padding: 0.75rem 1rem;
+  transition: all var(--transition-duration-normal) ease;
+  color: var(--color-foreground);
+}
+
+.dwarves-form-input:hover {
+  background: var(--color-input-hover);
+  border-color: var(--color-border-hover);
+}
+
+.dwarves-form-input:focus {
+  background: var(--color-input-hover);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(225, 63, 94, 0.1);
+}
+
+.dwarves-form-input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Typography Enhancement */
+.dwarves-heading {
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
+  color: var(--color-foreground);
+}
+
+.dwarves-subheading {
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-snug);
+  color: var(--color-muted-foreground);
+}
+
+.dwarves-body {
+  line-height: var(--line-height-relaxed);
+  color: var(--color-foreground);
+}
+
+/* Container Utilities */
+.dwarves-container {
+  max-width: var(--spacing-container-max);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--spacing-4);
+  padding-right: var(--spacing-4);
+}
+
+.dwarves-container-wide {
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--spacing-4);
+  padding-right: var(--spacing-4);
+}
+
+.dwarves-container-narrow {
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--spacing-4);
+  padding-right: var(--spacing-4);
+}
+
+/* Aspect Ratio Utilities */
+.dwarves-aspect-square {
+  aspect-ratio: 1 / 1;
+}
+
+.dwarves-aspect-video {
+  aspect-ratio: 16 / 9;
+}
+
+.dwarves-aspect-photo {
+  aspect-ratio: 4 / 3;
+}
+
+/* Responsive Text */
+@media (max-width: 768px) {
+  .dwarves-text-responsive {
+    font-size: var(--font-size-sm);
+  }
+}
+
+@media (min-width: 769px) {
+  .dwarves-text-responsive {
+    font-size: var(--font-size-base);
+  }
+}
+
+@media (min-width: 1024px) {
+  .dwarves-text-responsive {
+    font-size: var(--font-size-lg);
+  }
 }

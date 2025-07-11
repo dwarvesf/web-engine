@@ -12,7 +12,7 @@ interface LogoProps {
 const sizeClasses = {
   sm: 'h-6 w-auto',
   md: 'h-8 w-auto',
-  lg: 'h-12 w-auto',
+  lg: 'h-10 w-auto',
 };
 
 export default function Logo({
@@ -24,12 +24,12 @@ export default function Logo({
   size = 'md',
 }: LogoProps) {
   const LogoContent = () => (
-    <div className={cn('flex items-center gap-2', className)}>
+    <div className={cn('flex items-center gap-1', className)}>
       {src && <img src={src} alt={alt} className={sizeClasses[size]} />}
       {text && (
-        <div className="text-foreground flex flex-col text-xl font-bold">
+        <div className="text-foreground flex flex-col text-sm font-bold uppercase">
           {text.split(' ').map((word, index) => (
-            <h5 key={index}>{word}</h5>
+            <span key={index}>{word}</span>
           ))}
         </div>
       )}

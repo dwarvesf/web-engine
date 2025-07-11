@@ -15,9 +15,11 @@ export interface LayoutProps extends Pick<TemplateRenderArgs, 'siteConfig'> {
  */
 const Layout: React.FC<LayoutProps> = ({ children, siteConfig }) => (
   <main className="dynamic-min-h-screen flex flex-col">
-    <Header header={siteConfig?.header} />
-    {children}
-    <Footer footer={siteConfig?.footer} />
+    <div className="mx-auto flex w-full max-w-7xl flex-1 flex-grow flex-col px-8">
+      <Header header={siteConfig?.header} />
+      <div className="flex-grow py-2">{children}</div>
+      <Footer footer={siteConfig?.footer} />
+    </div>
   </main>
 );
 

@@ -13,7 +13,7 @@ const eslintConfig = [
   ...compat.extends(
     'plugin:@typescript-eslint/recommended',
     'prettier',
-    'plugin:prettier/recommended'
+    'plugin:prettier/recommended',
   ),
   {
     files: ['**/*.ts', '**/*.tsx'],
