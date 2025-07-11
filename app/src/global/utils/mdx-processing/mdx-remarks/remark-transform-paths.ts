@@ -110,7 +110,7 @@ function transformPath(originalPath: string, fileDir: string): string {
 
   // Remove the 'public' prefix if it exists
   if (publicPath.startsWith('/public/')) {
-    publicPath = publicPath.substring(8);
+    publicPath = publicPath.substring(7);
   }
 
   return publicPath;

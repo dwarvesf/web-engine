@@ -6,9 +6,19 @@ dotenv.config();
 
 const baseDirName = path.dirname(fileURLToPath(import.meta.url));
 
+function resolveOriginalContentDir() {
+  const ORIGINAL_CONTENT_DIR = process.env.ORIGINAL_CONTENT_DIR || 'content';
+  // Check if the env provided is absolute or relative
+  if (path.isAbsolute(ORIGINAL_CONTENT_DIR)) {
+    return ORIGINAL_CONTENT_DIR;
+  }
+  // If relative, resolve it based on the current file's directory
+  const contentDir = path.join(baseDirName, '../..', ORIGINAL_CONTENT_DIR);
+  return path.resolve(contentDir);
+}
+
 // Original content directory and site configuration (remotely hosted content)
-const ORIGINAL_CONTENT_DIR = process.env.ORIGINAL_CONTENT_DIR || 'content';
-const ORIGINAL_CONTENT = path.join(baseDirName, '../..', ORIGINAL_CONTENT_DIR);
+const ORIGINAL_CONTENT = resolveOriginalContentDir();
 const ORIGINAL_SITE_CONFIG_CONTENT = path.join(ORIGINAL_CONTENT, 'site.json');
 
 // Public content directory (where content is copied to for serving)

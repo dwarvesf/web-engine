@@ -146,13 +146,13 @@ class SiteConfigLoader {
     }
     if (path.startsWith('/') && !path.startsWith('/content/')) {
       // If the path starts with '/', treat it as an absolute path
-      return `content${path}`;
+      return `/content${path}`;
     }
-    if (path.startsWith('content/')) {
+    if (path.startsWith('/content/')) {
       return path; // Already a content-relative path
     }
     // Resolve relative paths based on the current working directory
-    return `content/${path}`;
+    return `/content/${path}`;
   }
 
   private recursivePathResolver(

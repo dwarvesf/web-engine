@@ -73,20 +73,51 @@ async function startWatcher() {
     }
   }
 
-  // Watch for content changes
+  // Watch for content changes (add, change, unlink)
   chokidar
     .watch(contentPath, {
       ignored: /(^|[\/\\])\../, // ignore dotfiles
       persistent: true,
       ignoreInitial: true, // Don't trigger on startup
     })
+    .on('add', async (filePath: string) => {
+      console.log(`🆕 Content file added: ${filePath}`);
+      await copyContent(filePath);
+      clients.forEach(client => {
+        if (client.readyState === WebSocket.OPEN) {
+          client.send(JSON.stringify({ type: 'reload', file: filePath }));
+          console.log('🔄 Sent reload signal to browser');
+        }
+      });
+    })
     .on('change', async (filePath: string) => {
       console.log(`📝 Content file changed: ${filePath}`);
-
-      // Doing sync file changes
       await copyContent(filePath);
-
-      // Send reload signal to all connected browsers
+      clients.forEach(client => {
+        if (client.readyState === WebSocket.OPEN) {
+          client.send(JSON.stringify({ type: 'reload', file: filePath }));
+          console.log('🔄 Sent reload signal to browser');
+        }
+      });
+    })
+    .on('unlink', async (filePath: string) => {
+      const relativePath = path.relative(contentPath, filePath);
+      const destinationPath = path.join(PUBLIC_CONTENT, relativePath);
+      try {
+        await fs.promises.unlink(destinationPath);
+        console.log(`🗑️ Deleted ${destinationPath}`);
+      } catch (error) {
+        // Only log if file existed
+        if (
+          typeof error === 'object' &&
+          error !== null &&
+          'code' in error &&
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          (error as any).code !== 'ENOENT'
+        ) {
+          console.error(`❌ Error deleting file ${destinationPath}:`, error);
+        }
+      }
       clients.forEach(client => {
         if (client.readyState === WebSocket.OPEN) {
           client.send(JSON.stringify({ type: 'reload', file: filePath }));

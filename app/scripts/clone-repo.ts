@@ -11,6 +11,9 @@ function cloneRepository() {
   const git = simpleGit();
   const repoUrl = process.env.REPO_CONTENT;
   const contentPath = ORIGINAL_CONTENT;
+  const isContentExisted =
+    fs.existsSync(contentPath) &&
+    fs.readdirSync(contentPath, { withFileTypes: true }).length > 0;
   const options = {
     '--depth': '1', // Clone only the latest commit
     '--single-branch': null, // Clone only the default branch
@@ -18,10 +21,7 @@ function cloneRepository() {
   // Check if the content directory already exists
   if (repoUrl) {
     // Check if the content directory exists and has content
-    if (
-      fs.existsSync(contentPath) &&
-      fs.readdirSync(contentPath, { withFileTypes: true }).length > 0
-    ) {
+    if (isContentExisted) {
       // Check if it's a git repository
       if (fs.existsSync(path.join(contentPath, '.git'))) {
         console.log(
@@ -50,7 +50,7 @@ function cloneRepository() {
         }
       });
     }
-  } else {
+  } else if (!isContentExisted) {
     console.error('REPO_CONTENT environment variable is not set.');
     process.exit(1);
   }
