@@ -14,6 +14,13 @@ import { THEMES_DIR, THEMES_IMPORT_FILE } from './paths';
 
 const appImportedPackages = packageJson.dependencies || {};
 const appDevImportedPackages = packageJson.devDependencies || {};
+const appBasePath = (() => {
+  const basePath = process.env.PAGES_BASE_PATH || '';
+  if (!basePath) {
+    return '';
+  }
+  return basePath.startsWith('/') ? basePath : `/${basePath}`;
+})();
 
 const importedPackages = Object.keys({
   ...appImportedPackages,
@@ -244,6 +251,31 @@ class SiteConfigProcessor {
     return relativePath;
   }
 
+  private hrefResolver(hrefPath: string): string {
+    if (hrefPath.startsWith('http://') || hrefPath.startsWith('https://')) {
+      return hrefPath; // External URL, no change needed
+    }
+    if (hrefPath.startsWith('/')) {
+      return `${appBasePath}${hrefPath}`;
+    }
+    return hrefPath;
+  }
+
+  private recursiveArrayResolver(arr: unknown[]): unknown[] {
+    return arr.map((item, idx) => {
+      if (Array.isArray(item)) {
+        return this.recursiveArrayResolver(item);
+      }
+      if (typeof item === 'object' && item !== null) {
+        return this.recursivePathResolver(item as Record<string, unknown>);
+      }
+      if (idx < 1) {
+        return item; // Keep the first item as is (usually a name or title)
+      }
+      return this.hrefResolver(item as string);
+    });
+  }
+
   private recursivePathResolver(
     obj?: Record<string, unknown>,
   ): Record<string, unknown> | undefined {
@@ -251,16 +283,16 @@ class SiteConfigProcessor {
       return;
     }
     const resolvedObj: Record<string, unknown> = {};
-    const keys = ['src', 'url', 'favicon', 'icon', 'image'];
+    const assetKeys = ['src', 'url', 'favicon', 'icon', 'image'];
+    const hrefKeys = ['href'];
+
     for (const [key, value] of Object.entries(obj)) {
-      if (typeof value === 'string' && keys.includes(key)) {
+      if (typeof value === 'string' && assetKeys.includes(key)) {
         resolvedObj[key] = this.pathResolver(value);
+      } else if (typeof value === 'string' && hrefKeys.includes(key)) {
+        resolvedObj[key] = this.hrefResolver(value);
       } else if (Array.isArray(value)) {
-        resolvedObj[key] = value.map(item =>
-          typeof item === 'string' && keys.includes(key)
-            ? this.pathResolver(item)
-            : item,
-        );
+        resolvedObj[key] = this.recursiveArrayResolver(value);
       } else if (typeof value === 'object' && value !== null) {
         resolvedObj[key] = this.recursivePathResolver(
           value as Record<string, unknown>,
