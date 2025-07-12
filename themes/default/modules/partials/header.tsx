@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { cn, transformSocialLinks } from '../../utils';
 import { NavigationItem, SocialLink } from '../../components';
 import { Icon, Logo } from '../../components/ui';
@@ -43,6 +43,16 @@ interface HeaderProps {
 
 export default function Header({ header, className = '' }: HeaderProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 0);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   if (!header) return null;
 
@@ -60,7 +70,10 @@ export default function Header({ header, className = '' }: HeaderProps) {
   };
   return (
     <header className={cn('bg-background sticky top-0 z-50', className)}>
-      <div className="mx-auto">
+      {isScrolled ? (
+        <hr className="border-border fixed top-22 right-0 left-0 z-[60] border-t" />
+      ) : null}
+      <div className="mx-auto py-2">
         <div className="flex items-center justify-between py-4">
           {/* Logo */}
           <div className="flex items-center justify-center">

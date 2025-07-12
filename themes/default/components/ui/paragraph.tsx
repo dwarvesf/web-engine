@@ -7,10 +7,7 @@ export default function Paragraph({
   ...props
 }: React.HTMLAttributes<HTMLParagraphElement>) {
   return (
-    <p
-      className={cn('text-foreground mb-4 leading-relaxed', className)}
-      {...props}
-    >
+    <p className={cn('mb-4 leading-relaxed', className)} {...props}>
       {children}
     </p>
   );

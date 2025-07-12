@@ -24,7 +24,7 @@ export default function Logo({
   size = 'md',
 }: LogoProps) {
   const LogoContent = () => (
-    <div className={cn('flex items-center gap-1', className)}>
+    <div className={cn('flex items-center gap-4', className)}>
       {src && <img src={src} alt={alt} className={sizeClasses[size]} />}
       {text && (
         <div className="text-foreground flex flex-col text-sm font-bold uppercase">

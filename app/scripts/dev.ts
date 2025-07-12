@@ -6,7 +6,7 @@ const commands = [
   'pnpm run clone:repo',
   'pnpm run cp:content',
   'pnpm run process:config',
-  'concurrently "next dev" "tsx scripts/watch-content.ts"',
+  'tsx scripts/next-dev.ts',
 ];
 
 function runCommands() {

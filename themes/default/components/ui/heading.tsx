@@ -58,7 +58,7 @@ const spacings = {
 export default function Heading({
   children,
   level,
-  variant = 'default',
+  variant,
   size,
   weight,
   align = 'left',
@@ -71,7 +71,7 @@ export default function Heading({
     'dwarves-heading',
     size ? sizes[size] : headingClasses[level],
     weight ? weights[weight] : '',
-    variants[variant],
+    variant ? variants[variant] : '',
     alignments[align],
     spacing ? spacings[spacing] : '',
     balance && 'dwarves-text-balance',

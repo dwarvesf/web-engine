@@ -9,9 +9,13 @@ export default function HotReload() {
       return;
     }
 
+    const currentConfiguredPort =
+      process.env.NEXT_PUBLIC_CONTENT_HOT_RELOAD_WS_PORT;
+
+    console.log('🔄 Hot-reload WebSocket port:', currentConfiguredPort);
+
     let ws: WebSocket | null = null;
-    let currentPort = 55980;
-    const maxPort = 55999;
+    let currentPort = Number(currentConfiguredPort || 55980);
     let connected = false;
 
     const tryConnect = (port: number) => {
@@ -43,7 +47,7 @@ export default function HotReload() {
         }
         connected = false;
         // Try next port up to maxPort, then wrap around
-        const nextPort = currentPort < maxPort ? currentPort + 1 : 3001;
+        const nextPort = currentPort + 1;
         setTimeout(() => tryConnect(nextPort), 1000);
       };
 

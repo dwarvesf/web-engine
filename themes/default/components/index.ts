@@ -8,3 +8,5 @@ export { default as ClientLogo } from './client-logo';
 export { default as SocialLink } from './social-link';
 export { default as Card } from './card';
 export { default as CardGroup } from './card-group';
+export { default as Section } from './section';
+export { default as Hero } from './hero';
