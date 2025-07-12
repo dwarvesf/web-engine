@@ -47,7 +47,7 @@ export default function NavigationItem({
 
     if (!href) {
       return (
-        <span key={index} className="text-foreground block px-0 py-1 text-sm">
+        <span key={index} className="text-foreground text-md block px-0 py-1">
           {label}
         </span>
       );
@@ -58,7 +58,7 @@ export default function NavigationItem({
         key={index}
         href={href}
         className={cn(
-          'text-foreground dwarves-link-navigation relative block w-fit px-0 py-1 text-sm',
+          'text-foreground dwarves-link-navigation text-md relative block w-fit px-0 py-1',
         )}
         onClick={onItemClick}
       >

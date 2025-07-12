@@ -1,6 +1,7 @@
 import { cn } from '../../utils';
-import { H6, SocialLink, Tag } from '../../components';
+import { Button, SocialLink, Tag } from '../../components';
 import React from 'react';
+import { ButtonProps } from '../../components/ui/button';
 
 // Helper function to transform social links from site config format
 function transformSocialLinks(
@@ -90,7 +91,7 @@ export default function Footer({ footer, className = '' }: FooterProps) {
     return (
       <>
         {!section['hide-title'] && section.title && (
-          <H6 className="text-foreground text-sm md:text-sm lg:text-sm xl:text-sm">
+          <h6 className="text-foreground text-md font-semibold">
             {section.href ? (
               <a
                 href={section.href}
@@ -101,7 +102,7 @@ export default function Footer({ footer, className = '' }: FooterProps) {
             ) : (
               section.title
             )}
-          </H6>
+          </h6>
         )}
       </>
     );
@@ -126,16 +127,16 @@ export default function Footer({ footer, className = '' }: FooterProps) {
         {/* Render content and socials */}
         {section.content?.map((content, contentIndex) => (
           <div key={contentIndex} className="mb-2 block space-x-2">
-            <h6 className="text-foreground inline-block text-sm font-medium">
+            <h6 className="text-foreground text-md inline-block font-medium">
               {content.title}
             </h6>
-            <p className="text-tag-foreground dark:text-muted-foreground inline-block text-sm">
+            <p className="text-foreground text-md inline-block">
               {content.text}
             </p>
           </div>
         ))}
         {section.socials && (
-          <div className="mb-4 flex space-x-4">
+          <div className="mt-8 flex space-x-4">
             {transformSocialLinks(section.socials).map((social, index) => (
               <SocialLink
                 key={index}
@@ -164,7 +165,7 @@ export default function Footer({ footer, className = '' }: FooterProps) {
             <li key={linkIndex}>
               <a
                 href={link.href}
-                className="text-tag-foreground dark:text-muted-foreground hover:text-primary text-xs transition-colors duration-200"
+                className="text-foreground hover:text-primary text-md transition-colors duration-200"
               >
                 {link.label}
               </a>
@@ -172,12 +173,18 @@ export default function Footer({ footer, className = '' }: FooterProps) {
           ))}
           {section.tabs?.map((tab, tabIndex) => (
             <li className="space-x-2" key={tabIndex}>
-              <a
+              <Button
+                variant={(tab.type?.[0] || 'link') as ButtonProps['variant']}
                 href={tab.href}
-                className="text-tag-foreground dark:text-muted-foreground hover:text-primary text-xs transition-colors duration-200"
+                className={cn(
+                  'text-foreground hover:text-primary text-md px-0 py-0 transition-colors duration-200',
+                  {
+                    'text-primary font-semibold': tab.type?.[1] === 'primary',
+                  },
+                )}
               >
                 {tab.tab}
-              </a>
+              </Button>
               {tab.tag && (
                 <Tag size="xs" variant="primary">
                   {tab.tag.toUpperCase()}
@@ -192,7 +199,7 @@ export default function Footer({ footer, className = '' }: FooterProps) {
 
   return (
     <footer className={cn('bg-background border-border border-t', className)}>
-      <div className="mx-auto space-y-4 py-4 sm:px-4">
+      <div className="mx-auto space-y-8 py-4 sm:px-4">
         {/* Column Sections Layout */}
         {columnSections.length > 0 && (
           <div className="grid grid-cols-2 gap-8 md:grid-cols-4 lg:grid-cols-6">
