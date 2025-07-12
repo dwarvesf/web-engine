@@ -61,8 +61,8 @@ const nextConfig: NextConfig = {
                 },
                 // Handle dynamic variables: href={path} where path starts with "/"
                 {
-                  search: /\bhref=\{([a-zA-Z_$][a-zA-Z0-9_$.]*)\}/,
-                  replace: `href={($1?.startsWith?.('/') && !$1?.startsWith?.('//') && !$1?.includes?.(':') ? '${normalizedBasePath}' + $1 : $1)}`,
+                  search: /\bhref=\{([a-zA-Z_$][a-zA-Z0-9_$.*]*)\}/g,
+                  replace: `href={($1?.startsWith?.('/') && !$1?.startsWith?.('//') && !$1?.includes?.(':') && !$1?.startsWith?.('${normalizedBasePath}') ? '${normalizedBasePath}' + $1 : $1)}`,
                   flags: 'g',
                 },
               ],
