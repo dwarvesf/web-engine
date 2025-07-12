@@ -23,7 +23,9 @@ const ORIGINAL_SITE_CONFIG_CONTENT = path.join(ORIGINAL_CONTENT, 'site.json');
 
 // Public content directory (where content is copied to for serving)
 const BASE_APP_DIR = path.join(baseDirName, '..');
-const PUBLIC_CONTENT = path.join(baseDirName, '..', 'public', 'content');
+const PUBLIC_DIR = path.join(BASE_APP_DIR, 'public');
+const PUBLIC_CONTENT = path.join(PUBLIC_DIR, 'content');
+const PUBLIC_FAVICON = path.join(PUBLIC_DIR, 'favicon.ico');
 const BUILD_OUT_DIR = path.join(baseDirName, '..', 'out');
 const CONTENT_HASH_FILE = path.join(PUBLIC_CONTENT, '.content-hash');
 const GENERATED_OUTDIR = path.join(baseDirName, '..', 'src', 'generated');
@@ -43,7 +45,9 @@ const PROCESS_SITE_CONFIG_SCRIPT = path.join(
 );
 
 export {
+  PUBLIC_DIR,
   PUBLIC_CONTENT,
+  PUBLIC_FAVICON,
   ORIGINAL_CONTENT,
   BUILD_OUT_DIR,
   BASE_APP_DIR,

@@ -1,10 +1,11 @@
 import { readFileSync, writeFileSync, existsSync } from 'fs';
 import { join } from 'path';
-import { mkdir } from 'fs/promises';
+import { copyFile, mkdir } from 'fs/promises';
 import {
   COPIED_SITE_CONTENT_JSON,
   GENERATED_OUTDIR,
   ORIGINAL_SITE_CONFIG_CONTENT,
+  PUBLIC_FAVICON,
 } from './paths';
 import packageJson from '../package.json';
 import { promises as fs } from 'fs';
@@ -138,7 +139,6 @@ export const defaultSiteConfig: SiteConfig = {
       'A software development firm based in Asia. Helping tech startups, entrepreneurs and makers build world-class products since 2013.',
     url: 'https://dwarves.foundation',
   },
-  favicon: '/favicon.ico',
   header: {
     logo: {
       src: '/logo.svg',
@@ -177,6 +177,7 @@ class SiteConfigProcessor {
     const unifiedConfig = await this.generateStaticConfig(config);
     await this.generateGlobalCss(unifiedConfig);
     await this.generateTheme(unifiedConfig);
+    await this.copyFavicon(unifiedConfig);
     return unifiedConfig;
   }
 
@@ -291,7 +292,10 @@ class SiteConfigProcessor {
     }) as unknown as SiteConfig;
 
     writeFileSync(this.outputPath, JSON.stringify(staticConfig, null, 2));
-    console.log('✅ Generated static site config at:', this.outputPath);
+    console.log(
+      '✅ Generated static site config at:',
+      path.relative(process.cwd(), this.outputPath),
+    );
     return staticConfig as SiteConfig;
   }
 
@@ -311,7 +315,10 @@ class SiteConfigProcessor {
 `;
 
     writeFileSync(globalCssPath, globalCssImports);
-    console.log('✅ Generated global CSS imports at:', globalCssPath);
+    console.log(
+      '✅ Generated global CSS imports at:',
+      path.relative(process.cwd(), globalCssPath),
+    );
   }
 
   async getThemePackage(siteConfig: SiteConfig) {
@@ -360,6 +367,26 @@ class SiteConfigProcessor {
 
 ${exports}
 `;
+  }
+
+  private async copyFavicon(siteConfig: SiteConfig): Promise<void> {
+    if (siteConfig.favicon) {
+      const absFaviconPath = path.resolve(
+        path.dirname(ORIGINAL_SITE_CONFIG_CONTENT),
+        siteConfig.favicon,
+      );
+      if (!existsSync(absFaviconPath)) {
+        console.error(
+          `❌ Favicon file not found at ${absFaviconPath}. Please check the path in site.json.`,
+        );
+        return;
+      }
+      await copyFile(absFaviconPath, PUBLIC_FAVICON);
+      console.log(
+        '✅ Copied favicon to:',
+        path.relative(process.cwd(), PUBLIC_FAVICON),
+      );
+    }
   }
 
   // Script to generate the themes config file for the app

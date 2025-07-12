@@ -132,10 +132,10 @@ export class SiteConfigLoader {
   ) as unknown as SiteConfig | undefined;
   /**
    * Base path URL for the site, used to resolve relative paths.
-   * This is set from the environment variable PAGES_BASE_PATH.
+   * This is set from the environment variable NEXT_PUBLIC_PAGES_BASE_PATH.
    */
   public static BASE_PATH_URL = (() => {
-    const basePath = process.env.PAGES_BASE_PATH || '';
+    const basePath = process.env.NEXT_PUBLIC_PAGES_BASE_PATH || '';
     if (!basePath) {
       return '';
     }
