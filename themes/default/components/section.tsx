@@ -30,8 +30,7 @@ export default function Section({
   id,
   variant = 'default',
   size = 'md',
-  container = true,
-  fullWidth = true,
+  fullWidth = false,
   style,
 }: SectionProps) {
   const sectionClasses = cn(
@@ -41,10 +40,10 @@ export default function Section({
     className,
   );
 
-  const contentClasses = cn(
-    container && !fullWidth && 'container mx-auto px-4',
-    fullWidth && 'w-full',
-  );
+  const contentClasses = cn({
+    'mx-auto max-w-[1280px] px-4': !fullWidth,
+    'w-full': fullWidth,
+  });
 
   return (
     <section id={id} className={sectionClasses} style={style}>

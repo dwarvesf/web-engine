@@ -74,11 +74,14 @@ export default function Header({
     setIsMobileMenuOpen(false);
   };
   return (
-    <header className={cn('bg-background sticky top-0 z-50', className)}>
-      {isScrolled ? (
-        <hr className="border-border fixed top-22 right-0 left-0 z-[60] border-t" />
-      ) : null}
-      <div className="mx-auto py-2">
+    <header
+      className={cn(
+        'bg-background sticky top-0 z-50 border-b transition-all duration-200 ease-in-out',
+        { 'border-transparent': !isScrolled, 'border-border': isScrolled },
+        className,
+      )}
+    >
+      <div className="container mx-auto py-2">
         <div className="flex items-center justify-between py-4">
           {/* Logo */}
           <div className="flex items-center justify-center">
