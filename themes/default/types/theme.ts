@@ -26,6 +26,7 @@ export interface NavigationConfig {
 export interface HeaderConfig {
   logo: LogoConfig;
   navigation: NavigationConfig;
+  'opensource-navigation': NavigationConfig;
 }
 
 export interface SocialConfig {
@@ -192,4 +193,5 @@ export type TemplateRenderArgs = PropsWithChildren<{
 export enum ThemeTemplates {
   About = 'about',
   Work = 'work',
+  Opensource = 'opensource',
 }

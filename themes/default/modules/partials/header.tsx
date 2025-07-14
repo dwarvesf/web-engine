@@ -37,11 +37,16 @@ interface HeaderConfig {
 }
 
 interface HeaderProps {
+  navigation?: NavigationConfig;
   header?: HeaderConfig;
   className?: string;
 }
 
-export default function Header({ header, className = '' }: HeaderProps) {
+export default function Header({
+  header,
+  navigation,
+  className = '',
+}: HeaderProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -58,7 +63,7 @@ export default function Header({ header, className = '' }: HeaderProps) {
 
   const mobileNavigationFooter = header['mobile-navigation-footer'];
 
-  const { logo, navigation } = header;
+  const { logo } = header;
   const items = navigation?.tabs || [];
 
   const toggleMobileMenu = () => {

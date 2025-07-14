@@ -11,6 +11,15 @@ const TemplateRender: React.FC<TemplateRenderArgs> = props => {
           <AboutTemplate {...props} />
         </Suspense>
       );
+    case ThemeTemplates.Opensource:
+      const OpensourceTemplate = lazy(
+        () => import('./templates/opensource-template'),
+      );
+      return (
+        <Suspense fallback={null}>
+          <OpensourceTemplate {...props} />
+        </Suspense>
+      );
     case ThemeTemplates.Work:
       const WorkTemplate = lazy(() => import('./templates/work-template'));
       return (
