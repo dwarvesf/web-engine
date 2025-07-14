@@ -12,6 +12,7 @@ import {
 import { remarkMdxImports } from '@wse/global/utils/mdx-processing/mdx-remarks/remark-mdx-imports';
 import recmaMdxEscapeMissingComponents from 'recma-mdx-escape-missing-components';
 import { PUBLIC_CONTENT } from '../../../../scripts/paths';
+import { getSiteConfig } from '@wse/global/adapters';
 
 export function getAllMdxFiles(
   dir: string,
@@ -124,6 +125,9 @@ export async function getFrontmatterMdxSerializedContent(
               () => remarkTransformPaths(filePath),
             ], // Ensure order: imports first, then path transforms
           },
+          scope: {
+            siteConfig: getSiteConfig(),
+          },
         },
       });
       frontmatter[key] = mdxSource;
@@ -157,6 +161,9 @@ export async function getMdxContent(slug: string[]): Promise<
       mdxOptions: {
         recmaPlugins: [recmaMdxEscapeMissingComponents],
         remarkPlugins: [remarkMdxImports, () => remarkTransformPaths(filePath)], // Ensure order: imports first, then path transforms
+      },
+      scope: {
+        siteConfig: getSiteConfig(),
       },
     },
   });

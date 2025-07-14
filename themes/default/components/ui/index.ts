@@ -19,6 +19,8 @@ export {
   TableRow,
 } from './table';
 export { default as Tag } from './tag';
+export { default as FeatureCard } from './feature-card';
+export { default as SolutionHighlight } from './solution-highlight';
 
 // UI components (not directly exported to avoid conflicts with modules/partials)
 // Import these directly from ./hero, ./footer, ./navigation when needed

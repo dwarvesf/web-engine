@@ -3,16 +3,19 @@ import { cn } from '../utils';
 import { Button, Icon, Tag } from './ui';
 import { ButtonProps } from './ui/button';
 
+type GroupItem = {
+  group?: string;
+  tag?: string;
+  pages?: (string | [string, string])[];
+  groups?: GroupItem[];
+};
+
 interface TabType {
   tab: string;
   href?: string;
   type?: string[] | string;
   tag?: string;
-  groups?: {
-    group: string;
-    tag?: string;
-    pages: (string | [string, string])[];
-  }[];
+  groups?: GroupItem[];
 }
 interface NavigationItemProps {
   tab: TabType;
@@ -21,29 +24,11 @@ interface NavigationItemProps {
   trigger?: 'hover' | 'click';
 }
 
-export default function NavigationItem({
-  tab,
-  isMobile = false,
-  onItemClick,
-  trigger = 'click',
-}: NavigationItemProps) {
-  const [isOpen, setIsOpen] = useState(false);
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null); // Ref for timeout
-  const hasGroups = tab.groups && tab.groups.length > 0;
-
-  const handleMouseEnter = () => {
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-    }
-    setIsOpen(true);
-  };
-
-  const handleMouseLeave = () => {
-    timeoutRef.current = setTimeout(() => {
-      setIsOpen(false);
-    }, 100); // 100ms delay
-  };
-
+export const NavigationDropDownContent: React.FC<{
+  groups: NonNullable<TabType['groups']>;
+  onItemClick?: () => void;
+  className?: string;
+}> = ({ groups, onItemClick, className }) => {
   const renderPage = (page: string | [string, string], index: number) => {
     const [label, href] = Array.isArray(page) ? page : [page];
 
@@ -67,6 +52,74 @@ export default function NavigationItem({
         {label}
       </a>
     );
+  };
+  return (
+    <div
+      className={cn(
+        'mx-auto grid max-w-6xl grid-cols-4 gap-6 px-4 pt-6 pb-8',
+        className,
+      )}
+    >
+      {groups!.map((group, groupIndex) =>
+        group.groups ? (
+          <div key={groupIndex} className="flex flex-col gap-8">
+            {group.groups.map((subGroup, subGroupIndex) => (
+              <div key={subGroupIndex}>
+                <div className="mb-3 flex items-center gap-2">
+                  <span className="text-foreground text-sm font-semibold uppercase">
+                    {subGroup.group}
+                  </span>
+                  {subGroup.tag && <Tag>{subGroup.tag}</Tag>}
+                </div>
+                <div className="space-y-1">
+                  {subGroup.pages?.map((page, pageIndex) =>
+                    renderPage(page, pageIndex),
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div key={groupIndex}>
+            <div className="mb-3 flex items-center gap-2">
+              <span className="text-foreground text-sm font-semibold uppercase">
+                {group.group}
+              </span>
+              {group.tag && <Tag>{group.tag}</Tag>}
+            </div>
+            <div className="space-y-1">
+              {group.pages?.map((page, pageIndex) =>
+                renderPage(page, pageIndex),
+              )}
+            </div>
+          </div>
+        ),
+      )}
+    </div>
+  );
+};
+
+export default function NavigationItem({
+  tab,
+  isMobile = false,
+  onItemClick,
+  trigger = 'click',
+}: NavigationItemProps) {
+  const [isOpen, setIsOpen] = useState(false);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null); // Ref for timeout
+  const hasGroups = tab.groups && tab.groups.length > 0;
+
+  const handleMouseEnter = () => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+    setIsOpen(true);
+  };
+
+  const handleMouseLeave = () => {
+    timeoutRef.current = setTimeout(() => {
+      setIsOpen(false);
+    }, 100); // 100ms delay
   };
 
   if (isMobile) {
@@ -137,23 +190,10 @@ export default function NavigationItem({
             ? { onMouseEnter: handleMouseEnter, onMouseLeave: handleMouseLeave }
             : {})}
         >
-          <div className="mx-auto grid max-w-6xl grid-cols-4 gap-6 px-4 pt-6 pb-8">
-            {tab.groups!.map((group, groupIndex) => (
-              <div key={groupIndex}>
-                <div className="mb-3 flex items-center gap-2">
-                  <span className="text-foreground text-sm font-semibold uppercase">
-                    {group.group}
-                  </span>
-                  {group.tag && <Tag>{group.tag}</Tag>}
-                </div>
-                <div className="space-y-1">
-                  {group.pages.map((page, pageIndex) =>
-                    renderPage(page, pageIndex),
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
+          <NavigationDropDownContent
+            groups={tab.groups!}
+            onItemClick={onItemClick}
+          />
         </div>
       )}
     </div>

@@ -199,7 +199,7 @@
   --color-success: #10b981;
 
   /* Background Colors */
-  --color-background: #0a0a0a;
+  --color-background: #1e1e1e;
   --color-foreground: #ededed;
 
   /* Secondary Colors */
@@ -347,6 +347,10 @@ body {
 
 .dwarves-button-transition:hover::before {
   left: 100%;
+}
+
+.dwarves-link-navigation {
+  z-index: 1;
 }
 
 .dwarves-link-navigation:before {

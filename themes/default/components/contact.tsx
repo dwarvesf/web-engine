@@ -1,5 +1,5 @@
-import Button from '../../components/ui/button';
-import { cn } from '../../utils';
+import { cn } from '../utils';
+import Button from './ui/button';
 
 const Contact: React.FC<React.HTMLProps<HTMLElement>> = p => {
   return (

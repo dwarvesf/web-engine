@@ -1,6 +1,15 @@
 import { TemplateRenderArgs } from '../../types/theme';
 import Layout from '../partials/layout';
-import { Center, H3, HStack, Image, Paragraph, Stack } from '../../components';
+import {
+  Button,
+  Center,
+  H3,
+  HStack,
+  Icon,
+  Image,
+  Paragraph,
+  Stack,
+} from '../../components';
 import { ReactNode } from 'react';
 
 interface ProjectMetadata {
@@ -9,32 +18,6 @@ interface ProjectMetadata {
   solution?: string;
   outcome?: string;
   client?: string;
-  year?: string;
-  duration?: string;
-  team?: string;
-}
-
-interface TechnologyStack {
-  category: string;
-  technologies: string[];
-}
-
-interface ProjectSection {
-  title: string;
-  content: string;
-  images?: string[];
-  points?: string[];
-  quote?: {
-    text: string;
-    author?: string;
-    role?: string;
-  };
-}
-
-interface RelatedProject {
-  title: string;
-  href: string;
-  direction: 'previous' | 'next';
 }
 
 interface WorkDetailTemplateProps extends TemplateRenderArgs {
@@ -42,9 +25,6 @@ interface WorkDetailTemplateProps extends TemplateRenderArgs {
   heroImage?: string;
   description?: string;
   metadata?: ProjectMetadata;
-  sections?: ProjectSection[];
-  techStack?: TechnologyStack[];
-  relatedProjects?: RelatedProject[];
 }
 
 export default function WorkDetailTemplate(props: WorkDetailTemplateProps) {
@@ -56,6 +36,8 @@ export default function WorkDetailTemplate(props: WorkDetailTemplateProps) {
   const description = frontmatter?.description;
   const metadata = frontmatter?.metadata;
   const heroMdxContent = frontmatter?.['hero-mdx-content'];
+  const links = frontmatter?.links;
+  console.log('WorkDetailTemplate links:', links);
 
   return (
     <Layout
@@ -94,6 +76,32 @@ export default function WorkDetailTemplate(props: WorkDetailTemplateProps) {
       </Stack>
       {/* Main Content (MDX content) */}
       <div className="mx-auto max-w-[700px] flex-1 py-12">{children}</div>
+
+      {/* Navigation Links */}
+      {links && (
+        <HStack className="mx-auto max-w-[700px] justify-between pt-20">
+          {links.previous && (
+            <Button
+              variant="link"
+              href={links.previous.url}
+              className="w-auto flex-none self-start underline"
+            >
+              <Icon name="arrowLeft" />
+              {links.previous.title}
+            </Button>
+          )}
+          {links.next && (
+            <Button
+              variant="link"
+              href={links.next.url}
+              className="w-auto flex-none self-end underline"
+            >
+              {links.next.title}
+              <Icon name="arrowRight" />
+            </Button>
+          )}
+        </HStack>
+      )}
     </Layout>
   );
 }

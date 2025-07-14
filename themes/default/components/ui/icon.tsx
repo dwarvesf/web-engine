@@ -21,6 +21,7 @@ import {
   FiMail,
   FiArrowDownRight,
   FiArrowRight,
+  FiArrowLeft,
 } from 'react-icons/fi';
 import { FaBehance, FaDiscord, FaTelegramPlane } from 'react-icons/fa';
 import { AiOutlineGlobal } from 'react-icons/ai';
@@ -49,6 +50,7 @@ const iconMap = {
   chevronDown: FiChevronDown,
   chevronRight: FiChevronRight,
   externalLink: FiExternalLink,
+  arrowLeft: FiArrowLeft,
   arrowRight: FiArrowRight,
   arrowDownRight: FiArrowDownRight,
   sun: FiSun,
