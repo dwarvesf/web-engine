@@ -7,13 +7,13 @@ dotenv.config({ quiet: true });
 const baseDirName = path.dirname(fileURLToPath(import.meta.url));
 
 function resolveOriginalContentDir() {
-  const ORIGINAL_CONTENT_DIR = process.env.ORIGINAL_CONTENT_DIR || 'content';
+  const CONTENT_DIR = process.env.CONTENT_DIR || 'content';
   // Check if the env provided is absolute or relative
-  if (path.isAbsolute(ORIGINAL_CONTENT_DIR)) {
-    return ORIGINAL_CONTENT_DIR;
+  if (path.isAbsolute(CONTENT_DIR)) {
+    return CONTENT_DIR;
   }
   // If relative, resolve it based on the current file's directory
-  const contentDir = path.join(baseDirName, '../..', ORIGINAL_CONTENT_DIR);
+  const contentDir = path.join(baseDirName, '../..', CONTENT_DIR);
   return path.resolve(contentDir);
 }
 
