@@ -58,11 +58,30 @@ const siteConfig = getSiteConfig();
 const components = loadThemeComponents(siteConfig?.theme || 'default');
 const modules = themeAdapter.loadThemeModules();
 
+function mdxRenderer(content?: MDXPageProps['mdxSource']) {
+  if (!content || 'error' in content) {
+    return null;
+  }
+  return (
+    <MDXClient
+      {...content}
+      components={components}
+      scope={{
+        siteConfig,
+      }}
+    />
+  );
+}
+
 export default function MDXPage({ frontmatter, mdxSource }: MDXPageProps) {
   const Component = modules?.TemplateRender ?? React.Fragment;
 
   return (
-    <Component siteConfig={siteConfig!} frontmatter={frontmatter}>
+    <Component
+      siteConfig={siteConfig!}
+      frontmatter={frontmatter}
+      mdxRenderer={mdxRenderer}
+    >
       <MDXClient
         {...mdxSource}
         components={components}

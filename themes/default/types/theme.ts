@@ -26,7 +26,7 @@ export interface NavigationConfig {
 export interface HeaderConfig {
   logo: LogoConfig;
   navigation: NavigationConfig;
-  'opensource-navigation': NavigationConfig;
+  'opensource-navigation'?: NavigationConfig;
 }
 
 export interface SocialConfig {
@@ -188,10 +188,13 @@ export interface Frontmatter {
 export type TemplateRenderArgs = PropsWithChildren<{
   frontmatter?: Frontmatter;
   siteConfig?: SiteConfig;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  mdxRenderer: (content: any) => React.ReactNode;
 }>;
 
 export enum ThemeTemplates {
   About = 'about',
   Work = 'work',
   Opensource = 'opensource',
+  WorkDetail = 'work-detail',
 }

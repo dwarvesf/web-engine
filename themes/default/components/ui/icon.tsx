@@ -9,6 +9,7 @@ import {
   FiMenu,
   FiX,
   FiChevronDown,
+  FiChevronRight,
   FiExternalLink,
   FiSun,
   FiMoon,
@@ -18,18 +19,14 @@ import {
   FiInstagram,
   FiLinkedin,
   FiMail,
+  FiArrowDownRight,
+  FiArrowRight,
 } from 'react-icons/fi';
 import { FaBehance, FaDiscord, FaTelegramPlane } from 'react-icons/fa';
 import { AiOutlineGlobal } from 'react-icons/ai';
 import { FaXTwitter } from 'react-icons/fa6';
 
 import { cn } from '../../utils';
-
-interface IconProps {
-  name: string;
-  size?: 'sm' | 'md' | 'lg' | 'xl';
-  className?: string;
-}
 
 const sizes = {
   sm: 'w-4 h-4',
@@ -50,7 +47,10 @@ const iconMap = {
   menu: FiMenu,
   close: FiX,
   chevronDown: FiChevronDown,
+  chevronRight: FiChevronRight,
   externalLink: FiExternalLink,
+  arrowRight: FiArrowRight,
+  arrowDownRight: FiArrowDownRight,
   sun: FiSun,
   moon: FiMoon,
   github: FiGithub,
@@ -64,6 +64,12 @@ const iconMap = {
   instagram: FiInstagram,
   linkedin: FiLinkedin,
 };
+
+interface IconProps {
+  name: string;
+  size?: 'sm' | 'md' | 'lg' | 'xl';
+  className?: string;
+}
 
 function getIconName(name: string): string {
   const iconComponent = iconMap[name as keyof typeof iconMap];

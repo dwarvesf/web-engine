@@ -18,12 +18,14 @@ interface NavigationItemProps {
   tab: TabType;
   isMobile?: boolean;
   onItemClick?: () => void;
+  trigger?: 'hover' | 'click';
 }
 
 export default function NavigationItem({
   tab,
   isMobile = false,
   onItemClick,
+  trigger = 'click',
 }: NavigationItemProps) {
   const [isOpen, setIsOpen] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null); // Ref for timeout
@@ -103,9 +105,18 @@ export default function NavigationItem({
   return (
     <div className="group relative">
       <Button
-        href={tab.href || '#'}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
+        href={tab.href}
+        {...(trigger === 'hover'
+          ? {
+              onMouseEnter: handleMouseEnter,
+              onMouseLeave: handleMouseLeave,
+            }
+          : {
+              onClick: () => {
+                setIsOpen(!isOpen);
+                if (onItemClick) onItemClick();
+              },
+            })}
         variant={
           tab.type?.[0] === 'button'
             ? (tab.type?.[1] as ButtonProps['variant']) || 'primary'
@@ -120,10 +131,11 @@ export default function NavigationItem({
       {hasGroups && isOpen && (
         <div
           className={cn(
-            'bg-background border-alto fixed top-16 right-0 left-0 overflow-hidden border-b shadow-lg',
+            'bg-background border-alto fixed top-20 right-0 left-0 overflow-hidden border-b shadow-lg',
           )}
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
+          {...(trigger === 'hover'
+            ? { onMouseEnter: handleMouseEnter, onMouseLeave: handleMouseLeave }
+            : {})}
         >
           <div className="mx-auto grid max-w-6xl grid-cols-4 gap-6 px-4 pt-6 pb-8">
             {tab.groups!.map((group, groupIndex) => (

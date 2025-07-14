@@ -27,6 +27,15 @@ const TemplateRender: React.FC<TemplateRenderArgs> = props => {
           <WorkTemplate {...props} />
         </Suspense>
       );
+    case ThemeTemplates.WorkDetail:
+      const WorkDetailTemplate = lazy(
+        () => import('./templates/work-detail-template'),
+      );
+      return (
+        <Suspense fallback={null}>
+          <WorkDetailTemplate {...props} />
+        </Suspense>
+      );
     default:
       const DefaultTemplate = lazy(
         () => import('./templates/default-template'),

@@ -68,7 +68,6 @@ export default function Heading({
   ...props
 }: HeadingProps) {
   const classes = cn(
-    'dwarves-heading',
     size ? sizes[size] : headingClasses[level],
     weight ? weights[weight] : '',
     variant ? variants[variant] : '',
