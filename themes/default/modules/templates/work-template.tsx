@@ -1,6 +1,6 @@
+import { Contact } from '../../components';
 import { TemplateRenderArgs } from '../../types/theme';
 import Layout from '../partials/layout';
-import { Contact } from '../partials';
 
 export default function WorkTemplate(props: TemplateRenderArgs) {
   const { children, siteConfig } = props;
