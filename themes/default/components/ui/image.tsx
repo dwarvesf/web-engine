@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState, useRef, useEffect } from 'react';
 import { cn } from '../../utils';
 
@@ -12,6 +14,7 @@ interface ImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   showSkeleton?: boolean;
   onLoad?: () => void;
   onError?: () => void;
+  containerClassName?: string;
 }
 
 const aspectRatios = {
@@ -37,7 +40,7 @@ export default function Image({
   aspectRatio,
   objectFit = 'cover',
   showSkeleton = true,
-  className = '',
+  containerClassName = '',
   onLoad,
   onError,
   ...props
@@ -66,7 +69,7 @@ export default function Image({
     }
 
     return () => observer.disconnect();
-  }, [lazy]);
+  }, []);
 
   const handleLoad = () => {
     setIsLoading(false);
@@ -87,7 +90,7 @@ export default function Image({
     aspectRatio &&
       !aspectRatios[aspectRatio as keyof typeof aspectRatios] &&
       aspectRatio,
-    className,
+    containerClassName,
   );
 
   const imgClasses = cn(

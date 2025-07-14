@@ -191,19 +191,77 @@ export const Center = ({
 export const Stack = ({
   children,
   gap = 'md',
+  equal = true,
   ...props
-}: Omit<FlexProps, 'direction'>) => (
+}: Omit<FlexProps, 'direction'> & { equal?: boolean }) => (
   <Flex direction="col" gap={gap} {...props}>
-    {children}
+    {equal
+      ? React.Children.map(children, child =>
+          React.isValidElement(child)
+            ? React.cloneElement(child as React.ReactElement<any>, {
+                className: [
+                  'flex-1',
+                  (child as React.ReactElement<any>).props.className,
+                ]
+                  .filter(Boolean)
+                  .join(' '),
+              })
+            : child,
+        )
+      : children}
   </Flex>
 );
 
 export const HStack = ({
   children,
   gap = 'md',
+  equal = true,
   ...props
-}: Omit<FlexProps, 'direction'>) => (
+}: Omit<FlexProps, 'direction'> & { equal?: boolean }) => (
   <Flex direction="row" gap={gap} {...props}>
-    {children}
+    {equal
+      ? React.Children.map(children, child =>
+          React.isValidElement(child)
+            ? React.cloneElement(child as React.ReactElement<any>, {
+                className: [
+                  'flex-1',
+                  (child as React.ReactElement<any>).props.className,
+                ]
+                  .filter(Boolean)
+                  .join(' '),
+              })
+            : child,
+        )
+      : children}
   </Flex>
 );
+
+const containerSizes = {
+  md: 'max-w-xl',
+  lg: 'max-w-2xl',
+  xl: 'max-w-3xl',
+  '2xl': 'max-w-4xl',
+  '3xl': 'max-w-5xl',
+  '4xl': 'max-w-6xl',
+  '5xl': 'max-w-7xl',
+  '6xl': 'max-w-8xl',
+};
+
+export const Container = ({
+  children,
+  className = '',
+  as = 'div',
+  size = '3xl',
+  ...props
+}: React.HTMLAttributes<HTMLDivElement> & {
+  as?: React.ElementType;
+  size: keyof typeof containerSizes;
+}) => {
+  const Element = as;
+
+  return (
+    <Element className={cn('box', containerSizes[size], className)} {...props}>
+      {children}
+    </Element>
+  );
+};

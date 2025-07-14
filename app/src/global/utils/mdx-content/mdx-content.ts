@@ -97,6 +97,43 @@ export function getContentMdxFilePaths(): Array<{
   return getAllMdxFiles(PUBLIC_CONTENT);
 }
 
+export async function getFrontmatterMdxSerializedContent(
+  data: Record<string, any> = {},
+  filePath: string,
+): Promise<Record<string, any>> {
+  const frontmatter: Record<string, any> = {};
+  if (!Object.keys(data).length) {
+    return data;
+  }
+  const allowedKey = 'mdx-content';
+  for (const key of Object.keys(data)) {
+    if (
+      data[key] &&
+      typeof data[key] === 'string' &&
+      key.endsWith(allowedKey)
+    ) {
+      // Serialize the MDX content
+      const mdxSource = await serialize({
+        source: data[key],
+        options: {
+          parseFrontmatter: false, // Frontmatter already parsed by gray-matter
+          mdxOptions: {
+            recmaPlugins: [recmaMdxEscapeMissingComponents],
+            remarkPlugins: [
+              remarkMdxImports,
+              () => remarkTransformPaths(filePath),
+            ], // Ensure order: imports first, then path transforms
+          },
+        },
+      });
+      frontmatter[key] = mdxSource;
+    } else {
+      frontmatter[key] = data[key];
+    }
+  }
+  return frontmatter;
+}
+
 export async function getMdxContent(slug: string[]): Promise<
   | {
       frontmatter: Record<string, any>;
@@ -125,7 +162,10 @@ export async function getMdxContent(slug: string[]): Promise<
   });
 
   return {
-    frontmatter: resolveRecursiveFrontmatterRelativePath(data, filePath),
+    frontmatter: await getFrontmatterMdxSerializedContent(
+      resolveRecursiveFrontmatterRelativePath(data, filePath),
+      filePath,
+    ),
     mdxSource,
   };
 }
