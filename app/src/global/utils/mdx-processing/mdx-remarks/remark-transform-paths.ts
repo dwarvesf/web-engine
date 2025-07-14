@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { visit } from 'unist-util-visit';
 import type { Node } from 'unist';
 import path from 'path';
@@ -12,7 +13,6 @@ interface ElementNode extends Node {
     href?: string;
     [key: string]: string | boolean | number | undefined;
   };
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
 }
 
@@ -26,6 +26,107 @@ interface LinkNode extends Node {
   url: string;
 }
 
+export const ASSET_POSSIBLE_EXTENSIONS = [
+  // Images
+  '.png',
+  '.jpg',
+  '.jpeg',
+  '.gif',
+  '.svg',
+  '.webp',
+  // Videos
+  '.mp4',
+  '.webm',
+  // Audio
+  '.mp3',
+  '.wav',
+  // Documents
+  '.pdf',
+  '.docx',
+  '.xlsx',
+  // Other common asset types
+  '.txt',
+  '.json',
+  '.md',
+  '.mdx',
+  '.zip',
+  '.tar',
+  '.gz',
+  '.rar',
+  '.7z',
+  '.ico',
+  '.bmp',
+  '.tiff',
+  '.avif',
+  '.mpg',
+  '.mpeg',
+  '.mkv',
+  '.mov',
+  '.avi',
+  '.flv',
+  '.wmv',
+  '.ogg',
+  '.opus',
+  '.aac',
+  '.flac',
+  '.m4a',
+  '.csv',
+];
+
+/**
+ * Transform array expressions containing asset paths in JSX attributes
+ * Example: ['./images/logo1.png', './images/logo2.png'] becomes ['transformed/path1.png', 'transformed/path2.png']
+ */
+function transformAssetArrayExpression(
+  data: Record<string, any>,
+  filePath: string,
+) {
+  try {
+    const body = data.estree.body?.filter(
+      (d: any) => d.type === 'ExpressionStatement',
+    );
+    body?.forEach((statement: any) => {
+      const expression = statement.expression;
+      if (expression && expression.type === 'ArrayExpression') {
+        const elements = expression.elements;
+        const transformedElements = elements.map((element: any) => {
+          if (element.type === 'Literal') {
+            if (
+              typeof element.value === 'string' &&
+              typeof element.raw === 'string'
+            ) {
+              element.value = getRelativeImagePath(element.value, filePath);
+              element.raw = `"${element.value}"`;
+            }
+          }
+          return element;
+        });
+        // Replace the original array expression with the transformed one
+        statement.expression = {
+          ...expression,
+          elements: transformedElements,
+        };
+      }
+
+      if (expression && expression.type === 'ObjectExpression') {
+        const properties = expression.properties;
+        properties.forEach((property: any) => {
+          if (property.type === 'Property') {
+            const value = getRelativeImagePath(property.value.value, filePath);
+            property.value = {
+              ...property.value,
+              value: value,
+              raw: `"${value}"`,
+            };
+          }
+        });
+      }
+    });
+  } catch (error) {
+    console.error('Error transforming asset array expression:', error);
+  }
+}
+
 /**
  * Remark plugin to transform relative paths in MDX files
  * Converts paths like "/images/hero.png" to work with content directory structure
@@ -36,7 +137,7 @@ export const remarkTransformPaths = (filePath: string) => {
     visit(tree, 'element', (node: ElementNode) => {
       if (node.tagName === 'img' && node.properties?.src) {
         const oldSrc = node.properties.src;
-        const newSrc = transformPath(oldSrc, filePath);
+        const newSrc = getRelativeImagePath(oldSrc, filePath);
         node.properties.src = newSrc;
       }
     });
@@ -49,16 +150,43 @@ export const remarkTransformPaths = (filePath: string) => {
         );
         if (srcAttr && typeof srcAttr.value === 'string') {
           const oldSrc = srcAttr.value;
-          const newSrc = transformPath(oldSrc, filePath);
+          const newSrc = getRelativeImagePath(oldSrc, filePath);
           srcAttr.value = newSrc;
         }
+      } else if (node.attributes) {
+        node.attributes.forEach((attr: Record<string, unknown>) => {
+          if (
+            attr.value &&
+            typeof attr.value === 'object' &&
+            attr.value !== null &&
+            'type' in attr.value &&
+            attr.value.type === 'mdxJsxAttributeValueExpression'
+          ) {
+            // Handle JSX expression attributes like logos={[...]}
+            const attrValue = attr.value as {
+              type: string;
+              value: unknown;
+              data: Record<string, any>;
+            };
+            if (attrValue.value && typeof attrValue.value === 'string') {
+              // Transform array expressions containing asset paths
+              transformAssetArrayExpression(attrValue.data, filePath);
+            }
+          } else if (
+            typeof attr.value === 'string' &&
+            isAssetPath(attr.value)
+          ) {
+            // Transform string attributes that look like asset paths
+            attr.value = getRelativeImagePath(attr.value as string, filePath);
+          }
+        });
       }
     });
 
     // Transform markdown image syntax
     visit(tree, 'image', (node: ImageNode) => {
       if (node.url) {
-        node.url = transformPath(node.url, filePath);
+        node.url = getRelativeImagePath(node.url, filePath);
       }
     });
 
@@ -70,7 +198,10 @@ export const remarkTransformPaths = (filePath: string) => {
           !node.properties.href.startsWith('http') &&
           !node.properties.href.startsWith('mailto:')
         ) {
-          node.properties.href = transformPath(node.properties.href, filePath);
+          node.properties.href = getRelativeImagePath(
+            node.properties.href,
+            filePath,
+          );
         }
       }
     });
@@ -82,13 +213,39 @@ export const remarkTransformPaths = (filePath: string) => {
         !node.url.startsWith('http') &&
         !node.url.startsWith('mailto:')
       ) {
-        node.url = transformPath(node.url, filePath);
+        node.url = getRelativeImagePath(node.url, filePath);
       }
     });
   };
 };
 
-function transformPath(originalPath: string, fileDir: string): string {
+/**
+ * Check if a path looks like an asset path based on extension
+ */
+function isAssetPath(path: string): boolean {
+  // Skip external URLs
+  if (
+    path.startsWith('http') ||
+    path.startsWith('data:') ||
+    path.startsWith('mailto:')
+  ) {
+    return false;
+  }
+
+  // Check if path has an asset extension
+  const extension = path.toLowerCase().match(/\.[^.]+$/);
+  if (extension) {
+    return ASSET_POSSIBLE_EXTENSIONS.includes(extension[0]);
+  }
+
+  // Also consider relative paths that start with ./ or ../
+  return path.startsWith('./') || path.startsWith('../');
+}
+
+export function getRelativeImagePath(
+  originalPath: string,
+  fileDir: string,
+): string {
   // Skip if already transformed or external
   if (
     originalPath.startsWith('http') ||
@@ -96,6 +253,11 @@ function transformPath(originalPath: string, fileDir: string): string {
     originalPath.startsWith('mailto:')
   ) {
     return originalPath;
+  }
+
+  // Check if the path is absolute
+  if (path.isAbsolute(originalPath)) {
+    return `${SiteConfigLoader.BASE_PATH_URL}/content${originalPath}`; // Return as is if absolute
   }
 
   // Get the directory of the markdown file
