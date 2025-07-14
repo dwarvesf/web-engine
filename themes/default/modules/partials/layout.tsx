@@ -25,15 +25,13 @@ const Layout: React.FC<LayoutProps> = ({
   contentClassName,
 }) => (
   <main className="dynamic-min-h-screen flex flex-col">
-    <div className="border-box mx-auto flex w-full flex-1 flex-grow flex-col">
-      <Header
-        header={siteConfig?.header}
-        navigation={siteConfig?.header?.navigation}
-        {...headerProps}
-      />
-      <div className={cn('flex-grow py-2', contentClassName)}>{children}</div>
-      <Footer footer={siteConfig?.footer} {...footerProps} />
-    </div>
+    <Header
+      header={siteConfig?.header}
+      navigation={siteConfig?.header?.navigation}
+      {...headerProps}
+    />
+    <div className={cn('flex-grow py-2', contentClassName)}>{children}</div>
+    <Footer footer={siteConfig?.footer} {...footerProps} />
   </main>
 );
 

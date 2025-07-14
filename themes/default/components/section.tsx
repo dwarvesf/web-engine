@@ -41,7 +41,7 @@ export default function Section({
   );
 
   const contentClasses = cn({
-    'mx-auto max-w-[1280px] px-4': !fullWidth,
+    'dwarves-container': !fullWidth,
     'w-full': fullWidth,
   });
 

@@ -199,7 +199,7 @@ export default function Footer({ footer, className = '' }: FooterProps) {
 
   return (
     <footer className={cn('bg-background pt-8', className)}>
-      <div className="container mx-auto space-y-8 py-4">
+      <div className="dwarves-container mx-auto space-y-8 py-4">
         {/* Column Sections Layout */}
         {columnSections.length > 0 && (
           <div className="grid grid-cols-2 gap-8 md:grid-cols-4 lg:grid-cols-6">

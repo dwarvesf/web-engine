@@ -81,7 +81,7 @@ export default function Header({
         className,
       )}
     >
-      <div className="container mx-auto py-2">
+      <div className="dwarves-container mx-auto py-2">
         <div className="flex items-center justify-between py-4">
           {/* Logo */}
           <div className="flex items-center justify-center">
