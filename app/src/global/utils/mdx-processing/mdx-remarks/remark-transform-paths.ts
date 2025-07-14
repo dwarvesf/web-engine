@@ -74,6 +74,73 @@ export const ASSET_POSSIBLE_EXTENSIONS = [
 ];
 
 /**
+ * Walk ESTree AST to find and transform template literals
+ * Template literals in MDX are stored in the ESTree format within mdxJsxAttributeValueExpression nodes
+ */
+function walkESTreeForTemplateLiterals(program: any, filePath: string) {
+  function walk(node: any) {
+    if (!node || typeof node !== 'object') return;
+
+    // Handle template literals
+    if (node.type === 'TemplateLiteral' && node.quasis) {
+      node.quasis.forEach((quasi: any) => {
+        if (quasi.value && quasi.value.raw) {
+          const rawValue = quasi.value.raw;
+
+          // For template literals, we want to transform any path that starts with ./ or ../
+          // This is simpler and more direct than the complex isAssetPath logic
+          if (rawValue.startsWith('./') || rawValue.startsWith('../')) {
+            // Transform the path
+            const transformedPath = getRelativeImagePath(rawValue, filePath);
+            quasi.value.raw = transformedPath;
+            quasi.value.cooked = transformedPath;
+          }
+        }
+      });
+    }
+
+    // Handle CallExpression (like .map() calls)
+    if (node.type === 'CallExpression' && node.arguments) {
+      node.arguments.forEach((arg: any) => walk(arg));
+    }
+
+    // Handle ArrowFunctionExpression
+    if (node.type === 'ArrowFunctionExpression' && node.body) {
+      walk(node.body);
+    }
+
+    // Handle JSXElement and JSXFragment
+    if (node.type === 'JSXElement' && node.children) {
+      node.children.forEach((child: any) => walk(child));
+    }
+
+    // Handle JSXExpressionContainer
+    if (node.type === 'JSXExpressionContainer' && node.expression) {
+      walk(node.expression);
+    }
+
+    // Handle JSXAttribute
+    if (node.type === 'JSXAttribute' && node.value) {
+      walk(node.value);
+    }
+
+    // Recursively walk child nodes
+    for (const key in node) {
+      if (node.hasOwnProperty(key)) {
+        const value = node[key];
+        if (Array.isArray(value)) {
+          value.forEach(walk);
+        } else if (value && typeof value === 'object') {
+          walk(value);
+        }
+      }
+    }
+  }
+
+  walk(program);
+}
+
+/**
  * Transform array expressions containing asset paths in JSX attributes
  * Example: ['./images/logo1.png', './images/logo2.png'] becomes ['transformed/path1.png', 'transformed/path2.png']
  */
@@ -216,11 +283,18 @@ export const remarkTransformPaths = (filePath: string) => {
         node.url = getRelativeImagePath(node.url, filePath);
       }
     });
+
+    // Transform template literals in MDX JSX attribute value expressions
+    visit(tree, 'mdxFlowExpression', (node: any) => {
+      if (node.data?.estree?.body) {
+        walkESTreeForTemplateLiterals(node.data.estree, filePath);
+      }
+    });
   };
 };
 
 /**
- * Check if a path looks like an asset path based on extension
+ * Check if a path looks like an asset path based on extension or relative path indicators
  */
 function isAssetPath(path: string): boolean {
   // Skip external URLs
@@ -239,6 +313,7 @@ function isAssetPath(path: string): boolean {
   }
 
   // Also consider relative paths that start with ./ or ../
+  // This includes directory paths like "./images/home/"
   return path.startsWith('./') || path.startsWith('../');
 }
 
@@ -268,8 +343,19 @@ export function getRelativeImagePath(
   // Construct the path to the image relative to the content directory
   const absoluteImagePath = path.resolve(mdFileDir, filePath);
 
+  let relativePath = path.relative(BASE_APP_DIR, absoluteImagePath);
+
+  const isEndsWithSlash = originalPath.endsWith(path.sep);
+  const isRelativeEndsWithSlash = relativePath.endsWith(path.sep);
+  // If the original path ends with a slash, ensure the transformed path does too
+  if (isEndsWithSlash && !isRelativeEndsWithSlash) {
+    relativePath += path.sep;
+  } else if (!isEndsWithSlash && isRelativeEndsWithSlash) {
+    relativePath = relativePath.slice(0, -1);
+  }
+
   // Make the path relative to the public directory for serving
-  let publicPath = '/' + path.relative(BASE_APP_DIR, absoluteImagePath);
+  let publicPath = '/' + relativePath;
 
   // Remove the 'public' prefix if it exists
   if (publicPath.startsWith('/public/')) {

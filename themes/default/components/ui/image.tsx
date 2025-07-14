@@ -152,7 +152,7 @@ export default function Image({
           )}
         >
           <svg
-            className="h-8 w-8"
+            className="h-full w-full"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"

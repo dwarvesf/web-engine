@@ -37,7 +37,6 @@ export default function WorkDetailTemplate(props: WorkDetailTemplateProps) {
   const metadata = frontmatter?.metadata;
   const heroMdxContent = frontmatter?.['hero-mdx-content'];
   const links = frontmatter?.links;
-  console.log('WorkDetailTemplate links:', links);
 
   return (
     <Layout
