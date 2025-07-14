@@ -1,9 +1,14 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 import { serialize } from 'next-mdx-remote-client/serialize';
 import type { SerializeResult } from 'next-mdx-remote-client/serialize';
-import { remarkTransformPaths } from '@wse/global/utils/mdx-processing/mdx-remarks/remark-transform-paths';
+import {
+  ASSET_POSSIBLE_EXTENSIONS,
+  getRelativeImagePath,
+  remarkTransformPaths,
+} from '@wse/global/utils/mdx-processing/mdx-remarks/remark-transform-paths';
 import { remarkMdxImports } from '@wse/global/utils/mdx-processing/mdx-remarks/remark-mdx-imports';
 import recmaMdxEscapeMissingComponents from 'recma-mdx-escape-missing-components';
 import { PUBLIC_CONTENT } from '../../../../scripts/paths';
@@ -35,6 +40,57 @@ export function getAllMdxFiles(
   return paths;
 }
 
+function recursiveResolveArrayPaths(
+  arr: Array<string | number | Record<string, any>>,
+  currentPath: string,
+): Array<string | undefined | number | Record<string, any>> {
+  return arr.map(item => {
+    if (
+      typeof item === 'string' &&
+      ASSET_POSSIBLE_EXTENSIONS.some(ext => item.endsWith(ext))
+    ) {
+      return getRelativeImagePath(item, currentPath);
+    } else if (Array.isArray(item)) {
+      // If item is an array, recursively resolve paths in it
+      return recursiveResolveArrayPaths(item, currentPath);
+    } else if (typeof item === 'object' && item !== null) {
+      // Recursively resolve paths in nested objects
+      return resolveRecursiveFrontmatterRelativePath(item, currentPath);
+    }
+    return item; // Return as is if it's not a string or array
+  });
+}
+
+function resolveRecursiveFrontmatterRelativePath(
+  frontmatter: Record<string, any>,
+  currentPath: string,
+): Record<string, any> {
+  if (!frontmatter || Object.keys(frontmatter).length === 0) {
+    return frontmatter;
+  }
+
+  const resolvedFrontmatter: Record<string, any> = {};
+  for (const key in frontmatter) {
+    if (Object.prototype.hasOwnProperty.call(frontmatter, key)) {
+      let value = frontmatter[key];
+      if (typeof value === 'string') {
+        // Check if the path has a valid asset extension
+        if (ASSET_POSSIBLE_EXTENSIONS.some(ext => value.endsWith(ext))) {
+          value = getRelativeImagePath(value, currentPath);
+        }
+      } else if (Array.isArray(value)) {
+        value = recursiveResolveArrayPaths(value, currentPath);
+      } else if (typeof value === 'object' && value !== null) {
+        // Recursively resolve paths in nested objects
+        value = resolveRecursiveFrontmatterRelativePath(value, currentPath);
+      }
+      resolvedFrontmatter[key] = value;
+    }
+  }
+
+  return resolvedFrontmatter;
+}
+
 export function getContentMdxFilePaths(): Array<{
   params: { slug: string[] };
 }> {
@@ -43,7 +99,6 @@ export function getContentMdxFilePaths(): Array<{
 
 export async function getMdxContent(slug: string[]): Promise<
   | {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       frontmatter: Record<string, any>;
       mdxSource: SerializeResult;
     }
@@ -70,7 +125,7 @@ export async function getMdxContent(slug: string[]): Promise<
   });
 
   return {
-    frontmatter: data,
+    frontmatter: resolveRecursiveFrontmatterRelativePath(data, filePath),
     mdxSource,
   };
 }
