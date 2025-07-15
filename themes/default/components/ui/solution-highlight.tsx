@@ -31,7 +31,11 @@ export default function SolutionHighlight({
       style={{ backgroundImage: `url(${bgGraphic})` }}
     >
       <Stack>
-        <Typography variant="small" className="text-primary uppercase">
+        <Typography
+          weight="normal"
+          variant="small"
+          className="text-primary uppercase"
+        >
           {label}
         </Typography>
         <Heading level={5} size="xl" className="font-medium">

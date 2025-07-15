@@ -7,9 +7,7 @@ export default function WorkTemplate(props: TemplateRenderArgs) {
 
   return (
     <Layout siteConfig={siteConfig}>
-      <section className="dwarves-container">{children}</section>
-
-      {/* CTA */}
+      {children}
       <Contact />
     </Layout>
   );
