@@ -56,12 +56,15 @@ export default function WorkDetailTemplate(props: WorkDetailTemplateProps) {
           <Image src={heroImage} alt={projectTitle || ''} className="mt-4" />
         </Center>
         {metadata && (
-          <HStack equal={false} className="mx-auto max-w-[950px] gap-12">
+          <HStack
+            equal={false}
+            className="mx-auto max-w-[950px] items-start gap-12"
+          >
             <Stack className="basis-[18%]">
               {Object.entries(metadata).map(([key, value]) => (
                 <Stack key={key} className="gap-1">
                   <strong className="text-sm font-semibold capitalize">
-                    {key}
+                    {key.replace(/-/g, ' ')}:
                   </strong>
                   <Paragraph className="text-sm">
                     {value as ReactNode}

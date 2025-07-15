@@ -11,7 +11,7 @@ export default function Link({
     <a
       href={href}
       className={cn(
-        'text-primary hover:text-primary-hover transition-colors',
+        'text-foreground hover:text-primary-hover transition-colors',
         className,
       )}
       {...props}

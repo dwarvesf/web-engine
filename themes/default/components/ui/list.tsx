@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { isValidElement, JSX } from 'react';
 import { cn } from '../../utils';
 
 export function UnorderedList({
@@ -8,7 +8,7 @@ export function UnorderedList({
 }: React.HTMLAttributes<HTMLUListElement>) {
   return (
     <ul
-      className={cn('mb-4 list-inside list-disc space-y-1', className)}
+      className={cn('mb-4 ml-5 list-outside list-disc space-y-1', className)}
       {...props}
     >
       {children}
@@ -23,7 +23,7 @@ export function OrderedList({
 }: React.HTMLAttributes<HTMLOListElement>) {
   return (
     <ol
-      className={cn('mb-4 list-inside list-decimal space-y-1', className)}
+      className={cn('mb-4 ml-5 list-outside list-decimal space-y-1', className)}
       {...props}
     >
       {children}
@@ -38,7 +38,18 @@ export function ListItem({
 }: React.HTMLAttributes<HTMLLIElement>) {
   return (
     <li className={cn('text-foreground', className)} {...props}>
-      {children}
+      {React.Children.map(children, child => {
+        if (isValidElement(child)) {
+          // Clone the child to ensure it can accept className and other props
+          return React.cloneElement<HTMLElement>(child as JSX.Element, {
+            className: cn(
+              'inline',
+              (child.props as React.HTMLProps<HTMLElement>).className,
+            ),
+          });
+        }
+        return child;
+      })}
     </li>
   );
 }

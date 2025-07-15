@@ -91,7 +91,11 @@ function walkESTreeForTemplateLiterals(program: any, filePath: string) {
           // This is simpler and more direct than the complex isAssetPath logic
           if (rawValue.startsWith('./') || rawValue.startsWith('../')) {
             // Transform the path
-            const transformedPath = getRelativeImagePath(rawValue, filePath);
+            const transformedPath = getRelativeImagePath(
+              rawValue,
+              filePath,
+              true,
+            );
             quasi.value.raw = transformedPath;
             quasi.value.cooked = transformedPath;
           }
@@ -320,6 +324,7 @@ function isAssetPath(path: string): boolean {
 export function getRelativeImagePath(
   originalPath: string,
   fileDir: string,
+  isIgnoreCheckAssetPath = false,
 ): string {
   // Skip if already transformed or external
   if (
@@ -332,7 +337,19 @@ export function getRelativeImagePath(
 
   // Check if the path is absolute
   if (path.isAbsolute(originalPath)) {
-    return `${SiteConfigLoader.BASE_PATH_URL}/content${originalPath}`; // Return as is if absolute
+    // Check if is an asset path
+    if (isAssetPath(originalPath)) {
+      return `${SiteConfigLoader.BASE_PATH_URL}/content${originalPath}`; // Return as is if absolute
+    }
+
+    // If it's not an asset path, return as is
+    return `${SiteConfigLoader.BASE_PATH_URL}${originalPath}`;
+  }
+
+  // Check is static asset path
+  if (!isAssetPath(originalPath) && !isIgnoreCheckAssetPath) {
+    // If it's a relative path, resolve it against the file directory
+    return `${SiteConfigLoader.BASE_PATH_URL}/${originalPath}`;
   }
 
   // Get the directory of the markdown file
