@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'; // Import useRef
+import { useRef, useState, useEffect } from 'react'; // Import useRef, useEffect
 import { cn } from '../utils';
 import { Button, Icon, Tag } from './ui';
 import { ButtonProps } from './ui/button';
@@ -107,6 +107,8 @@ export default function NavigationItem({
 }: NavigationItemProps) {
   const [isOpen, setIsOpen] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null); // Ref for timeout
+  const dropdownRef = useRef<HTMLDivElement>(null); // Ref for the dropdown content
+  const buttonRef = useRef<HTMLButtonElement>(null); // Ref for the button that opens the dropdown
   const hasGroups = tab.groups && tab.groups.length > 0;
 
   const handleMouseEnter = () => {
@@ -121,6 +123,29 @@ export default function NavigationItem({
       setIsOpen(false);
     }, 100); // 100ms delay
   };
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node) &&
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isOpen]);
 
   if (isMobile) {
     return (
@@ -158,6 +183,7 @@ export default function NavigationItem({
   return (
     <div className="group relative">
       <Button
+        ref={buttonRef} // Attach ref to the button
         href={tab.href}
         {...(trigger === 'hover'
           ? {
@@ -185,6 +211,7 @@ export default function NavigationItem({
       </Button>
       {hasGroups && isOpen && (
         <div
+          ref={dropdownRef} // Attach ref to the dropdown content
           className={cn(
             'bg-background border-alto fixed top-20 right-0 left-0 overflow-hidden border-b shadow-lg',
           )}
