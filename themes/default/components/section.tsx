@@ -5,7 +5,7 @@ interface SectionProps extends React.HTMLAttributes<HTMLElement> {
   className?: string;
   id?: string;
   variant?: 'default' | 'accent' | 'muted' | 'gradient';
-  size?: 'sm' | 'md' | 'lg' | 'xl';
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   container?: boolean;
   fullWidth?: boolean;
 }
@@ -13,11 +13,12 @@ interface SectionProps extends React.HTMLAttributes<HTMLElement> {
 const variants = {
   default: 'bg-background',
   accent: 'bg-accent/5',
-  muted: 'bg-muted/50',
+  muted: 'bg-alabaster',
   gradient: 'dwarves-gradient',
 };
 
 const sizes = {
+  xs: '',
   sm: 'py-8',
   md: 'py-16',
   lg: 'py-24',

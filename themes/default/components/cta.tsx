@@ -1,3 +1,4 @@
+import { FiChevronRight } from 'react-icons/fi';
 import { cn } from '../utils';
 import Section from './section';
 import { Paragraph, Link } from './ui';
@@ -26,11 +27,11 @@ export default function CallToAction({
             {title.replace(/\\n/g, '\n')}
           </h2>
           <div className="col md:w-1/2">
-            {description && (
-              <Paragraph className="mb-4">
-                {description.replace(/\\n/g, '\n')}
+            {description?.split('\n')?.map((line, index) => (
+              <Paragraph key={index} className="mb-4">
+                {line}
               </Paragraph>
-            )}
+            ))}
             {ctaLink && ctaText && (
               <Link
                 href={ctaLink}
@@ -39,7 +40,7 @@ export default function CallToAction({
                 className="text-primary inline-flex items-center"
               >
                 {ctaText}
-                <i className="anticon icon-right ml-2"></i>
+                <FiChevronRight size={18} className="ml-2" />
               </Link>
             )}
           </div>

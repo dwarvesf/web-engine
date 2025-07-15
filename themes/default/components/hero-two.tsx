@@ -1,6 +1,7 @@
 import { PropsWithChildren } from 'react';
 import { Paragraph } from './ui';
 import Section from './section';
+import { cn } from '../utils';
 
 interface HeroTwoProps {
   title: string;
@@ -15,7 +16,11 @@ export default function HeroTwo({
   children,
 }: PropsWithChildren<HeroTwoProps>) {
   return (
-    <Section className={className}>
+    <Section
+      variant="muted"
+      size="xs"
+      className={cn('border-border border-t border-b', className)}
+    >
       <div className="container">
         <div className="row py-16 lg:flex lg:items-center lg:justify-between lg:py-10">
           <div className="col lg:w-5/12">
@@ -24,7 +29,11 @@ export default function HeroTwo({
             </h1>
             {description && (
               <Paragraph className="leading-relax">
-                {description.replace(/\\n/g, '\n')}
+                {description.split('\n')?.map((line, index) => (
+                  <span key={index} className="block">
+                    {line}
+                  </span>
+                ))}
               </Paragraph>
             )}
           </div>
