@@ -252,15 +252,24 @@ export const Container = ({
   className = '',
   as = 'div',
   size = '3xl',
+  bgImage = '',
   ...props
 }: React.HTMLAttributes<HTMLDivElement> & {
   as?: React.ElementType;
   size: keyof typeof containerSizes;
+  bgImage?: string;
 }) => {
   const Element = as;
 
   return (
-    <Element className={cn('box', containerSizes[size], className)} {...props}>
+    <Element
+      className={cn('box', containerSizes[size], className)}
+      {...props}
+      style={{
+        backgroundImage: bgImage ? `url(${bgImage})` : undefined,
+        ...(props.style ?? {}),
+      }}
+    >
       {children}
     </Element>
   );

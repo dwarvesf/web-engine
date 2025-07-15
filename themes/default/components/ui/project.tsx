@@ -37,6 +37,8 @@ export default function Project({
         return 'bg-[#7a03ed]';
       case 'blue':
         return 'bg-[#5299fd]';
+      case 'white-blue':
+        return 'bg-[#F0F4F7]';
       default:
         return 'bg-white';
     }
@@ -48,14 +50,14 @@ export default function Project({
       : 'text-black';
   };
 
-  const baseClasses = 'rounded-lg my-8';
+  const baseClasses = 'rounded-lg my-8 !mt-0';
 
   if (featured || colored) {
     return (
       <Column
         className={cn(
           baseClasses,
-          'justify-between pt-8',
+          'justify-between pt-8 pb-8 sm:pb-0',
           getBackgroundClass(background),
           getTextColor(background),
           colored && 'flex flex-col',

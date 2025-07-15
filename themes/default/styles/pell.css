@@ -1,0 +1,53 @@
+/* CSS Variables (Optional - for easier customization) */
+:root {
+  --pell-actionbar-color: #fff;
+  --pell-border-color: rgba(10, 10, 10, 0.1);
+  --pell-border-style: solid;
+  --pell-border-width: 1px;
+  --pell-button-width: 32px;
+  --pell-button-height: 40px;
+  --pell-button-selected-color: #f0f0f0;
+  --pell-content-height: 100%;
+  --pell-content-padding: 10px;
+}
+
+.pell {
+  /* border: 1px solid rgba(10, 10, 10, 0.1); */
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.pell-content {
+  box-sizing: border-box;
+  outline: 0;
+  overflow-y: auto;
+  padding: 10px;
+  background-color: var(--color-alabaster);
+  flex: auto;
+}
+
+.pell-content:focus {
+  background-color: #fff;
+}
+
+.pell-actionbar {
+  background-color: #fff;
+  border-bottom: 1px solid rgba(10, 10, 10, 0.1);
+  padding-left: 8px;
+}
+
+.pell-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  height: 40px;
+  outline: 0;
+  width: 32px;
+  vertical-align: bottom;
+  opacity: 0.6;
+}
+
+.pell-button-selected {
+  background-color: #f0f0f0;
+}

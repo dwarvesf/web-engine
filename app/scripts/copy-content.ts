@@ -46,6 +46,13 @@ async function copyContent() {
     return;
   }
 
+  // Clean the destination directory
+  if (fs.existsSync(destinationPath)) {
+    fs.emptyDirSync(destinationPath);
+  } else {
+    fs.mkdirSync(destinationPath, { recursive: true });
+  }
+
   console.log(`🔄 Copying content from ${sourcePath} to ${destinationPath}...`);
   try {
     await fs.copy(sourcePath, destinationPath, {

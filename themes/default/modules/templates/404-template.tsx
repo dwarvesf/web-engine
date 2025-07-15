@@ -22,7 +22,7 @@ const NotFound: React.FC<Pick<TemplateRenderArgs, 'siteConfig'>> = ({
 }) => {
   const notFoundConfig = siteConfig?.['404'];
   return (
-    <Layout siteConfig={siteConfig}>
+    <Layout siteConfig={siteConfig} contentClassName="dwarves-container flex">
       <div className="flex flex-1 flex-col items-center justify-center gap-6">
         {renderHeroImg(notFoundConfig?.image)}
         <H2>{notFoundConfig?.description || 'Page Not Found'}</H2>
