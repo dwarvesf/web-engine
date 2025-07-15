@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect } from 'react'; // Import useRef, useEffect
 import { cn } from '../utils';
-import { Button, Icon, Tag } from './ui';
+import { Button, Tag } from './ui';
 import { ButtonProps } from './ui/button';
 
 type GroupItem = {
@@ -202,12 +202,29 @@ export default function NavigationItem({
             : 'link'
         }
         className={
-          !tab?.type?.[0] ? 'text-foreground cursor-pointer !font-normal' : ''
+          !tab?.type?.[0]
+            ? 'text-foreground cursor-pointer !px-2 !font-normal'
+            : ''
         }
       >
         {tab.tab}
         {tab.tag && <Tag size="xs">{tab.tag}</Tag>}
-        {hasGroups && <Icon name="chevronDown" size="sm" className="ml-1" />}
+        {hasGroups && (
+          <svg
+            fill="currentColor"
+            preserveAspectRatio="xMidYMid meet"
+            height="20"
+            width="20"
+            viewBox="0 0 40 40"
+            className={cn('ml-1 transform', {
+              'rotate-180': isOpen,
+            })}
+          >
+            <g>
+              <path d="m31 12.5l1.5 1.6-12.5 13.4-12.5-13.4 1.5-1.6 11 11.7z"></path>
+            </g>
+          </svg>
+        )}
       </Button>
       {hasGroups && isOpen && (
         <div

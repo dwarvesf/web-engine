@@ -330,7 +330,6 @@ body {
 }
 
 .dwarves-button-transition:hover {
-  transform: translateY(-1px);
   box-shadow: var(--shadow-lg);
 }
 

@@ -25,7 +25,7 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const variants = {
   primary:
-    'bg-primary text-primary-foreground hover:bg-primary-hover dwarves-button-transition dwarves-shadow',
+    'bg-primary text-primary-foreground dwarves-button-transition dwarves-shadow',
   secondary:
     'bg-secondary text-secondary-foreground hover:bg-secondary/80 border border-border',
   outline:

@@ -95,7 +95,7 @@ export default function Header({
 
           {/* Navigation */}
           {items.length > 0 && (
-            <nav className="hidden items-center space-x-1 lg:flex">
+            <nav className="hidden items-center space-x-6 lg:flex">
               {items.map((item, index) => (
                 <NavigationItem key={index} tab={item} />
               ))}

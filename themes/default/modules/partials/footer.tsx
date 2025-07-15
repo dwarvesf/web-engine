@@ -199,11 +199,11 @@ export default function Footer({ footer, className = '' }: FooterProps) {
   };
 
   return (
-    <footer className={cn('bg-background pt-8', className)}>
-      <div className="dwarves-container mx-auto space-y-8 py-4">
+    <footer className={cn('bg-background pt-12', className)}>
+      <div className="dwarves-container mx-auto space-y-8">
         {/* Column Sections Layout */}
         {columnSections.length > 0 && (
-          <div className="grid grid-cols-2 gap-8 md:grid-cols-4 lg:grid-cols-6">
+          <div className="grid grid-cols-2 gap-8 pb-12 md:grid-cols-4 lg:grid-cols-6">
             {/* Column Sections */}
             {columnSections.map((section, index) => (
               <React.Fragment key={index}>
@@ -250,7 +250,7 @@ export default function Footer({ footer, className = '' }: FooterProps) {
 
         {/* Global Metadata Section */}
         {globalMetadata && (
-          <div className="border-border mt-4 grid grid-cols-1 items-center gap-4 border-t pt-4 text-sm sm:grid-cols-2">
+          <div className="border-border grid grid-cols-1 items-center gap-4 border-t py-4 text-sm sm:grid-cols-2">
             <p className="text-muted-foreground">{globalMetadata.text}</p>
             <div className="flex flex-row items-center gap-4 sm:justify-end sm:gap-2">
               {globalMetadata.email && (
