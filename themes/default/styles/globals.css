@@ -95,12 +95,12 @@
 
   /* Spacing Variables */
   --spacing-container-max: 1280px;
-  --spacing-element: 1.5rem;
+  --spacing-element: 1rem;
   --spacing-heading: 2rem;
   --spacing-subheading: 1rem;
-  --spacing-subsubheading: 0.5rem;
-  --spacing-list: 1rem;
-  --spacing-list-item: 0.5rem;
+  --spacing-subsubheading: 1rem;
+  --spacing-list: 1.5rem;
+  --spacing-list-item: 0.75rem;
   --spacing-header: 64px;
 
   /* Extended Spacing Scale */
@@ -298,6 +298,10 @@ body {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+}
+
+.article-content {
+  @apply prose;
 }
 
 .dwarves-shadow {

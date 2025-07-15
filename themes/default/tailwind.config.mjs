@@ -189,13 +189,13 @@ const config = {
             '--tw-prose-body': 'var(--color-foreground)',
             '--tw-prose-headings': 'var(--color-foreground)',
             '--tw-prose-lead': 'var(--color-muted-foreground)',
-            '--tw-prose-links': 'var(--color-primary)',
+            '--tw-prose-links': 'var(--color-foreground)',
             '--tw-prose-bold': 'var(--color-foreground)',
             '--tw-prose-counters': 'var(--color-muted-foreground)',
-            '--tw-prose-bullets': 'var(--color-muted-foreground)',
+            '--tw-prose-bullets': 'var(--color-foreground)',
             '--tw-prose-hr': 'var(--color-border)',
             '--tw-prose-quotes': 'var(--color-foreground)',
-            '--tw-prose-quote-borders': 'var(--color-border)',
+            '--tw-prose-quote-borders': 'var(--color-primary)',
             '--tw-prose-captions': 'var(--color-muted-foreground)',
             '--tw-prose-code': 'var(--color-foreground)',
             '--tw-prose-pre-code': 'var(--color-foreground)',
@@ -210,13 +210,12 @@ const config = {
             'code::after': { content: '""' },
             code: {
               fontFamily: 'var(--font-mono)',
-              fontSize: 'inherit !important',
-              background: 'transparent !important',
+              fontSize: 'inherit',
+              background: 'transparent',
             },
             'a:hover': { textDecoration: 'underline' },
             a: {
               textDecoration: 'none',
-              color: 'var(--color-primary)',
               fontWeight: 'inherit',
             },
             'h1, h2, h3, h4, h5, h6': {
@@ -259,18 +258,27 @@ const config = {
             },
             'ul, ol': {
               margin: '0',
-              padding: '0 0 0 2rem',
               marginTop: 'var(--spacing-list)',
             },
             'ul ul, ul ol, ol ul, ol ol': {
               marginTop: 'calc(var(--spacing-list) / 2)',
             },
             blockquote: {
-              margin: 0,
-              borderLeft: 'none',
               fontWeight: 'inherit',
               color: 'inherit',
               fontStyle: 'inherit',
+              borderLeft: 'revert-layer',
+              quotes: 'none',
+            },
+            'blockquote > *:first-child': {
+              marginTop: '0 !important',
+            },
+
+            'blockquote > *::before': {
+              content: 'none',
+            },
+            'blockquote > *::after': {
+              content: 'none',
             },
             img: {
               maxWidth: '100%',
@@ -282,6 +290,9 @@ const config = {
               width: '100%',
               borderCollapse: 'collapse',
               marginTop: 'var(--spacing-element)',
+            },
+            '*:first-child': {
+              marginTop: '0 !important',
             },
             'th, td': {
               padding: '10px 12px',

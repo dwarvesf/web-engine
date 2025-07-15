@@ -11,6 +11,7 @@ import {
   Stack,
 } from '../../components';
 import { ReactNode } from 'react';
+import { cn } from '../../utils';
 
 interface ProjectMetadata {
   industry?: string;
@@ -39,7 +40,10 @@ export default function WorkDetailTemplate(props: WorkDetailTemplateProps) {
   const links = frontmatter?.links;
 
   return (
-    <Layout siteConfig={siteConfig} contentClassName="dwarves-container">
+    <Layout
+      siteConfig={siteConfig}
+      contentClassName={cn('dwarves-container article-content')}
+    >
       {/* Hero Section */}
       <Stack gap="3xl">
         <Center className="mx-auto max-w-[700px] flex-col">
@@ -58,13 +62,15 @@ export default function WorkDetailTemplate(props: WorkDetailTemplateProps) {
                   <strong className="text-sm font-semibold capitalize">
                     {key.replace(/-/g, ' ')}:
                   </strong>
-                  <Paragraph className="text-sm">
+                  <Paragraph className="!mt-0 text-sm">
                     {value as ReactNode}
                   </Paragraph>
                 </Stack>
               ))}
             </Stack>
-            <Stack className="flex-1">{mdxRenderer?.(heroMdxContent)}</Stack>
+            <Stack className="flex-1 gap-0">
+              {mdxRenderer?.(heroMdxContent)}
+            </Stack>
           </HStack>
         )}
       </Stack>
