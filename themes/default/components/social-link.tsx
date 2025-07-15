@@ -27,8 +27,8 @@ export default function SocialLink({
       rel="noopener noreferrer"
       aria-label={name}
     >
-      {showLabel && <span className="inline-block">{name}</span>}
       <Icon name={icon} size="sm" className="inline-block" />
+      {showLabel && <span className="inline-block">{name}</span>}
     </a>
   );
 }
