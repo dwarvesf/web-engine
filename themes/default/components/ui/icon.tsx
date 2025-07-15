@@ -26,6 +26,7 @@ import {
 import { FaBehance, FaDiscord, FaTelegramPlane } from 'react-icons/fa';
 import { AiOutlineGlobal } from 'react-icons/ai';
 import { FaXTwitter } from 'react-icons/fa6';
+import { FaGithub, FaLinkedinIn } from 'react-icons/fa';
 
 import { cn } from '../../utils';
 
@@ -65,6 +66,8 @@ const iconMap = {
   dribbble: AiOutlineGlobal,
   instagram: FiInstagram,
   linkedin: FiLinkedin,
+  githubSolid: FaGithub,
+  linkedinSolid: FaLinkedinIn,
 };
 
 interface IconProps {

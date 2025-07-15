@@ -1,7 +1,17 @@
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, useEffect, useState } from 'react';
 import { TemplateRenderArgs, ThemeTemplates } from '../types/theme';
 
 const TemplateRender: React.FC<TemplateRenderArgs> = props => {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  if (!isClient) {
+    return null; // Prevent rendering on the server
+  }
+
   const template = props.frontmatter?.template;
   switch (template) {
     case ThemeTemplates.About:
@@ -34,6 +44,15 @@ const TemplateRender: React.FC<TemplateRenderArgs> = props => {
       return (
         <Suspense fallback={null}>
           <WorkDetailTemplate {...props} />
+        </Suspense>
+      );
+    case ThemeTemplates.Services:
+      const ServicesTemplate = lazy(
+        () => import('./templates/services-template'),
+      );
+      return (
+        <Suspense fallback={null}>
+          <ServicesTemplate {...props} />
         </Suspense>
       );
     default:

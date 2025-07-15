@@ -18,3 +18,7 @@ export { default as TechnologyShowcase } from './technology-showcase';
 export { default as OpensourceProjects } from './opensource-projects';
 export { default as CallToAction } from './cta';
 export { default as Contact } from './contact';
+export { default as Dwarves } from './dwarves';
+export { default as WhatWeStandFor } from './what-we-stand-for';
+export { default as WhatWeValue } from './what-we-value';
+export { default as Team } from './team';

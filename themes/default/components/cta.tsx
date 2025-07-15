@@ -24,7 +24,7 @@ export default function CallToAction({
       <div className="container">
         <div className="row md:flex">
           <h2 className="col mb-8 text-3xl font-medium md:mb-0 md:w-1/2">
-            {title.replace(/\\n/g, '\n')}
+            {title?.replace(/\\n/g, '\n')}
           </h2>
           <div className="col md:w-1/2">
             {description?.split('\n')?.map((line, index) => (

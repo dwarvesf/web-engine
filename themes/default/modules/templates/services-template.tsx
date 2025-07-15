@@ -1,7 +1,6 @@
 import { TemplateRenderArgs } from '../../types/theme';
 import Layout from '../partials/layout';
-import Button from '../../components/ui/button';
-import Card from '../../components/card';
+import { Button, Card } from '../../components';
 
 interface Service {
   title: string;
@@ -220,7 +219,7 @@ export default function ServicesTemplate(props: ServicesTemplateProps) {
             <Button variant="primary" size="lg" href="/contact">
               Get in Touch
             </Button>
-            <Button variant="outline" size="lg" href="/portfolio">
+            <Button variant="outline" size="lg" href="/work">
               View Our Work
             </Button>
           </div>

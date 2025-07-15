@@ -74,8 +74,8 @@ export const ASSET_POSSIBLE_EXTENSIONS = [
 ];
 
 /**
- * Walk ESTree AST to find and transform template literals
- * Template literals in MDX are stored in the ESTree format within mdxJsxAttributeValueExpression nodes
+ * Walk ESTree AST to find and transform template literals and literal nodes
+ * Template literals and literal nodes in MDX are stored in the ESTree format within mdxJsxAttributeValueExpression nodes
  */
 function walkESTreeForTemplateLiterals(program: any, filePath: string) {
   function walk(node: any) {
@@ -101,6 +101,26 @@ function walkESTreeForTemplateLiterals(program: any, filePath: string) {
           }
         }
       });
+    }
+
+    // Handle literal nodes (from debug data analysis)
+    if (
+      node.type === 'Literal' &&
+      node.value &&
+      typeof node.value === 'string'
+    ) {
+      const literalValue = node.value;
+
+      // Transform literal nodes that contain asset paths
+      if (literalValue.startsWith('./') || literalValue.startsWith('../')) {
+        const transformedPath = getRelativeImagePath(
+          literalValue,
+          filePath,
+          true,
+        );
+        node.value = transformedPath;
+        node.raw = `'${transformedPath}'`;
+      }
     }
 
     // Handle CallExpression (like .map() calls)
@@ -153,46 +173,7 @@ function transformAssetArrayExpression(
   filePath: string,
 ) {
   try {
-    const body = data.estree.body?.filter(
-      (d: any) => d.type === 'ExpressionStatement',
-    );
-    body?.forEach((statement: any) => {
-      const expression = statement.expression;
-      if (expression && expression.type === 'ArrayExpression') {
-        const elements = expression.elements;
-        const transformedElements = elements.map((element: any) => {
-          if (element.type === 'Literal') {
-            if (
-              typeof element.value === 'string' &&
-              typeof element.raw === 'string'
-            ) {
-              element.value = getRelativeImagePath(element.value, filePath);
-              element.raw = `"${element.value}"`;
-            }
-          }
-          return element;
-        });
-        // Replace the original array expression with the transformed one
-        statement.expression = {
-          ...expression,
-          elements: transformedElements,
-        };
-      }
-
-      if (expression && expression.type === 'ObjectExpression') {
-        const properties = expression.properties;
-        properties.forEach((property: any) => {
-          if (property.type === 'Property') {
-            const value = getRelativeImagePath(property.value.value, filePath);
-            property.value = {
-              ...property.value,
-              value: value,
-              raw: `"${value}"`,
-            };
-          }
-        });
-      }
-    });
+    walkESTreeForTemplateLiterals(data?.estree, filePath);
   } catch (error) {
     console.error('Error transforming asset array expression:', error);
   }
@@ -239,7 +220,7 @@ export const remarkTransformPaths = (filePath: string) => {
               value: unknown;
               data: Record<string, any>;
             };
-            if (attrValue.value && typeof attrValue.value === 'string') {
+            if (attrValue.data.estree.body) {
               // Transform array expressions containing asset paths
               transformAssetArrayExpression(attrValue.data, filePath);
             }

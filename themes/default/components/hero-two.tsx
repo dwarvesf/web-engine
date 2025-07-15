@@ -25,7 +25,7 @@ export default function HeroTwo({
         <div className="row py-16 lg:flex lg:items-center lg:justify-between lg:py-10">
           <div className="col lg:w-5/12">
             <h1 className="mb-8 text-3xl leading-tight font-medium lg:-mr-8">
-              {title.replace(/\\n/g, '\n')}
+              {title?.replace(/\\n/g, '\n')}
             </h1>
             {description && (
               <Paragraph className="leading-relax">

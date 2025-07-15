@@ -43,7 +43,7 @@ export default function Hero({
         )}
         <H1 className="text-foreground mb-6 leading-tight whitespace-pre-line">
           {/* Break title */}
-          {title.replace(/\\n/g, '\n')}
+          {title?.replace(/\\n/g, '\n')}
         </H1>
         {description && (
           <Paragraph className="text-foreground mb-8 text-xl whitespace-pre-line">
