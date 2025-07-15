@@ -22,7 +22,7 @@ export default function ClientShowcase({
     <section className={cn('py-16', className)}>
       <div className="mx-auto">
         {title && (
-          <h2 className="text-foreground mb-12 text-center text-2xl font-bold md:text-3xl">
+          <h2 className="text-foreground mb-12 text-center text-2xl font-semibold md:text-3xl">
             {title}
           </h2>
         )}

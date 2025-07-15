@@ -26,11 +26,7 @@ export default function Hero({
 }: PropsWithChildren<HeroProps>) {
   return (
     <Section
-      className={cn(
-        'relative flex space-y-4 overflow-hidden px-0 py-24',
-        className,
-      )}
-      fullWidth
+      className={cn('relative px-0 py-24', className)}
       style={{
         backgroundImage: backgroundImage
           ? `url(${backgroundImage})`
@@ -39,18 +35,18 @@ export default function Hero({
         backgroundPosition: 'center',
       }}
     >
-      <div className="relative z-10 space-y-4">
+      <div className="relative z-10">
         {subtitle && (
-          <Paragraph className="text-muted-foreground text-md mb-8 font-bold uppercase">
+          <Paragraph className="text-muted-foreground text-md mb-4 font-bold uppercase">
             {subtitle}
           </Paragraph>
         )}
-        <H1 className="text-foreground mb-8 leading-tight font-bold whitespace-pre-line">
+        <H1 className="text-foreground mb-6 leading-tight whitespace-pre-line">
           {/* Break title */}
           {title.replace(/\\n/g, '\n')}
         </H1>
         {description && (
-          <Paragraph className="text-foreground mb-8 text-lg leading-relaxed whitespace-pre-line">
+          <Paragraph className="text-foreground mb-8 text-xl whitespace-pre-line">
             {description.replace(/\\n/g, '\n')}
           </Paragraph>
         )}

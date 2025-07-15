@@ -34,7 +34,7 @@ export default function SolutionHighlight({
         <Typography variant="small" className="text-primary uppercase">
           {label}
         </Typography>
-        <Heading level={5} size="xl" className="font-semibold">
+        <Heading level={5} size="xl" className="font-medium">
           {title}
         </Heading>
         <Paragraph className="text-foreground">{description}</Paragraph>

@@ -39,15 +39,7 @@ export default function WorkDetailTemplate(props: WorkDetailTemplateProps) {
   const links = frontmatter?.links;
 
   return (
-    <Layout
-      siteConfig={siteConfig}
-      headerProps={{
-        className:
-          'px-[calc(50dvw-(var(--spacing-container-max))/2+0.5rem)] w-full',
-      }}
-      footerProps={{ className: 'dwarves-container w-full' }}
-      contentClassName="dwarves-container"
-    >
+    <Layout siteConfig={siteConfig} contentClassName="dwarves-container">
       {/* Hero Section */}
       <Stack gap="3xl">
         <Center className="mx-auto max-w-[700px] flex-col">

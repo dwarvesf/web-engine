@@ -179,7 +179,8 @@ export default function Footer({ footer, className = '' }: FooterProps) {
                 className={cn(
                   'text-foreground hover:text-primary text-md px-0 py-0 transition-colors duration-200',
                   {
-                    'text-primary font-semibold': tab.type?.[1] === 'primary',
+                    'text-primary': tab.type?.[1] === 'primary',
+                    'font-normal': tab.type?.[1] !== 'primary',
                   },
                 )}
               >

@@ -4,7 +4,7 @@ import React from 'react';
 const Default404 = () => {
   return (
     <div className="flex flex-1 flex-col items-center justify-center">
-      <h3 className="text-2xl font-bold">404 - Page Not Found</h3>
+      <h3 className="text-2xl font-semibold">404 - Page Not Found</h3>
       <p className="mt-4">The page you are looking for does not exist.</p>
     </div>
   );

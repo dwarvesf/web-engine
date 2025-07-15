@@ -59,7 +59,7 @@ export default function AboutTemplate(props: TemplateRenderArgs) {
       <section className="bg-secondary-background py-16">
         <div className="mx-auto">
           <div className="mb-12 text-center">
-            <h2 className="text-foreground mb-4 text-3xl font-bold md:text-4xl">
+            <h2 className="text-foreground mb-4 text-3xl font-semibold md:text-4xl">
               Our Expertise
             </h2>
             <p className="text-muted-foreground mx-auto max-w-2xl text-lg">
@@ -123,7 +123,7 @@ export default function AboutTemplate(props: TemplateRenderArgs) {
       <section className="bg-background py-16">
         <div className="mx-auto max-w-4xl px-4">
           <div className="mb-12 text-center">
-            <h2 className="text-foreground mb-4 text-3xl font-bold md:text-4xl">
+            <h2 className="text-foreground mb-4 text-3xl font-semibold md:text-4xl">
               Why Choose Us
             </h2>
             <p className="text-muted-foreground mx-auto max-w-2xl text-lg">

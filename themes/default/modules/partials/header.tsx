@@ -76,15 +76,15 @@ export default function Header({
   return (
     <header
       className={cn(
-        'bg-background sticky top-0 z-50 border-b transition-all duration-200 ease-in-out',
+        'bg-background transition-border sticky top-0 z-50 border-b duration-200 ease-in-out',
         { 'border-transparent': !isScrolled, 'border-border': isScrolled },
         className,
       )}
     >
-      <div className="dwarves-container mx-auto py-2">
-        <div className="flex items-center justify-between py-4">
+      <div className="dwarves-container mx-auto">
+        <div className="flex items-center justify-between">
           {/* Logo */}
-          <div className="flex items-center justify-center">
+          <div className="flex items-center justify-center py-5">
             <Logo
               src={logo?.src}
               text={logo?.alt}

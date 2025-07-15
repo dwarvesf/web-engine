@@ -56,7 +56,7 @@ export default function BlogTemplate(props: TemplateRenderArgs) {
                     )}
                   </div>
 
-                  <h2 className="text-foreground dwarves-heading text-2xl font-bold">
+                  <h2 className="text-foreground dwarves-heading text-2xl font-semibold">
                     <a
                       href={featuredPost.href}
                       className="hover:text-primary transition-colors"
@@ -110,7 +110,7 @@ export default function BlogTemplate(props: TemplateRenderArgs) {
                         )}
                       </div>
 
-                      <h3 className="text-foreground dwarves-heading text-xl font-bold">
+                      <h3 className="text-foreground dwarves-heading text-xl font-semibold">
                         <a
                           href={post.href}
                           className="hover:text-primary transition-colors"

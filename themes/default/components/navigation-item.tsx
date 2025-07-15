@@ -56,7 +56,7 @@ export const NavigationDropDownContent: React.FC<{
   return (
     <div
       className={cn(
-        'mx-auto grid max-w-6xl grid-cols-4 gap-6 px-4 pt-6 pb-8',
+        'dwarves-container mx-auto grid grid-cols-4 gap-6 pt-6 pb-8',
         className,
       )}
     >
@@ -65,13 +65,13 @@ export const NavigationDropDownContent: React.FC<{
           <div key={groupIndex} className="flex flex-col gap-8">
             {group.groups.map((subGroup, subGroupIndex) => (
               <div key={subGroupIndex}>
-                <div className="mb-3 flex items-center gap-2">
+                <div className="mb-3 flex items-center gap-1">
                   <span className="text-foreground text-sm font-semibold uppercase">
                     {subGroup.group}
                   </span>
-                  {subGroup.tag && <Tag>{subGroup.tag}</Tag>}
+                  {subGroup.tag && <Tag size="xs">{subGroup.tag}</Tag>}
                 </div>
-                <div className="space-y-1">
+                <div>
                   {subGroup.pages?.map((page, pageIndex) =>
                     renderPage(page, pageIndex),
                   )}
@@ -81,13 +81,13 @@ export const NavigationDropDownContent: React.FC<{
           </div>
         ) : (
           <div key={groupIndex}>
-            <div className="mb-3 flex items-center gap-2">
+            <div className="mb-3 flex items-center gap-1">
               <span className="text-foreground text-sm font-semibold uppercase">
                 {group.group}
               </span>
-              {group.tag && <Tag>{group.tag}</Tag>}
+              {group.tag && <Tag size="xs">{group.tag}</Tag>}
             </div>
-            <div className="space-y-1">
+            <div>
               {group.pages?.map((page, pageIndex) =>
                 renderPage(page, pageIndex),
               )}
@@ -130,7 +130,7 @@ export default function NavigationItem({
             href={tab.href || '#'}
             onClick={onItemClick}
             variant={(tab.type?.[1] || 'primary') as ButtonProps['variant']}
-            className="text-lg font-semibold"
+            className="cursor-pointer text-lg"
           >
             {tab.tab}
           </Button>
@@ -139,7 +139,7 @@ export default function NavigationItem({
             variant="link"
             href={tab.href || '#'}
             className={cn(
-              'text-foreground hover:text-primary text-lg font-semibold transition-colors duration-200',
+              'text-foreground hover:text-primary text-lg transition-colors duration-200',
             )}
             onClick={onItemClick}
           >
@@ -175,10 +175,12 @@ export default function NavigationItem({
             ? (tab.type?.[1] as ButtonProps['variant']) || 'primary'
             : 'link'
         }
-        className={!tab?.type?.[0] ? 'text-foreground' : ''}
+        className={
+          !tab?.type?.[0] ? 'text-foreground cursor-pointer !font-normal' : ''
+        }
       >
         {tab.tab}
-        {tab.tag && <Tag>{tab.tag}</Tag>}
+        {tab.tag && <Tag size="xs">{tab.tag}</Tag>}
         {hasGroups && <Icon name="chevronDown" size="sm" className="ml-1" />}
       </Button>
       {hasGroups && isOpen && (

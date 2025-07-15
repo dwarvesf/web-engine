@@ -95,7 +95,7 @@ export default function ServicesTemplate(props: ServicesTemplateProps) {
 
                     <div className="flex items-center justify-between pt-4">
                       {service.price && (
-                        <div className="text-primary text-2xl font-bold">
+                        <div className="text-primary text-2xl font-semibold">
                           {service.price}
                         </div>
                       )}
@@ -123,7 +123,7 @@ export default function ServicesTemplate(props: ServicesTemplateProps) {
         <section className="bg-secondary/20 py-20">
           <div className="dwarves-container">
             <div className="mb-16 text-center">
-              <h2 className="text-foreground dwarves-heading mb-4 text-3xl font-bold">
+              <h2 className="text-foreground dwarves-heading mb-4 text-3xl font-semibold">
                 Our Process
               </h2>
               <p className="text-muted-foreground dwarves-subheading mx-auto max-w-2xl text-xl">
@@ -135,7 +135,7 @@ export default function ServicesTemplate(props: ServicesTemplateProps) {
               {processData.map((step, index) => (
                 <div key={index} className="dwarves-fade-in text-center">
                   <div className="relative mb-6">
-                    <div className="bg-primary text-primary-foreground mx-auto flex h-16 w-16 items-center justify-center rounded-full text-xl font-bold">
+                    <div className="bg-primary text-primary-foreground mx-auto flex h-16 w-16 items-center justify-center rounded-full text-xl font-semibold">
                       {step.step}
                     </div>
                     {index < processData.length - 1 && (
@@ -209,7 +209,7 @@ export default function ServicesTemplate(props: ServicesTemplateProps) {
       {/* CTA Section */}
       <section className="bg-primary/5 py-20">
         <div className="dwarves-container text-center">
-          <h2 className="text-foreground dwarves-heading mb-4 text-3xl font-bold">
+          <h2 className="text-foreground dwarves-heading mb-4 text-3xl font-semibold">
             Ready to Get Started?
           </h2>
           <p className="text-muted-foreground dwarves-subheading mx-auto mb-8 max-w-2xl text-xl">

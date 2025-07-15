@@ -26,7 +26,7 @@ export default function LandingTemplate(props: TemplateRenderArgs) {
                       {stat.icon}
                     </div>
                   )}
-                  <div className="text-primary dwarves-text-gradient mb-2 text-4xl font-bold">
+                  <div className="text-primary dwarves-text-gradient mb-2 text-4xl font-semibold">
                     {stat.value}
                   </div>
                   <div className="text-muted-foreground dwarves-subheading">
@@ -44,7 +44,7 @@ export default function LandingTemplate(props: TemplateRenderArgs) {
         <section className="bg-secondary/20 py-20">
           <div className="dwarves-container">
             <div className="mb-16 text-center">
-              <h2 className="text-foreground dwarves-heading mb-4 text-3xl font-bold">
+              <h2 className="text-foreground dwarves-heading mb-4 text-3xl font-semibold">
                 Why Choose Us
               </h2>
               <p className="text-muted-foreground dwarves-subheading mx-auto max-w-2xl text-xl">
@@ -76,7 +76,7 @@ export default function LandingTemplate(props: TemplateRenderArgs) {
         <section className="bg-background py-20">
           <div className="dwarves-container">
             <div className="mb-16 text-center">
-              <h2 className="text-foreground dwarves-heading mb-4 text-3xl font-bold">
+              <h2 className="text-foreground dwarves-heading mb-4 text-3xl font-semibold">
                 What Our Clients Say
               </h2>
               <p className="text-muted-foreground dwarves-subheading mx-auto max-w-2xl text-xl">
@@ -125,7 +125,7 @@ export default function LandingTemplate(props: TemplateRenderArgs) {
       {cta && (
         <section className="dwarves-gradient py-20">
           <div className="dwarves-container text-center">
-            <h2 className="text-primary-foreground dwarves-heading mb-4 text-3xl font-bold">
+            <h2 className="text-primary-foreground dwarves-heading mb-4 text-3xl font-semibold">
               {cta.title}
             </h2>
             <p className="text-primary-foreground/90 dwarves-subheading mx-auto mb-8 max-w-2xl text-xl">

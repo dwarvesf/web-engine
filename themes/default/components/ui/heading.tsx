@@ -12,8 +12,8 @@ interface HeadingProps extends React.HTMLAttributes<HTMLHeadingElement> {
 }
 
 const headingClasses = {
-  1: 'text-4xl md:text-4xl lg:text-5xl font-bold leading-tight',
-  2: 'text-3xl md:text-3xl lg:text-4xl font-bold leading-tight',
+  1: 'text-4xl md:text-4xl lg:text-5xl font-semibold leading-tight',
+  2: 'text-3xl md:text-3xl lg:text-4xl font-semibold leading-tight',
   3: 'text-2xl md:text-2xl lg:text-3xl font-semibold leading-snug',
   4: 'text-xl md:text-xl lg:text-2xl font-semibold leading-snug',
   5: 'text-lg md:text-lg lg:text-xl font-medium leading-normal',
