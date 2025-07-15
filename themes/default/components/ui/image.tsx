@@ -12,6 +12,8 @@ interface ImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   aspectRatio?: 'square' | 'video' | 'photo' | string;
   objectFit?: 'contain' | 'cover' | 'fill' | 'none' | 'scale-down';
   showSkeleton?: boolean;
+  blur?: boolean;
+  scaleEffect?: boolean; // <-- Added scaleEffect prop
   onLoad?: () => void;
   onError?: () => void;
   containerClassName?: string;
@@ -40,6 +42,8 @@ export default function Image({
   aspectRatio,
   objectFit = 'cover',
   showSkeleton = true,
+  blur = false,
+  scaleEffect = false, // <-- Default to true for backward compatibility
   containerClassName = '',
   onLoad,
   onError,
@@ -97,8 +101,14 @@ export default function Image({
     'h-auto max-w-full transition-all duration-500',
     objectFits[objectFit],
     aspectRatio && 'h-full w-full',
-    isLoading && 'opacity-0 blur-sm scale-105',
-    !isLoading && 'opacity-100 blur-0 scale-100',
+    isLoading &&
+      (blur
+        ? `opacity-0 blur-sm${scaleEffect ? ' scale-105' : ''}`
+        : `opacity-0${scaleEffect ? ' scale-105' : ''}`),
+    !isLoading &&
+      (blur
+        ? `opacity-100 blur-0${scaleEffect ? ' scale-100' : ''}`
+        : `opacity-100${scaleEffect ? ' scale-100' : ''}`),
   );
 
   const skeletonClasses = cn(
@@ -116,8 +126,12 @@ export default function Image({
           alt=""
           className={cn(
             'absolute inset-0 h-full w-full object-cover transition-all duration-500',
-            isLoading && 'scale-100 opacity-60 blur-md',
-            !isLoading && 'scale-110 opacity-0 blur-lg',
+            isLoading &&
+              (blur ? `scale-100 opacity-60 blur-md` : `scale-100 opacity-60`),
+            !isLoading &&
+              (blur
+                ? `${scaleEffect ? 'scale-110' : ''} opacity-0 blur-lg`
+                : `${scaleEffect ? 'scale-110' : ''} opacity-0`),
           )}
         />
       )}
