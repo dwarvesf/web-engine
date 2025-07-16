@@ -232,15 +232,18 @@ const config = {
             },
             h2: {
               fontSize: '1.875rem !important',
-              margin: 'var(--spacing-heading) 0 0 !important',
+              margin:
+                'var(--spacing-heading) 0 var(--spacing-heading) !important',
             },
             h3: {
               fontSize: '1.5rem !important',
-              margin: 'var(--spacing-subheading) 0 0 !important',
+              margin:
+                'var(--spacing-subheading) 0 var(--spacing-subheading) !important',
             },
             h4: {
               fontSize: '1.25rem !important',
-              margin: 'var(--spacing-subheading) 0 0 !important',
+              margin:
+                'var(--spacing-subheading) 0 var(--spacing-subheading) !important',
             },
             h5: {
               fontSize: '1.125rem !important',
@@ -297,9 +300,10 @@ const config = {
               marginTop: '0 !important',
             },
             'th, td': {
-              padding: '10px 12px',
+              padding: '10px 12px !important',
               textAlign: 'left',
               border: '1px solid var(--color-border)',
+              fontSize: 'var(--font-size-lg)',
             },
             'thead th': {
               fontWeight: '500',
