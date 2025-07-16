@@ -118,6 +118,7 @@ const config = {
         list: 'var(--spacing-list)',
         'list-item': 'var(--spacing-list-item)',
         header: 'var(--spacing-header)',
+        paragraph: 'var(--spacing-paragraph)',
         // Extended spacing scale
         0: 'var(--spacing-0)',
         1: 'var(--spacing-1)',

@@ -28,7 +28,7 @@ const ContentBoxes: React.FC<ContentBoxesProps> = ({
       )}
       <Flex className="flex-col gap-8 md:flex-row">
         {leftColumnContent && (
-          <div className="whitespace-pre-line md:max-w-[35em] xl:max-w-[45em]">
+          <div className="md:max-w-paragraph whitespace-pre-line xl:max-w-[45em]">
             <Paragraph className="text-xl">{leftColumnContent}</Paragraph>
           </div>
         )}

@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useState } from 'react';
+import React, { JSX, lazy, Suspense, useEffect, useState } from 'react';
 import { TemplateRenderArgs, ThemeTemplates } from '../types/theme';
 
 const TemplateRender: React.FC<TemplateRenderArgs> = props => {
@@ -13,58 +13,37 @@ const TemplateRender: React.FC<TemplateRenderArgs> = props => {
   }
 
   const template = props.frontmatter?.template;
+  let Component: React.LazyExoticComponent<
+    (props: TemplateRenderArgs) => JSX.Element
+  >;
   switch (template) {
     case ThemeTemplates.About:
-      const AboutTemplate = lazy(() => import('./templates/about-template'));
-      return (
-        <Suspense fallback={null}>
-          <AboutTemplate {...props} />
-        </Suspense>
-      );
+      Component = lazy(() => import('./templates/about-template'));
+      break;
     case ThemeTemplates.Opensource:
-      const OpensourceTemplate = lazy(
-        () => import('./templates/opensource-template'),
-      );
-      return (
-        <Suspense fallback={null}>
-          <OpensourceTemplate {...props} />
-        </Suspense>
-      );
+      Component = lazy(() => import('./templates/opensource-template'));
+      break;
     case ThemeTemplates.Work:
-      const WorkTemplate = lazy(() => import('./templates/work-template'));
-      return (
-        <Suspense fallback={null}>
-          <WorkTemplate {...props} />
-        </Suspense>
-      );
+      Component = lazy(() => import('./templates/work-template'));
+      break;
     case ThemeTemplates.WorkDetail:
-      const WorkDetailTemplate = lazy(
-        () => import('./templates/work-detail-template'),
-      );
-      return (
-        <Suspense fallback={null}>
-          <WorkDetailTemplate {...props} />
-        </Suspense>
-      );
+      Component = lazy(() => import('./templates/work-detail-template'));
+      break;
     case ThemeTemplates.Services:
-      const ServicesTemplate = lazy(
-        () => import('./templates/services-template'),
-      );
-      return (
-        <Suspense fallback={null}>
-          <ServicesTemplate {...props} />
-        </Suspense>
-      );
+      Component = lazy(() => import('./templates/services-template'));
+      break;
+    case ThemeTemplates.Startup:
+      Component = lazy(() => import('./templates/startup-template'));
+      break;
     default:
-      const DefaultTemplate = lazy(
-        () => import('./templates/default-template'),
-      );
-      return (
-        <Suspense fallback={null}>
-          <DefaultTemplate {...props} />
-        </Suspense>
-      );
+      Component = lazy(() => import('./templates/default-template'));
+      break;
   }
+  return (
+    <Suspense fallback={null}>
+      <Component {...props} />
+    </Suspense>
+  );
 };
 
 export default TemplateRender;

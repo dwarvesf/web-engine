@@ -27,17 +27,17 @@ export default function Project({
 }: PropsWithChildren<ProjectProps>) {
   const getBackgroundClass = (bg?: string) => {
     switch (bg) {
-      case 'green':
+      case 'green': // aharooms
         return 'bg-[#1F5934]';
-      case 'yellow':
+      case 'yellow': //becorp
         return 'bg-[#f6c444]';
-      case 'dark':
+      case 'dark': // dental marketplace
         return 'bg-[#23252c]';
-      case 'purple':
+      case 'purple': // naru
         return 'bg-[#7a03ed]';
-      case 'blue':
+      case 'blue': // Attrace // kiwi
         return 'bg-[#5299fd]';
-      case 'white-blue':
+      case 'white-blue': // airwatt
         return 'bg-[#F0F4F7]';
       default:
         return 'bg-white';

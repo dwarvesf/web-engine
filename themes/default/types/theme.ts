@@ -198,4 +198,5 @@ export enum ThemeTemplates {
   Opensource = 'opensource',
   WorkDetail = 'work-detail',
   Services = 'services',
+  Startup = 'startup',
 }
