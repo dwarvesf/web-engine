@@ -36,7 +36,7 @@ export default function Hero({
         backgroundPosition: 'center',
       }}
     >
-      <div className="relative z-10">
+      <div className="max-w-paragraph relative z-10">
         {subtitle && (
           <Paragraph className="text-muted-foreground text-md mb-4 font-bold uppercase">
             {subtitle}
@@ -52,7 +52,7 @@ export default function Hero({
           {title?.replace(/\\n/g, '\n')}
         </H1>
         {description && (
-          <Paragraph className="text-foreground mb-8 text-xl whitespace-pre-line">
+          <Paragraph className="text-foreground max-w-paragraph mb-8 text-xl whitespace-pre-line">
             {description.replace(/\\n/g, '\n')}
           </Paragraph>
         )}

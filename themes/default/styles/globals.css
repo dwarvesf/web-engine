@@ -87,7 +87,8 @@
     'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   --font-mono: 'IBM Plex Mono', monospace;
   --font-serif: 'Charter', Georgia, serif;
-  --font-heading: "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace";
+  --font-heading:
+    'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', 'monospace';
 
   /* Font Weights */
   --font-weight-regular: 400;
@@ -332,11 +333,11 @@ body {
 }
 
 .dwarves-steps-item {
-  @apply relative lg:not-last:border-t-[1px] before:content-[data-index] before:absolute before:left-0 before:top-8;
+  @apply relative before:absolute before:top-8 before:left-0 before:content-[data-index] lg:not-last:border-t-[1px];
 }
 
 .dwarves-steps-item:before {
-  @apply absolute -left-2 text-lg text-white bg-muted-foreground/80 -top-4 px-3 py-1 rounded-full;
+  @apply bg-muted-foreground/80 absolute -top-4 -left-2 rounded-full px-3 py-1 text-lg text-white;
   content: attr(data-index);
 }
 
@@ -347,7 +348,7 @@ body {
 }
 
 .dwarves-price-text::before {
-  content: "$";
+  content: '$';
   font-size: 0.5em;
   margin-top: 0.25rem;
   font-weight: 400;

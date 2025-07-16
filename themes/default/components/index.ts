@@ -30,3 +30,5 @@ export { default as WhatWeValue } from './what-we-value';
 export { default as Team } from './team';
 export { default as ColumnsList } from './columns-list';
 export { default as ContentBoxes } from './content-boxes';
+export { default as IdeateForm } from './ideate-form';
+export { default as ScaleTeamContact } from './scale-team-contact-form';

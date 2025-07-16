@@ -6,8 +6,14 @@ import { cn } from '../utils';
 import Button from './ui/button';
 import Input from './ui/input';
 import Select from './ui/select';
-import { Paragraph } from './ui';
-import { locations } from '../constants/location';
+import RadioInput from './ui/radio-input';
+import { cohorts, locations } from '../constants/location';
+import Pell from './ui/pell';
+
+const cohortOptions = cohorts.map(option => ({
+  value: option,
+  label: option,
+}));
 
 const locationOptions = locations.map(location => ({
   value: location,
@@ -20,6 +26,8 @@ const contactFormSchema = z.object({
   company: z.string().optional(),
   tel: z.string().optional(),
   location: z.string().min(1, 'Please select a budget range'),
+  service: z.string().min(1, 'Please select a service'),
+  message: z.string().min(10, 'Message must be at least 10 characters'),
 });
 
 type ContactFormData = z.infer<typeof contactFormSchema>;
@@ -28,14 +36,12 @@ interface ContactFormProps {
   className?: string;
   title?: string;
   description?: string;
-  showPolicyAgreement?: boolean;
 }
 
-const ContactForm: React.FC<ContactFormProps> = ({
+const IdeateForm: React.FC<ContactFormProps> = ({
   className,
   title,
   description,
-  showPolicyAgreement,
 }) => {
   const [step, setStep] = useState(1);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -47,6 +53,7 @@ const ContactForm: React.FC<ContactFormProps> = ({
     watch,
     trigger,
     reset,
+    setValue,
   } = useForm<ContactFormData>({
     resolver: zodResolver(contactFormSchema),
     mode: 'onChange',
@@ -124,64 +131,63 @@ const ContactForm: React.FC<ContactFormProps> = ({
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         {step === 1 && (
           <>
-            <div>
-              <Input
-                label="Full Name"
-                {...register('name')}
-                error={errors.name?.message}
-              />
-            </div>
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
               <div>
-                <Input
-                  label="Email"
-                  {...register('email')}
-                  error={errors.email?.message}
-                  required
+                <Select
+                  label="Service"
+                  placeholder="Select service"
+                  options={cohortOptions}
+                  error={errors.service?.message}
+                  {...register('service')}
                 />
               </div>
               <div>
                 <Input
-                  label="Phone number"
+                  label="Full Name"
+                  {...register('name')}
+                  error={errors.name?.message}
+                />
+              </div>
+            </div>
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+              <div>
+                <Input
+                  label="What is your email address?"
+                  {...register('email')}
+                  error={errors.email?.message}
+                />
+              </div>
+              <div>
+                <Input
+                  label="What is your phone number?"
                   type="tel"
                   {...register('tel')}
                   error={errors.tel?.message}
                 />
               </div>
             </div>
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-              <div>
-                <Input
-                  label="Company"
-                  {...register('company')}
-                  error={errors.company?.message}
-                  required
-                />
-              </div>
-
-              <div>
-                <Select
-                  label="Location"
-                  placeholder="Select your location"
-                  options={locationOptions}
-                  error={errors.location?.message}
-                  {...register('location')}
-                />
-              </div>
+            <div>
+              <RadioInput
+                label="Which location is closest to you?"
+                options={locationOptions}
+                error={errors.location?.message}
+                {...register('location')}
+              />
             </div>
-            {showPolicyAgreement && (
-              <Paragraph className="text-secondary-foreground text-xl opacity-75">
-                By sending this form, you agree with our{' '}
-                <a
-                  href="https://www.iubenda.com/privacy-policy/23856015"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="!text-secondary-foreground !no-underline"
-                >
-                  Privacy Policy
-                </a>
-              </Paragraph>
-            )}
+            <div className="space-y-2">
+              <label
+                htmlFor="message"
+                className="text-foreground text-md block font-normal"
+              >
+                Tell us about your ideas
+              </label>
+              <Pell
+                id="message"
+                onChange={value => {
+                  setValue('message', value, { shouldValidate: true });
+                }}
+              />
+            </div>
             <Button
               type="button"
               variant="primary"
@@ -214,4 +220,4 @@ const ContactForm: React.FC<ContactFormProps> = ({
   );
 };
 
-export default ContactForm;
+export default IdeateForm;

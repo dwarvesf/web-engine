@@ -1,6 +1,6 @@
 import ContactImageGrid from './contact-image-grid';
 import Section from './section';
-import React from 'react';
+import React, { useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -10,7 +10,7 @@ import Input from './ui/input';
 import Select from './ui/select';
 import RadioInput from './ui/radio-input';
 import { H3, Paragraph } from './ui';
-import Pell from './ui/pell';
+import Pell, { PellRef } from './ui/pell';
 
 const contactFormSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
@@ -28,13 +28,14 @@ interface ServiceContactProps {
   className?: string;
   title?: string;
   serviceName: string;
-  bgImage: string;
+  bgImage?: string;
   options: {
     label: string;
     value: string;
     'pre-fill-message'?: string;
   }[];
   showImageGrid?: boolean;
+  onlyForm?: boolean;
 }
 
 const ServiceContact: React.FC<ServiceContactProps> = ({
@@ -44,6 +45,7 @@ const ServiceContact: React.FC<ServiceContactProps> = ({
   bgImage,
   options,
   showImageGrid = true,
+  onlyForm,
 }) => {
   const {
     register,
@@ -55,6 +57,8 @@ const ServiceContact: React.FC<ServiceContactProps> = ({
     resolver: zodResolver(contactFormSchema),
     mode: 'onChange',
   });
+
+  const pellRef = useRef<PellRef>(null);
 
   const watchedFields = watch();
 
@@ -73,10 +77,16 @@ const ServiceContact: React.FC<ServiceContactProps> = ({
       className={cn('flex flex-col gap-4 py-16', className)}
       id="service-contact-container"
     >
-      <H3 className="!pb-12 text-center text-3xl font-semibold">{title}</H3>
+      {title ? (
+        <H3 className="!pb-12 text-center text-3xl font-semibold">{title}</H3>
+      ) : null}
 
-      <div className="grid grid-cols-1 gap-12 xl:grid-cols-2">
-        {showImageGrid && (
+      <div
+        className={cn({
+          'grid grid-cols-1 gap-12 xl:grid-cols-2': !onlyForm,
+        })}
+      >
+        {showImageGrid && bgImage && (
           <div className="hidden xl:block">
             <ContactImageGrid
               className="xl:pr-16"
@@ -90,7 +100,12 @@ const ServiceContact: React.FC<ServiceContactProps> = ({
             showImageGrid ? 'xl:col-span-1' : 'mx-auto max-w-2xl xl:col-span-2',
           )}
         >
-          <div className={cn('max-w-2xl', className)}>
+          <div
+            className={cn(
+              'max-w-2xl min-w-md sm:min-w-md md:min-w-lg',
+              className,
+            )}
+          >
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
               <>
                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
@@ -115,6 +130,7 @@ const ServiceContact: React.FC<ServiceContactProps> = ({
                       label="What is your email address?"
                       {...register('email')}
                       error={errors.email?.message}
+                      required
                     />
                   </div>
                   <div>
@@ -147,6 +163,22 @@ const ServiceContact: React.FC<ServiceContactProps> = ({
                     options={options}
                     error={errors.service?.message}
                     {...register('service')}
+                    onChange={e => {
+                      const optsMsg = e.target.value;
+                      const selectedOption = options.find(
+                        option => option.value === optsMsg,
+                      );
+                      register('service').onChange(e);
+                      if (selectedOption) {
+                        const msg = selectedOption['pre-fill-message'];
+                        if (msg) {
+                          setValue('message', msg || '', {
+                            shouldValidate: true,
+                          });
+                          pellRef.current?.change(msg);
+                        }
+                      }
+                    }}
                   />
                 </div>
                 <div className="space-y-2">
@@ -158,6 +190,8 @@ const ServiceContact: React.FC<ServiceContactProps> = ({
                   </label>
                   <Pell
                     id="message"
+                    value={watchedFields.message || ''}
+                    ref={pellRef}
                     onChange={value => {
                       setValue('message', value, { shouldValidate: true });
                     }}

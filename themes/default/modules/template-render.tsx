@@ -32,9 +32,6 @@ const TemplateRender: React.FC<TemplateRenderArgs> = props => {
     case ThemeTemplates.Services:
       Component = lazy(() => import('./templates/services-template'));
       break;
-    case ThemeTemplates.Startup:
-      Component = lazy(() => import('./templates/startup-template'));
-      break;
     default:
       Component = lazy(() => import('./templates/default-template'));
       break;

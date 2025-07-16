@@ -13,6 +13,7 @@ interface ProjectProps {
   image: string;
   imageAlt?: string;
   href?: string;
+  imageClassName?: string;
 }
 
 export default function Project({
@@ -24,6 +25,7 @@ export default function Project({
   image,
   imageAlt = '',
   href,
+  imageClassName,
 }: PropsWithChildren<ProjectProps>) {
   const getBackgroundClass = (bg?: string) => {
     switch (bg) {
@@ -35,17 +37,23 @@ export default function Project({
         return 'bg-[#23252c]';
       case 'purple': // naru
         return 'bg-[#7a03ed]';
-      case 'blue': // Attrace // kiwi
+      case 'tertiary-blue': // kiwi
+        return 'bg-[#2b64cf]';
+      case 'blue': // Attrace
         return 'bg-[#5299fd]';
       case 'white-blue': // airwatt
         return 'bg-[#F0F4F7]';
+      case 'light-yellow': // artzy
+        return 'bg-[#fff7e9]';
       default:
         return 'bg-white';
     }
   };
 
   const getTextColor = (bg?: string) => {
-    return ['dark', 'purple', 'blue', 'green'].includes(bg || '')
+    return ['dark', 'purple', 'blue', 'green', 'tertiary-blue'].includes(
+      bg || '',
+    )
       ? 'text-white'
       : 'text-black';
   };
@@ -81,7 +89,10 @@ export default function Project({
             src={image}
             alt={imageAlt}
             objectFit="contain"
-            containerClassName="not-prose w-full align-middle"
+            containerClassName={cn(
+              'not-prose w-full align-middle',
+              imageClassName,
+            )}
           />
         </div>
       </Column>
@@ -94,7 +105,7 @@ export default function Project({
         src={image}
         alt={imageAlt}
         className="not-prose flex h-10"
-        containerClassName="block"
+        containerClassName={cn('block', imageClassName)}
       />
       <div className="prose max-w-none py-4">{children}</div>
     </div>
