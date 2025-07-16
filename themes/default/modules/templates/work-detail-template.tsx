@@ -49,7 +49,11 @@ export default function WorkDetailTemplate(props: WorkDetailTemplateProps) {
         <Center className="mx-auto max-w-[700px] flex-col">
           <H3>{projectTitle}</H3>
           <Paragraph className="mt-2 text-center">{description}</Paragraph>
-          <Image src={heroImage} alt={projectTitle || ''} className="mt-4" />
+          <Image
+            src={heroImage}
+            alt={projectTitle || ''}
+            containerClassName="mt-4"
+          />
         </Center>
         {metadata && (
           <HStack

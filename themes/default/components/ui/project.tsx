@@ -81,7 +81,7 @@ export default function Project({
             src={image}
             alt={imageAlt}
             objectFit="contain"
-            className="not-prose w-full align-middle"
+            containerClassName="not-prose w-full align-middle"
           />
         </div>
       </Column>
