@@ -5,7 +5,7 @@ import Section from './section';
 
 interface HeroProps {
   title: string;
-  breakTitle?: string;
+  titleClassName?: string;
   subtitle?: string;
   description?: string;
   ctaText?: string;
@@ -16,6 +16,7 @@ interface HeroProps {
 
 export default function Hero({
   title,
+  titleClassName = '',
   subtitle,
   description,
   ctaText,
@@ -41,7 +42,12 @@ export default function Hero({
             {subtitle}
           </Paragraph>
         )}
-        <H1 className="text-foreground mb-6 leading-tight whitespace-pre-line">
+        <H1
+          className={cn(
+            'text-foreground mb-6 leading-tight whitespace-pre-line',
+            titleClassName,
+          )}
+        >
           {/* Break title */}
           {title?.replace(/\\n/g, '\n')}
         </H1>

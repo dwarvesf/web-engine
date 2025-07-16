@@ -12,6 +12,7 @@ interface TabType {
   groups?: {
     group: string;
     tag?: string;
+    href?: string;
     pages: (string | [string, string])[];
   }[];
 }

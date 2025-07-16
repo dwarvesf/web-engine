@@ -5,6 +5,7 @@ import { ButtonProps } from './ui/button';
 
 type GroupItem = {
   group?: string;
+  href?: string;
   tag?: string;
   pages?: (string | [string, string])[];
   groups?: GroupItem[];
@@ -53,6 +54,25 @@ export const NavigationDropDownContent: React.FC<{
       </a>
     );
   };
+
+  function renderGroup(group: GroupItem) {
+    if (group.href) {
+      return (
+        <a
+          href={group.href}
+          className="text-foreground text-sm font-semibold uppercase"
+        >
+          {group.group}
+        </a>
+      );
+    }
+
+    return (
+      <span className="text-foreground text-sm font-semibold uppercase">
+        {group.group}
+      </span>
+    );
+  }
   return (
     <div
       className={cn(
@@ -66,9 +86,7 @@ export const NavigationDropDownContent: React.FC<{
             {group.groups.map((subGroup, subGroupIndex) => (
               <div key={subGroupIndex}>
                 <div className="mb-3 flex items-center gap-1">
-                  <span className="text-foreground text-sm font-semibold uppercase">
-                    {subGroup.group}
-                  </span>
+                  {renderGroup(subGroup)}
                   {subGroup.tag && <Tag size="xs">{subGroup.tag}</Tag>}
                 </div>
                 <div>
@@ -82,9 +100,7 @@ export const NavigationDropDownContent: React.FC<{
         ) : (
           <div key={groupIndex}>
             <div className="mb-3 flex items-center gap-1">
-              <span className="text-foreground text-sm font-semibold uppercase">
-                {group.group}
-              </span>
+              {renderGroup(group)}
               {group.tag && <Tag size="xs">{group.tag}</Tag>}
             </div>
             <div>
