@@ -1,7 +1,6 @@
 import { TemplateRenderArgs } from '../../types/theme';
 import Layout from '../partials/layout';
-import { cn } from '../../utils';
-import { ServiceContact } from '../../components';
+import { Contact, ServiceContact } from '../../components';
 
 interface FrontmatterMetadata {
   'form-options': {
@@ -21,12 +20,11 @@ export default function ServicesTemplate(props: TemplateRenderArgs) {
   const formOptions = metadata['form-options'] || [];
 
   return (
-    <Layout
-      siteConfig={siteConfig}
-      contentClassName={cn('dwarves-container article-content')}
-    >
+    <Layout siteConfig={siteConfig}>
       {/* Main Content */}
-      <div className="flex-1 py-12">{children}</div>
+      <div className="dwarves-container article-content flex-1 py-12">
+        {children}
+      </div>
 
       {formOptions && (
         <ServiceContact
@@ -40,6 +38,8 @@ export default function ServicesTemplate(props: TemplateRenderArgs) {
           }))}
         />
       )}
+
+      <Contact />
     </Layout>
   );
 }

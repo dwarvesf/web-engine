@@ -28,3 +28,5 @@ export { default as ServiceContact } from './service-contact';
 export { default as WhatWeStandFor } from './what-we-stand-for';
 export { default as WhatWeValue } from './what-we-value';
 export { default as Team } from './team';
+export { default as ColumnsList } from './columns-list';
+export { default as ContentBoxes } from './content-boxes';

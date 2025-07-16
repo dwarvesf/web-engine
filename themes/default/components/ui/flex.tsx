@@ -256,7 +256,7 @@ export const Container = ({
   ...props
 }: React.HTMLAttributes<HTMLDivElement> & {
   as?: React.ElementType;
-  size: keyof typeof containerSizes;
+  size?: keyof typeof containerSizes;
   bgImage?: string;
 }) => {
   const Element = as;

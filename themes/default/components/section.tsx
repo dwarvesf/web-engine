@@ -1,7 +1,7 @@
 import { cn } from '../utils';
 
-interface SectionProps extends React.HTMLAttributes<HTMLElement> {
-  children: React.ReactNode;
+export interface SectionProps extends React.HTMLAttributes<HTMLElement> {
+  children?: React.ReactNode;
   className?: string;
   id?: string;
   variant?: 'default' | 'accent' | 'muted' | 'gradient';
