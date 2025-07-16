@@ -50,7 +50,7 @@ export default function Project({
       : 'text-black';
   };
 
-  const baseClasses = 'rounded-lg my-8 !mt-0';
+  const baseClasses = 'rounded-lg my-8 !mt-0 flex-1';
 
   if (featured || colored) {
     return (
