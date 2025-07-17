@@ -151,7 +151,7 @@ export const ContactFormMain: React.FC<ContactFormProps> = ({
   }, [step, formData, id]);
 
   return (
-    <div className={cn('h-full', className)}>
+    <div id="contact" className={cn('h-full', className)}>
       {title || description ? (
         <div className="mb-8">
           {title ? <h2 className="text-2xl font-bold">{title}</h2> : null}

@@ -91,7 +91,7 @@ const IdeateForm: React.FC<ContactFormProps> = ({
   };
 
   return (
-    <div className={cn('h-full', className)}>
+    <div id="contact" className={cn('h-full', className)}>
       <div className="mb-8">
         <h2 className="mb-4 text-2xl font-semibold">{title}</h2>
         <p className="text-foreground/70">{description}</p>

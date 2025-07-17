@@ -218,7 +218,7 @@ const ServiceContact: React.FC<ServiceContactProps> = ({
   return (
     <Section
       className={cn('flex flex-col gap-4 py-16', className)}
-      id="service-contact-container"
+      id="contact"
       contentClassName="!mx-0 xl:!mx-auto"
     >
       {title ? (
