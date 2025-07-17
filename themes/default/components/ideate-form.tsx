@@ -6,7 +6,7 @@ import { cohorts, locations } from '../constants/select';
 import { createHubspotContact, sendEmail } from '../services/emailer';
 import { cn } from '../utils';
 import { SuccessDialog } from './dialog';
-import { Paragraph } from './ui';
+import { Column, Paragraph } from './ui';
 import Button from './ui/button';
 import Input from './ui/input';
 import Pell from './ui/pell';
@@ -85,9 +85,7 @@ const IdeateForm: React.FC<ContactFormProps> = ({
   };
 
   return (
-    <div
-      className={cn('max-w-2xl min-w-md sm:min-w-md md:min-w-lg', className)}
-    >
+    <div className={cn('h-full', className)}>
       <div className="mb-8">
         <h2 className="mb-4 text-2xl font-semibold">{title}</h2>
         <p className="text-foreground/70">{description}</p>
@@ -152,25 +150,28 @@ const IdeateForm: React.FC<ContactFormProps> = ({
             }}
           />
         </div>
-        <Paragraph className="text-secondary-foreground mb-4 text-xl opacity-75 md:mb-6">
-          By sending this form, you agree with our{' '}
-          <a
-            href="https://www.iubenda.com/privacy-policy/23856015"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="!text-secondary-foreground !no-underline"
+        <Column className="items-center xl:items-start">
+          <Paragraph className="text-secondary-foreground mb-4 text-xl opacity-75 md:mb-6">
+            By sending this form, you agree with our{' '}
+            <a
+              href="https://www.iubenda.com/privacy-policy/23856015"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="!text-secondary-foreground !no-underline"
+            >
+              Privacy Policy
+            </a>
+          </Paragraph>
+          <Button
+            type="submit"
+            variant="primary"
+            disabled={!watchedFields.email}
+            loading={isSubmitting}
+            className="w-fit"
           >
-            Privacy Policy
-          </a>
-        </Paragraph>
-        <Button
-          type="submit"
-          variant="primary"
-          disabled={!watchedFields.email}
-          loading={isSubmitting}
-        >
-          Submit
-        </Button>
+            Submit
+          </Button>
+        </Column>
       </form>
 
       <SuccessDialog

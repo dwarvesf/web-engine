@@ -551,18 +551,24 @@ body {
   max-width: var(--spacing-container-max);
   margin-left: auto;
   margin-right: auto;
+  padding-left: var(--spacing-4);
+  padding-right: var(--spacing-4);
 }
 
 .dwarves-container-wide {
   max-width: 1400px;
   margin-left: auto;
   margin-right: auto;
+  padding-left: var(--spacing-4);
+  padding-right: var(--spacing-4);
 }
 
 .dwarves-container-narrow {
   max-width: 800px;
   margin-left: auto;
   margin-right: auto;
+  padding-left: var(--spacing-4);
+  padding-right: var(--spacing-4);
 }
 
 /* Aspect Ratio Utilities */

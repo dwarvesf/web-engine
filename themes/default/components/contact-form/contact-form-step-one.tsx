@@ -6,7 +6,7 @@ import Input from '../ui/input';
 import Select from '../ui/select';
 import Button from '../ui/button';
 import { locationOptions } from './contact-form-constants';
-import { Paragraph } from '../ui';
+import { Column, Paragraph } from '../ui';
 
 const stepOneSchema = z.object({
   name: z.string().optional(),
@@ -107,25 +107,25 @@ export const StepOneForm: React.FC<StepOneFormProps> = ({
         </div>
       </div>
 
-      {showPolicyAgreement && (
-        <Paragraph className="text-secondary-foreground mb-4 text-xl opacity-75 md:mb-6">
-          By sending this form, you agree with our{' '}
-          <a
-            href="https://www.iubenda.com/privacy-policy/23856015"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="!text-secondary-foreground !no-underline"
-          >
-            Privacy Policy
-          </a>
-        </Paragraph>
-      )}
+      <Column className="items-center xl:items-start">
+        {showPolicyAgreement && (
+          <Paragraph className="text-secondary-foreground mb-4 text-xl opacity-75 md:mb-6">
+            By sending this form, you agree with our{' '}
+            <a
+              href="https://www.iubenda.com/privacy-policy/23856015"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="!text-secondary-foreground !no-underline"
+            >
+              Privacy Policy
+            </a>
+          </Paragraph>
+        )}
 
-      <div>
         <Button type="submit" variant="primary" disabled={isSubmitting}>
           Next
         </Button>
-      </div>
+      </Column>
     </form>
   );
 };

@@ -6,7 +6,7 @@ import { cn } from '../utils';
 import ContactImageGrid from './contact-image-grid';
 import { SuccessDialog } from './dialog';
 import Section from './section';
-import { H3, Paragraph } from './ui';
+import { Column, Container, H3, Paragraph } from './ui';
 import Button from './ui/button';
 import Input from './ui/input';
 import Pell, { PellRef } from './ui/pell';
@@ -94,153 +94,153 @@ const ServiceContact: React.FC<ServiceContactProps> = ({
     <Section
       className={cn('flex flex-col gap-4 py-16', className)}
       id="service-contact-container"
+      contentClassName="!mx-0 xl:!mx-auto"
     >
       {title ? (
         <H3 className="!pb-12 text-center text-3xl font-semibold">{title}</H3>
       ) : null}
-
-      <div
-        className={cn({
-          'grid grid-cols-1 gap-12 xl:grid-cols-2': !onlyForm,
-        })}
-      >
-        {showImageGrid && bgImage && (
-          <div className="hidden xl:block">
-            <ContactImageGrid
-              className="xl:pr-16"
-              images={[{ src: bgImage, alt: serviceName }]}
-            />
-          </div>
-        )}
-
+      <Container className="max-w-none flex-1 flex-shrink-0">
         <div
-          className={cn(
-            showImageGrid ? 'xl:col-span-1' : 'mx-auto max-w-2xl xl:col-span-2',
-          )}
+          className={cn({
+            'grid grid-cols-1 gap-12 xl:grid-cols-2': !onlyForm,
+          })}
         >
+          {showImageGrid && bgImage && (
+            <div className="hidden xl:block">
+              <ContactImageGrid
+                className="xl:pr-16"
+                images={[{ src: bgImage, alt: serviceName }]}
+              />
+            </div>
+          )}
+
           <div
             className={cn(
-              'max-w-2xl min-w-md sm:min-w-md md:min-w-lg',
-              className,
+              showImageGrid
+                ? 'xl:col-span-1'
+                : 'mx-auto max-w-2xl xl:col-span-2',
             )}
           >
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-              <>
-                <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+            <div className={cn('h-full', className)}>
+              <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                <>
+                  <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                    <div>
+                      <Input
+                        label="Your company or project name"
+                        {...register('company')}
+                        error={errors.company?.message}
+                      />
+                    </div>
+                    <div>
+                      <Input
+                        label="What is your name?"
+                        {...register('name')}
+                        error={errors.name?.message}
+                      />
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                    <div>
+                      <Input
+                        label="What is your email address?"
+                        {...register('email')}
+                        error={errors.email?.message}
+                        required
+                      />
+                    </div>
+                    <div>
+                      <Input
+                        label="What is your phone number?"
+                        type="tel"
+                        {...register('tel')}
+                        error={errors.tel?.message}
+                      />
+                    </div>
+                  </div>
                   <div>
-                    <Input
-                      label="Your company or project name"
-                      {...register('company')}
-                      error={errors.company?.message}
+                    <RadioInput
+                      label="Which location is closest to you?"
+                      options={[
+                        { value: 'us', label: 'US' },
+                        { value: 'uk', label: 'UK' },
+                        { value: 'europe', label: 'Europe' },
+                        { value: 'asia', label: 'Asia' },
+                        { value: 'other', label: 'Other' },
+                      ]}
+                      error={errors.location?.message}
+                      {...register('location')}
                     />
                   </div>
                   <div>
-                    <Input
-                      label="What is your name?"
-                      {...register('name')}
-                      error={errors.name?.message}
-                    />
-                  </div>
-                </div>
-                <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-                  <div>
-                    <Input
-                      label="What is your email address?"
-                      {...register('email')}
-                      error={errors.email?.message}
-                      required
-                    />
-                  </div>
-                  <div>
-                    <Input
-                      label="What is your phone number?"
-                      type="tel"
-                      {...register('tel')}
-                      error={errors.tel?.message}
-                    />
-                  </div>
-                </div>
-                <div>
-                  <RadioInput
-                    label="Which location is closest to you?"
-                    options={[
-                      { value: 'us', label: 'US' },
-                      { value: 'uk', label: 'UK' },
-                      { value: 'europe', label: 'Europe' },
-                      { value: 'asia', label: 'Asia' },
-                      { value: 'other', label: 'Other' },
-                    ]}
-                    error={errors.location?.message}
-                    {...register('location')}
-                  />
-                </div>
-                <div>
-                  <Select
-                    label="What is your budget?"
-                    placeholder="Select one"
-                    options={options}
-                    error={errors.service?.message}
-                    {...register('service')}
-                    onChange={e => {
-                      const optsMsg = e.target.value;
-                      const selectedOption = options.find(
-                        option => option.value === optsMsg,
-                      );
-                      register('service').onChange(e);
-                      if (selectedOption) {
-                        const msg = selectedOption['pre-fill-message'];
-                        if (msg) {
-                          setValue('message', msg || '', {
-                            shouldValidate: true,
-                          });
-                          pellRef.current?.change(msg);
+                    <Select
+                      label="What is your budget?"
+                      placeholder="Select one"
+                      options={options}
+                      error={errors.service?.message}
+                      {...register('service')}
+                      onChange={e => {
+                        const optsMsg = e.target.value;
+                        const selectedOption = options.find(
+                          option => option.value === optsMsg,
+                        );
+                        register('service').onChange(e);
+                        if (selectedOption) {
+                          const msg = selectedOption['pre-fill-message'];
+                          if (msg) {
+                            setValue('message', msg || '', {
+                              shouldValidate: true,
+                            });
+                            pellRef.current?.change(msg);
+                          }
                         }
-                      }
-                    }}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <label
-                    htmlFor="message"
-                    className="text-foreground text-md block font-normal"
-                  >
-                    Tell us about your project
-                  </label>
-                  <Pell
-                    id="message"
-                    value={watchedFields.message || ''}
-                    ref={pellRef}
-                    onChange={value => {
-                      setValue('message', value, { shouldValidate: true });
-                    }}
-                  />
-                </div>
-
-                <Paragraph className="text-secondary-foreground pb-6 text-xl">
-                  By sending this form, you agree with our{' '}
-                  <a
-                    href="https://www.iubenda.com/privacy-policy/23856015"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="!text-secondary-foreground !no-underline"
-                  >
-                    Privacy Policy
-                  </a>
-                </Paragraph>
-                <Button
-                  type="submit"
-                  variant="primary"
-                  disabled={!watchedFields.email}
-                  loading={isSubmitting}
-                >
-                  Submit
-                </Button>
-              </>
-            </form>
+                      }}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label
+                      htmlFor="message"
+                      className="text-foreground text-md block font-normal"
+                    >
+                      Tell us about your project
+                    </label>
+                    <Pell
+                      id="message"
+                      value={watchedFields.message || ''}
+                      ref={pellRef}
+                      onChange={value => {
+                        setValue('message', value, { shouldValidate: true });
+                      }}
+                    />
+                  </div>
+                  <Column className="items-center xl:items-start">
+                    <Paragraph className="text-secondary-foreground pb-6 text-xl">
+                      By sending this form, you agree with our{' '}
+                      <a
+                        href="https://www.iubenda.com/privacy-policy/23856015"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="!text-secondary-foreground !no-underline"
+                      >
+                        Privacy Policy
+                      </a>
+                    </Paragraph>
+                    <Button
+                      type="submit"
+                      variant="primary"
+                      disabled={!watchedFields.email}
+                      loading={isSubmitting}
+                      className="w-fit"
+                    >
+                      Submit
+                    </Button>
+                  </Column>
+                </>
+              </form>
+            </div>
           </div>
         </div>
-      </div>
-
+      </Container>
       <SuccessDialog
         isOpen={showSuccessDialog}
         closeDialog={handleCloseDialog}

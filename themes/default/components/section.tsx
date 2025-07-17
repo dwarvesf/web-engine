@@ -8,6 +8,7 @@ export interface SectionProps extends React.HTMLAttributes<HTMLElement> {
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   container?: boolean;
   fullWidth?: boolean;
+  contentClassName?: string;
 }
 
 const variants = {
@@ -33,6 +34,7 @@ export default function Section({
   size = 'md',
   fullWidth = false,
   style,
+  contentClassName,
 }: SectionProps) {
   const sectionClasses = cn(
     'relative',
@@ -41,10 +43,13 @@ export default function Section({
     className,
   );
 
-  const contentClasses = cn({
-    'dwarves-container': !fullWidth,
-    'w-full': fullWidth,
-  });
+  const contentClasses = cn(
+    {
+      'dwarves-container': !fullWidth,
+      'w-full': fullWidth,
+    },
+    contentClassName,
+  );
 
   return (
     <section id={id} className={sectionClasses} style={style}>

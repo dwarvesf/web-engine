@@ -14,6 +14,7 @@ import {
   staffOptions,
 } from './contact-form-constants';
 import { FileWithId } from '../ui/file-input';
+import { Column } from '../ui';
 
 const stepTwoSchema = z
   .object({
@@ -227,31 +228,33 @@ export const StepTwoForm: React.FC<StepTwoFormProps> = ({
         />
       </div>
 
-      <div className="flex items-center gap-2">
-        <Button
-          type="button"
-          variant="outline"
-          disabled={isSubmitting}
-          onClick={onBack}
-        >
-          Back
-        </Button>
-        <Button type="submit" variant="primary" disabled={isSubmitting}>
-          Submit
-        </Button>
-      </div>
+      <Column className="items-center xl:items-start">
+        <div className="flex items-center gap-2">
+          <Button
+            type="button"
+            variant="outline"
+            disabled={isSubmitting}
+            onClick={onBack}
+          >
+            Back
+          </Button>
+          <Button type="submit" variant="primary" disabled={isSubmitting}>
+            Submit
+          </Button>
+        </div>
 
-      <p className="text-muted-foreground mt-4 text-sm">
-        By sending this form, you agree with our{' '}
-        <a
-          href="https://www.iubenda.com/privacy-policy/23856015"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-primary"
-        >
-          Privacy Policy
-        </a>
-      </p>
+        <p className="text-muted-foreground mt-4 text-sm">
+          By sending this form, you agree with our{' '}
+          <a
+            href="https://www.iubenda.com/privacy-policy/23856015"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-primary"
+          >
+            Privacy Policy
+          </a>
+        </p>
+      </Column>
     </form>
   );
 };
