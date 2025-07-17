@@ -30,21 +30,21 @@ export default function Project({
   const getBackgroundClass = (bg?: string) => {
     switch (bg) {
       case 'green': // aharooms
-        return 'bg-[#1F5934]';
+        return 'bg-[#1F5934] border border-[#1F5934]';
       case 'yellow': //becorp
-        return 'bg-[#f6c444]';
+        return 'bg-[#f6c444] border border-[#f6c444]';
       case 'dark': // dental marketplace
-        return 'bg-[#23252c]';
+        return 'bg-[#23252c] border border-[#23252c]';
       case 'purple': // naru
-        return 'bg-[#7a03ed]';
+        return 'bg-[#7a03ed] border border-[#7a03ed]';
       case 'tertiary-blue': // kiwi
-        return 'bg-[#2b64cf]';
+        return 'bg-[#2b64cf] border border-[#2b64cf]';
       case 'blue': // Attrace
-        return 'bg-[#5299fd]';
+        return 'bg-[#5299fd] border border-[#5299fd]';
       case 'white-blue': // airwatt
-        return 'bg-[#F0F4F7]';
+        return 'bg-[#F0F4F7] border border-[#F0F4F7]';
       case 'light-yellow': // artzy
-        return 'bg-[#fff7e9]';
+        return 'bg-[#fff7e9] border border-[#fff7e9]';
       default:
         return 'bg-white';
     }
@@ -54,11 +54,12 @@ export default function Project({
     return ['dark', 'purple', 'blue', 'green', 'tertiary-blue'].includes(
       bg || '',
     )
-      ? 'text-white'
-      : 'text-black';
+      ? 'text-white hover:text-white'
+      : 'text-black hover:text-black';
   };
 
-  const baseClasses = 'rounded-lg my-8 !mt-0 flex-1';
+  const baseClasses =
+    'rounded-lg my-8 !mt-0 flex-1 max-h-[400px] overflow-hidden';
 
   if (featured || colored) {
     return (
@@ -73,7 +74,7 @@ export default function Project({
         )}
       >
         <div className="not-prose relative max-w-none px-8">
-          {children}
+          <div className="**:m-0">{children}</div>
           {href ? (
             <Button
               variant="link"
@@ -107,7 +108,7 @@ export default function Project({
         className="not-prose flex h-10"
         containerClassName={cn('block', imageClassName)}
       />
-      <div className="prose max-w-none py-4">{children}</div>
+      <div className="prose max-w-none py-4 **:m-0">{children}</div>
     </div>
   );
 }

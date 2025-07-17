@@ -2,7 +2,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { structureOptions } from '../constants/location';
+import { structureOptions } from '../constants/select';
+import { createHubspotContact, sendEmail } from '../services/emailer';
 import { cn } from '../utils';
 import { SuccessDialog } from './dialog';
 import { Paragraph } from './ui';
@@ -11,7 +12,6 @@ import { FileWithId } from './ui/file-input';
 import Input from './ui/input';
 import Pell from './ui/pell';
 import Select from './ui/select';
-import { createHubspotContact, sendEmail } from '../services/emailer';
 
 const teamStructureOptions = structureOptions.map(opt => ({
   value: opt,

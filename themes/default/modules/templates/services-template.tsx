@@ -7,7 +7,7 @@ interface FrontmatterMetadata {
     title: string;
     'form-image': string;
     'service-name': string;
-    options: {
+    options?: {
       label: string;
       description?: string;
     }[];
@@ -24,7 +24,7 @@ export default function ServicesTemplate(props: TemplateRenderArgs) {
       {/* Main Content */}
       <div className="dwarves-container flex-1 py-12">{children}</div>
 
-      {formOptions && (
+      {formOptions && formOptions.options && (
         <ServiceContact
           title={formOptions.title}
           serviceName={formOptions['service-name']}

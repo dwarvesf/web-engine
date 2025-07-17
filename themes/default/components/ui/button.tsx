@@ -76,7 +76,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ) => {
     const baseClasses = cn(
       'cursor-pointer inline-flex items-center justify-center font-medium transition-all duration-normal focus:outline-none dwarves-focus-ring disabled:opacity-50 disabled:cursor-not-allowed',
-      'relative overflow-hidden',
+      'relative overflow-hidden not-prose',
       roundedOptions[rounded],
       fullWidth && 'w-full',
       loading && 'cursor-not-allowed',

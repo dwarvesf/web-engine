@@ -1,15 +1,13 @@
 import React from 'react';
-import Section from './section';
-import Flex from './ui/flex';
+import Flex, { Column } from './ui/flex';
 import { H1 } from './ui/heading';
 import { Paragraph } from './ui';
 
 interface ContentBoxesProps {
-  title?: string;
+  title?: React.ReactNode;
   leftColumnContent?: React.ReactNode;
   rightColumnContent?: React.ReactNode;
   className?: string;
-  fullWidth?: boolean;
 }
 
 const ContentBoxes: React.FC<ContentBoxesProps> = ({
@@ -17,14 +15,15 @@ const ContentBoxes: React.FC<ContentBoxesProps> = ({
   leftColumnContent,
   rightColumnContent,
   className = '',
-  fullWidth = false,
 }) => {
   return (
-    <Section className={className} fullWidth={fullWidth}>
-      {title && (
+    <Column className={className}>
+      {typeof title === 'string' ? (
         <H1 className="text-foreground mb-6 leading-tight whitespace-pre-line">
           {title?.replace(/\\n/g, '\n')}
         </H1>
+      ) : (
+        title
       )}
       <Flex className="flex-col gap-8 md:flex-row">
         {leftColumnContent && (
@@ -38,7 +37,7 @@ const ContentBoxes: React.FC<ContentBoxesProps> = ({
           </div>
         )}
       </Flex>
-    </Section>
+    </Column>
   );
 };
 

@@ -56,4 +56,5 @@ export {
   Stack,
   HStack,
   Container,
+  ParagraphBlock,
 } from './flex';

@@ -358,6 +358,13 @@ const config = {
     typography,
     plugin(({ addVariant, addUtilities }) => {
       addVariant('reading', 'html[data-reading-mode="true"] &');
+      // This variant applies styles only when the element is NOT directly within a prose container.
+      // This is a more specific selector to avoid false positives.
+      addVariant('not-prose-ancestor', '&:not(:where(.article-content *))');
+      // A more general (but potentially less precise) approach could be:
+      // addVariant('is-not-prose-child', '.prose :not(&)'); // This is not what we want.
+      // A common approach seen in discussions for "not affected by prose" is:
+      addVariant('prose-unaffected', '&:not(:where([class~="not-prose"] *))'); // This still works only inside prose where not-prose is active.
 
       // Add custom utilities
       addUtilities({

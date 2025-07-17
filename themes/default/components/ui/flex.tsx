@@ -281,3 +281,35 @@ export const Container = ({
     </Element>
   );
 };
+
+const paragraphBlockSizes = {
+  xs: 'text-xs',
+  sm: 'text-sm',
+  md: 'text-md',
+  lg: 'text-lg',
+  xl: 'text-xl',
+  '2xl': 'text-2xl',
+  '3xl': 'text-3xl',
+  '4xl': 'text-4xl',
+  '5xl': 'text-5xl',
+  '6xl': 'text-6xl',
+};
+
+export const ParagraphBlock = ({
+  children,
+  className = '',
+  size = 'xl',
+  ...props
+}: React.HTMLAttributes<HTMLDivElement> & {
+  size?: keyof typeof paragraphBlockSizes;
+}) => {
+  return (
+    <div
+      className={cn('max-w-paragraph', paragraphBlockSizes[size], className)}
+      {...props}
+      suppressHydrationWarning
+    >
+      {children}
+    </div>
+  );
+};
