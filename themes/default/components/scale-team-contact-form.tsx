@@ -1,15 +1,16 @@
+import { zodResolver } from '@hookform/resolvers/zod';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { cn } from '../utils';
-import Button from './ui/button';
-import Input from './ui/input';
-import Select from './ui/select';
-import { Paragraph } from './ui';
 import { structureOptions } from '../constants/location';
-import Pell from './ui/pell';
+import { cn } from '../utils';
+import { SuccessDialog } from './dialog';
+import { Paragraph } from './ui';
+import Button from './ui/button';
 import { FileWithId } from './ui/file-input';
+import Input from './ui/input';
+import Pell from './ui/pell';
+import Select from './ui/select';
 
 const teamStructureOptions = structureOptions.map(opt => ({
   value: opt,
@@ -50,12 +51,12 @@ const ScaleTeamContact: React.FC<ContactFormProps> = ({
   title,
   description,
 }) => {
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [showSuccessDialog, setShowSuccessDialog] = useState(false);
 
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     watch,
     reset,
     setValue,
@@ -70,51 +71,17 @@ const ScaleTeamContact: React.FC<ContactFormProps> = ({
     try {
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1000));
-      setIsSubmitted(true);
+      setShowSuccessDialog(true);
       console.log('Form submitted:', data);
+      reset();
     } catch (error) {
       console.error('Form submission error:', error);
     }
   };
 
-  const handleReset = () => {
-    reset();
-    setIsSubmitted(false);
+  const handleCloseDialog = () => {
+    setShowSuccessDialog(false);
   };
-
-  if (isSubmitted) {
-    return (
-      <div className={cn('p-8 text-center', className)}>
-        <div className="bg-success/10 mb-6 rounded-lg p-6">
-          <div className="bg-success mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full">
-            <svg
-              className="h-8 w-8 text-white"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M5 13l4 4L19 7"
-              />
-            </svg>
-          </div>
-          <h3 className="mb-2 text-xl font-semibold">
-            Thank you for your message!
-          </h3>
-          <p className="text-foreground/70 mb-4">
-            We've received your inquiry and will get back to you within 24
-            hours.
-          </p>
-          <Button variant="outline" onClick={handleReset}>
-            Send Another Message
-          </Button>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div
@@ -206,11 +173,17 @@ const ScaleTeamContact: React.FC<ContactFormProps> = ({
         <Button
           type="submit"
           variant="primary"
-          disabled={!watchedFields.email || !watchedFields.company}
+          disabled={!watchedFields.email}
+          loading={isSubmitting}
         >
           Submit
         </Button>
       </form>
+
+      <SuccessDialog
+        isOpen={showSuccessDialog}
+        closeDialog={handleCloseDialog}
+      />
     </div>
   );
 };

@@ -1,10 +1,13 @@
 export { default as Blockquote } from './blockquote';
 export { default as Button } from './button';
+export { default as CheckboxInput } from './checkbox-input';
 export { default as CodeBlock, InlineCode } from './codeblock';
 export { H1, H2, H3, H4, H5, H6, default as Heading } from './heading';
 export { default as Icon } from './icon';
 export { default as Image } from './image';
 export { default as Input } from './input';
+export { default as Radio } from './radio';
+export { default as RadioInput } from './radio-input';
 export { default as Select } from './select';
 export { default as SuccessDialog } from './success-dialog';
 export { default as Link } from './link';

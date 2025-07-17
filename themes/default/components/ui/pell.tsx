@@ -42,6 +42,8 @@ interface PellProps
   onChange?: (html: string) => void;
   error?: string;
   className?: string;
+  label?: string;
+  helperText?: string;
   classes?: PellClasses;
   defaultValue?: string;
   value?: string;
@@ -79,6 +81,8 @@ const Pell = forwardRef<PellRef, PellProps>(
       withAttachments,
       attachmentProps,
       error,
+      label,
+      helperText,
       ...rest
     },
     ref,
@@ -126,6 +130,21 @@ const Pell = forwardRef<PellRef, PellProps>(
 
     return (
       <>
+        {label || helperText ? (
+          <div className="mb-2">
+            {label && (
+              <label className="text-foreground text-md block font-normal">
+                Describe your project
+              </label>
+            )}
+            {helperText && (
+              <small className="text-muted-foreground">
+                What the project is about, how the team currently is, what the
+                tech stack is, etc.
+              </small>
+            )}
+          </div>
+        ) : null}
         <div
           ref={containerRef}
           className={cn(

@@ -75,7 +75,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     ref,
   ) => {
     const baseClasses = cn(
-      'inline-flex items-center justify-center font-medium transition-all duration-normal focus:outline-none dwarves-focus-ring disabled:opacity-50 disabled:cursor-not-allowed',
+      'cursor-pointer inline-flex items-center justify-center font-medium transition-all duration-normal focus:outline-none dwarves-focus-ring disabled:opacity-50 disabled:cursor-not-allowed',
       'relative overflow-hidden',
       roundedOptions[rounded],
       fullWidth && 'w-full',

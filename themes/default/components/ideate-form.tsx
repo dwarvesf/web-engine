@@ -1,14 +1,16 @@
+import { zodResolver } from '@hookform/resolvers/zod';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { cohorts, locations } from '../constants/location';
 import { cn } from '../utils';
+import { SuccessDialog } from './dialog';
+import { Paragraph } from './ui';
 import Button from './ui/button';
 import Input from './ui/input';
-import Select from './ui/select';
-import RadioInput from './ui/radio-input';
-import { cohorts, locations } from '../constants/location';
 import Pell from './ui/pell';
+import RadioInput from './ui/radio-input';
+import Select from './ui/select';
 
 const cohortOptions = cohorts.map(option => ({
   value: option,
@@ -43,17 +45,15 @@ const IdeateForm: React.FC<ContactFormProps> = ({
   title,
   description,
 }) => {
-  const [step, setStep] = useState(1);
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [showSuccessDialog, setShowSuccessDialog] = useState(false);
 
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
     watch,
-    trigger,
-    reset,
     setValue,
+    reset,
   } = useForm<ContactFormData>({
     resolver: zodResolver(contactFormSchema),
     mode: 'onChange',
@@ -65,59 +65,17 @@ const IdeateForm: React.FC<ContactFormProps> = ({
     try {
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1000));
-      setIsSubmitted(true);
       console.log('Form submitted:', data);
+      setShowSuccessDialog(true);
+      reset();
     } catch (error) {
       console.error('Form submission error:', error);
     }
   };
 
-  const handleReset = () => {
-    reset();
-    setStep(1);
-    setIsSubmitted(false);
+  const handleCloseDialog = () => {
+    setShowSuccessDialog(false);
   };
-
-  const nextStep = async () => {
-    const isValid = await trigger(['name', 'email', 'company']);
-    if (isValid) {
-      setStep(2);
-    }
-  };
-
-  if (isSubmitted) {
-    return (
-      <div className={cn('p-8 text-center', className)}>
-        <div className="bg-success/10 mb-6 rounded-lg p-6">
-          <div className="bg-success mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full">
-            <svg
-              className="h-8 w-8 text-white"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M5 13l4 4L19 7"
-              />
-            </svg>
-          </div>
-          <h3 className="mb-2 text-xl font-semibold">
-            Thank you for your message!
-          </h3>
-          <p className="text-foreground/70 mb-4">
-            We've received your inquiry and will get back to you within 24
-            hours.
-          </p>
-          <Button variant="outline" onClick={handleReset}>
-            Send Another Message
-          </Button>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div
@@ -129,93 +87,89 @@ const IdeateForm: React.FC<ContactFormProps> = ({
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-        {step === 1 && (
-          <>
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-              <div>
-                <Select
-                  label="Service"
-                  placeholder="Select service"
-                  options={cohortOptions}
-                  error={errors.service?.message}
-                  {...register('service')}
-                />
-              </div>
-              <div>
-                <Input
-                  label="Full Name"
-                  {...register('name')}
-                  error={errors.name?.message}
-                />
-              </div>
-            </div>
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-              <div>
-                <Input
-                  label="What is your email address?"
-                  {...register('email')}
-                  error={errors.email?.message}
-                />
-              </div>
-              <div>
-                <Input
-                  label="What is your phone number?"
-                  type="tel"
-                  {...register('tel')}
-                  error={errors.tel?.message}
-                />
-              </div>
-            </div>
-            <div>
-              <RadioInput
-                label="Which location is closest to you?"
-                options={locationOptions}
-                error={errors.location?.message}
-                {...register('location')}
-              />
-            </div>
-            <div className="space-y-2">
-              <label
-                htmlFor="message"
-                className="text-foreground text-md block font-normal"
-              >
-                Tell us about your ideas
-              </label>
-              <Pell
-                id="message"
-                onChange={value => {
-                  setValue('message', value, { shouldValidate: true });
-                }}
-              />
-            </div>
-            <Button
-              type="button"
-              variant="primary"
-              onClick={nextStep}
-              disabled={!watchedFields.email || !watchedFields.company}
-            >
-              Next
-            </Button>
-          </>
-        )}
-
-        {step === 2 && (
-          <>
-            <div className="flex gap-4">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => setStep(1)}
-              >
-                Back
-              </Button>
-              <Button type="submit" variant="primary" disabled={isSubmitting}>
-                {isSubmitting ? 'Sending...' : 'Send Message'}
-              </Button>
-            </div>
-          </>
-        )}
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+          <div>
+            <Select
+              label="Service"
+              placeholder="Select service"
+              options={cohortOptions}
+              error={errors.service?.message}
+              {...register('service')}
+            />
+          </div>
+          <div>
+            <Input
+              label="Full Name"
+              {...register('name')}
+              error={errors.name?.message}
+            />
+          </div>
+        </div>
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+          <div>
+            <Input
+              label="What is your email address?"
+              {...register('email')}
+              error={errors.email?.message}
+              required
+            />
+          </div>
+          <div>
+            <Input
+              label="What is your phone number?"
+              type="tel"
+              {...register('tel')}
+              error={errors.tel?.message}
+            />
+          </div>
+        </div>
+        <div>
+          <RadioInput
+            label="Which location is closest to you?"
+            options={locationOptions}
+            error={errors.location?.message}
+            {...register('location')}
+          />
+        </div>
+        <div className="space-y-2">
+          <label
+            htmlFor="message"
+            className="text-foreground text-md block font-normal"
+          >
+            Tell us about your ideas
+          </label>
+          <Pell
+            id="message"
+            onChange={value => {
+              setValue('message', value, { shouldValidate: true });
+            }}
+          />
+        </div>
+        <Paragraph className="text-secondary-foreground mb-4 text-xl opacity-75 md:mb-6">
+          By sending this form, you agree with our{' '}
+          <a
+            href="https://www.iubenda.com/privacy-policy/23856015"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="!text-secondary-foreground !no-underline"
+          >
+            Privacy Policy
+          </a>
+        </Paragraph>
+        <Button
+          type="submit"
+          variant="primary"
+          disabled={!watchedFields.email}
+          loading={isSubmitting}
+        >
+          Submit
+        </Button>
       </form>
+
+      <SuccessDialog
+        isOpen={showSuccessDialog}
+        closeDialog={handleCloseDialog}
+      />
     </div>
   );
 };

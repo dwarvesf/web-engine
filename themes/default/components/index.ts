@@ -18,7 +18,7 @@ export { default as TechnologyShowcase } from './technology-showcase';
 export { default as OpensourceProjects } from './opensource-projects';
 export { default as CallToAction } from './cta';
 export { default as Contact } from './contact';
-export { default as ContactForm } from './contact-form';
+export { ContactForm } from './contact-form';
 export { default as ContactSteps } from './contact-steps';
 export { default as ContactImageGrid } from './contact-image-grid';
 export { default as Dwarves } from './dwarves';

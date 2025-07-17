@@ -1,16 +1,17 @@
-import ContactImageGrid from './contact-image-grid';
-import Section from './section';
-import React, { useRef } from 'react';
-import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import React, { useRef, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { cn } from '../utils';
+import ContactImageGrid from './contact-image-grid';
+import { SuccessDialog } from './dialog';
+import Section from './section';
+import { H3, Paragraph } from './ui';
 import Button from './ui/button';
 import Input from './ui/input';
-import Select from './ui/select';
-import RadioInput from './ui/radio-input';
-import { H3, Paragraph } from './ui';
 import Pell, { PellRef } from './ui/pell';
+import RadioInput from './ui/radio-input';
+import Select from './ui/select';
 
 const contactFormSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
@@ -47,12 +48,15 @@ const ServiceContact: React.FC<ServiceContactProps> = ({
   showImageGrid = true,
   onlyForm,
 }) => {
+  const [showSuccessDialog, setShowSuccessDialog] = useState(false);
+
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
     watch,
     setValue,
+    reset,
   } = useForm<ContactFormData>({
     resolver: zodResolver(contactFormSchema),
     mode: 'onChange',
@@ -67,9 +71,15 @@ const ServiceContact: React.FC<ServiceContactProps> = ({
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1000));
       console.log('Form submitted:', data);
+      setShowSuccessDialog(true);
+      reset();
     } catch (error) {
       console.error('Form submission error:', error);
     }
+  };
+
+  const handleCloseDialog = () => {
+    setShowSuccessDialog(false);
   };
 
   return (
@@ -212,7 +222,7 @@ const ServiceContact: React.FC<ServiceContactProps> = ({
                 <Button
                   type="submit"
                   variant="primary"
-                  disabled={!watchedFields.email || !watchedFields.company}
+                  disabled={!watchedFields.email}
                   loading={isSubmitting}
                 >
                   Submit
@@ -222,6 +232,11 @@ const ServiceContact: React.FC<ServiceContactProps> = ({
           </div>
         </div>
       </div>
+
+      <SuccessDialog
+        isOpen={showSuccessDialog}
+        closeDialog={handleCloseDialog}
+      />
     </Section>
   );
 };

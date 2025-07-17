@@ -58,7 +58,7 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>(
       'text-foreground cursor-pointer',
       'appearance-none bg-no-repeat bg-right-3 bg-center',
       fullWidth ? 'w-full' : '',
-      'pr-10',
+      '!pr-10',
     );
 
     const classes = cn(
@@ -108,6 +108,21 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>(
               </option>
             ))}
           </select>
+
+          {/* Custom dropdown arrow */}
+          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+            <svg
+              className="text-muted-foreground h-6 w-6"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fillRule="evenodd"
+                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                clipRule="evenodd"
+              />
+            </svg>
+          </div>
 
           {isFocused && (
             <div className="ring-primary/20 pointer-events-none absolute inset-0 rounded-sm" />
