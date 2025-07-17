@@ -6,7 +6,7 @@
   --pell-border-width: 1px;
   --pell-button-width: 32px;
   --pell-button-height: 40px;
-  --pell-button-selected-color: #f0f0f0;
+  --pell-button-selected-color: var(--color-tag);
   --pell-content-height: 100%;
   --pell-content-padding: 10px;
 }
@@ -33,7 +33,7 @@
 
 .pell-actionbar {
   background-color: var(--color-background);
-  border-bottom: 1px solid rgba(10, 10, 10, 0.1);
+  border-bottom: 1px solid var(--pell-border-color);
   padding-left: 8px;
 }
 
@@ -50,5 +50,5 @@
 }
 
 .pell-button-selected {
-  background-color: #f0f0f0;
+  background-color: var(--pell-button-selected-color);
 }
