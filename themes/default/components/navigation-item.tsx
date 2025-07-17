@@ -232,7 +232,7 @@ export default function NavigationItem({
             height="20"
             width="20"
             viewBox="0 0 40 40"
-            className={cn('ml-1 transform', {
+            className={cn('transform', {
               'rotate-180': isOpen,
             })}
           >
