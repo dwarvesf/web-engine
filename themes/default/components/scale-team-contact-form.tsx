@@ -19,13 +19,13 @@ const teamStructureOptions = structureOptions.map(opt => ({
 }));
 
 const contactFormSchema = z.object({
-  name: z.string().min(2, 'Name must be at least 2 characters'),
+  name: z.string().min(2, 'Name must be at least 2 characters').optional(),
   email: z.string().email('Please enter a valid email address'),
-  company: z.string().optional(),
-  website: z.string().optional(),
-  stack: z.string().optional(),
-  team: z.string().optional(),
-  message: z.string().optional(),
+  company: z.string().optional().optional(),
+  website: z.string().optional().optional(),
+  stack: z.string().optional().optional(),
+  team: z.string().optional().optional(),
+  message: z.string().optional().optional(),
   attachments: z
     .array(z.any()) // Use z.any() because z.file() might not have the necessary File properties for size calculation directly in Zod's type inference
     .optional()

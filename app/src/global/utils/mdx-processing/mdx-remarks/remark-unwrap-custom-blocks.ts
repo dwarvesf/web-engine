@@ -19,7 +19,8 @@ export function remarkUnwrapCustomBlocks() {
           parent &&
           node.children &&
           node.children.length === 1 &&
-          node.children[0].type === 'paragraph'
+          node.children[0].type === 'paragraph' &&
+          parent.type === 'paragraph'
         ) {
           // Replace the paragraph node with its children
           node.children = (node.children[0] as Paragraph).children as (

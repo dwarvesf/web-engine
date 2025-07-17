@@ -24,13 +24,16 @@ const locationOptions = locations.map(location => ({
 }));
 
 const contactFormSchema = z.object({
-  name: z.string().min(2, 'Name must be at least 2 characters'),
-  email: z.string().email('Please enter a valid email address'),
+  name: z.string().min(2, 'Name must be at least 2 characters').optional(),
+  email: z.email('Please enter a valid email address'),
   company: z.string().optional(),
   tel: z.string().optional(),
-  location: z.string().min(1, 'Please select a budget range'),
-  service: z.string().min(1, 'Please select a service'),
-  message: z.string().min(10, 'Message must be at least 10 characters'),
+  location: z.string().min(1, 'Please select a budget range').optional(),
+  service: z.string().min(1, 'Please select a service').optional(),
+  message: z
+    .string()
+    .min(10, 'Message must be at least 10 characters')
+    .optional(),
 });
 
 type ContactFormData = z.infer<typeof contactFormSchema>;
@@ -58,6 +61,9 @@ const IdeateForm: React.FC<ContactFormProps> = ({
   } = useForm<ContactFormData>({
     resolver: zodResolver(contactFormSchema),
     mode: 'onChange',
+    defaultValues: {
+      service: cohorts[0],
+    },
   });
 
   const watchedFields = watch();
