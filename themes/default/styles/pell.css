@@ -28,11 +28,11 @@
 }
 
 .pell-content:focus {
-  background-color: #fff;
+  background-color: var(--color-input);
 }
 
 .pell-actionbar {
-  background-color: #fff;
+  background-color: var(--color-background);
   border-bottom: 1px solid rgba(10, 10, 10, 0.1);
   padding-left: 8px;
 }
@@ -46,6 +46,7 @@
   width: 32px;
   vertical-align: bottom;
   opacity: 0.6;
+  color: var(--color-foreground);
 }
 
 .pell-button-selected {

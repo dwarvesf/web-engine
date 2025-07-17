@@ -172,7 +172,7 @@ const Pell = forwardRef<PellRef, PellProps>(
                     onClick={openFileInput}
                     aria-label="Enclose files"
                   >
-                    <BsPaperclip className="h-6 w-6 text-black" />
+                    <BsPaperclip className="text-foreground h-5 w-5" />
                   </button>
                 ) as React.ReactNode
               }
