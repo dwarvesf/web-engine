@@ -14,6 +14,7 @@ import recmaMdxEscapeMissingComponents from 'recma-mdx-escape-missing-components
 import { PUBLIC_CONTENT } from '../../../../scripts/paths';
 import { getSiteConfig } from '@wse/global/adapters';
 import remarkGfm from 'remark-gfm';
+import { remarkUnwrapCustomBlocks } from '../mdx-processing/mdx-remarks/remark-unwrap-custom-blocks';
 
 export function getAllMdxFiles(
   dir: string,
@@ -124,6 +125,7 @@ export async function getFrontmatterMdxSerializedContent(
             remarkPlugins: [
               remarkGfm,
               remarkMdxImports,
+              remarkUnwrapCustomBlocks, // Add the new plugin here
               () => remarkTransformPaths(filePath),
             ], // Ensure order: imports first, then path transforms
           },
@@ -165,6 +167,7 @@ export async function getMdxContent(slug: string[]): Promise<
         remarkPlugins: [
           remarkGfm,
           remarkMdxImports,
+          remarkUnwrapCustomBlocks, // Add the new plugin here
           () => remarkTransformPaths(filePath),
         ], // Ensure order: imports first, then path transforms
       },
