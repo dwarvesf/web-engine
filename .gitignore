@@ -48,3 +48,6 @@ app/public/content
 app/out
 /content
 app/src/generated
+
+# Porting Artifacts
+porting-input
