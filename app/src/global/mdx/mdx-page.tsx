@@ -1,6 +1,6 @@
 import { MDXClient } from 'next-mdx-remote-client/csr';
 import type { SerializeResult } from 'next-mdx-remote-client/serialize';
-import React from 'react';
+import React, { ComponentProps } from 'react';
 import { getSiteConfig, themeAdapter } from '../adapters';
 
 interface MDXComponents {
@@ -73,14 +73,46 @@ function mdxRenderer(content?: MDXPageProps['mdxSource']) {
   );
 }
 
+function envPicker(
+  keys: [
+    string | undefined,
+    keyof NonNullable<
+      ComponentProps<NonNullable<typeof modules.TemplateRender>>['env']
+    >,
+  ][],
+): Record<string, string | undefined> {
+  return keys.reduce(
+    (acc, [key, targetKey]) => {
+      acc[targetKey] = key;
+      return acc;
+    },
+    {} as Record<string, string | undefined>,
+  );
+}
+
 export default function MDXPage({ frontmatter, mdxSource }: MDXPageProps) {
   const Component = modules?.TemplateRender ?? React.Fragment;
 
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  const themeProps = // @ts-expect-error
+    modules && modules.TemplateRender
+      ? {
+          siteConfig,
+          frontmatter,
+          mdxRenderer,
+          env: envPicker([
+            [process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY, 'GOOGLE_API'],
+            [process.env.NEXT_PUBLIC_EMAILER_API, 'EMAILER_API'],
+            [process.env.NEXT_PUBLIC_HUBSPOT_API, 'HUBSPOT_API'],
+          ]),
+        }
+      : {};
+
   return (
     <Component
-      siteConfig={siteConfig!}
-      frontmatter={frontmatter}
-      mdxRenderer={mdxRenderer}
+      {...(themeProps as ComponentProps<
+        NonNullable<typeof modules.TemplateRender>
+      >)}
     >
       <MDXClient
         {...mdxSource}

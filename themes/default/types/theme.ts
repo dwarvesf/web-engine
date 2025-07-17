@@ -1,4 +1,5 @@
 import { PropsWithChildren } from 'react';
+import { ConfigurationServiceName } from '../services/app-config';
 
 export interface TabType {
   tab: string;
@@ -190,6 +191,7 @@ export type TemplateRenderArgs = PropsWithChildren<{
   siteConfig?: SiteConfig;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   mdxRenderer: (content: any) => React.ReactNode;
+  env?: Record<ConfigurationServiceName, any>;
 }>;
 
 export enum ThemeTemplates {

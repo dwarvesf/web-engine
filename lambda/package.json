@@ -1,0 +1,23 @@
+{
+  "name": "lambda",
+  "description": "lambda functions",
+  "private": true,
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch"
+  },
+  "type": "module",
+  "dependencies": {
+    "@sendgrid/mail": "^7.6.0",
+    "busboy": "^0.2.14",
+    "encoding": "^0.1.13",
+    "axios": "^1.10.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.4",
+    "@types/aws-lambda": "^8.10.138",
+    "@types/busboy": "^1.5.3",
+    "tsup": "^8.5.0",
+    "typescript": "^5.8.3"
+  }
+}

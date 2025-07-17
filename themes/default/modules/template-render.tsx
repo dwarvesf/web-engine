@@ -1,10 +1,13 @@
 import React, { JSX, lazy, Suspense, useEffect, useState } from 'react';
 import { TemplateRenderArgs, ThemeTemplates } from '../types/theme';
+import { appConfigService } from '../services/app-config';
 
 const TemplateRender: React.FC<TemplateRenderArgs> = props => {
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
+    // Set the app configuration
+    appConfigService.setConfig(props.env ?? {});
     setIsClient(true);
   }, []);
 

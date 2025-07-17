@@ -15,10 +15,12 @@
     "themes:lint": "pnpm -r --filter='./themes/*' run lint",
     "themes:format": "pnpm -r --filter='./themes/*' run format",
     "themes:type-check": "pnpm -r --filter='./themes/*' run type-check",
+    "lambda:build": "pnpm --filter=lambda run build",
     "prepare": "husky",
     "lint-staged": "lint-staged"
   },
   "devDependencies": {
+    "@types/aws-lambda": "^8.10.150",
     "husky": "^9.1.7",
     "lint-staged": "^16.1.2",
     "prettier": "^3.6.2"

@@ -3,6 +3,7 @@ import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 import { cn } from '../utils';
 import Button from './ui/button';
 import Section from './section';
+import { appConfigService } from '../services/app-config';
 
 interface Office {
   name: string;
@@ -23,10 +24,12 @@ const OfficeMap: React.FC<OfficeMapProps> = ({
   className,
   offices = [],
   mapHeight = 572,
-  mapApiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
+  mapApiKey,
   officeMarkerIcon = '/content/contact/svg/office-location.svg',
 }) => {
   const [selectedOffice, setSelectedOffice] = useState(0);
+
+  const apiKey = mapApiKey || appConfigService.getValue('GOOGLE_API');
 
   const selectedOfficeData = offices[selectedOffice];
 
@@ -147,8 +150,8 @@ const OfficeMap: React.FC<OfficeMapProps> = ({
         <div className="bg-grayscale-100">
           <div className="text-center">
             <div className="mx-auto w-full overflow-hidden">
-              {mapApiKey ? (
-                <LoadScript googleMapsApiKey={mapApiKey}>
+              {apiKey ? (
+                <LoadScript googleMapsApiKey={apiKey}>
                   <GoogleMap
                     mapContainerStyle={mapContainerStyle}
                     center={mapCenter}

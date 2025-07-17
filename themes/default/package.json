@@ -55,6 +55,7 @@
   "dependencies": {
     "@hookform/resolvers": "^5.1.1",
     "@react-google-maps/api": "^2.20.7",
+    "axios": "^1.10.0",
     "clsx": "^2.1.1",
     "pell": "^1.0.6",
     "react-hook-form": "^7.60.0",
