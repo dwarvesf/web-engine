@@ -9,7 +9,10 @@ export function Table({
   return (
     <div className="mb-4 overflow-x-auto">
       <table
-        className={cn('border-border w-full border-collapse border', className)}
+        className={cn(
+          'w-full border-collapse border-none !text-base',
+          className,
+        )}
         {...props}
       >
         {children}
@@ -24,7 +27,7 @@ export function TableHead({
   ...props
 }: React.HTMLAttributes<HTMLTableSectionElement>) {
   return (
-    <thead className={cn('bg-secondary', className)} {...props}>
+    <thead className={className} {...props}>
       {children}
     </thead>
   );
@@ -48,7 +51,7 @@ export function TableRow({
   ...props
 }: React.HTMLAttributes<HTMLTableRowElement>) {
   return (
-    <tr className={cn('border-border border-b', className)} {...props}>
+    <tr className={className} {...props}>
       {children}
     </tr>
   );
@@ -62,7 +65,7 @@ export function TableHeader({
   return (
     <th
       className={cn(
-        'border-border border px-4 py-2 text-left font-semibold',
+        '!bg-transparent py-2 !pr-4 !pl-0 text-left !font-semibold',
         className,
       )}
       {...props}
@@ -78,7 +81,7 @@ export function TableCell({
   ...props
 }: React.TdHTMLAttributes<HTMLTableCellElement>) {
   return (
-    <td className={cn('border-border border px-4 py-2', className)} {...props}>
+    <td className={cn('py-2 !pr-4 !pl-0', className)} {...props}>
       {children}
     </td>
   );

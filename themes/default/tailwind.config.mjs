@@ -238,16 +238,20 @@ const config = {
             h3: {
               fontSize: '1.5rem !important',
               margin:
-                'var(--spacing-subheading) 0 var(--spacing-subheading) !important',
+                'var(--spacing-heading) 0 var(--spacing-subheading) !important',
             },
             h4: {
               fontSize: '1.25rem !important',
               margin:
-                'var(--spacing-subheading) 0 var(--spacing-subheading) !important',
+                'var(--spacing-heading) 0 var(--spacing-subheading) !important',
             },
             h5: {
               fontSize: '1.125rem !important',
               margin: 'var(--spacing-subheading) 0 0 !important',
+            },
+            em: {
+              backgroundColor: 'rgb(248, 217, 223)',
+              fontStyle: 'normal',
             },
             p: {
               marginBottom: '0',
@@ -294,6 +298,7 @@ const config = {
             table: {
               width: '100%',
               borderCollapse: 'collapse',
+              border: 'none',
               marginTop: 'var(--spacing-element)',
             },
             '*:first-child': {
@@ -302,12 +307,18 @@ const config = {
             'th, td': {
               padding: '10px 12px !important',
               textAlign: 'left',
-              border: '1px solid var(--color-border)',
-              fontSize: 'var(--font-size-lg)',
+              borderBottom: '1px solid var(--color-border)',
             },
             'thead th': {
               fontWeight: '500',
               backgroundColor: 'var(--color-secondary)',
+            },
+            a: {
+              color: 'var(--color-foreground)',
+              textDecoration: 'underline',
+              '&:hover': {
+                color: 'var(--color-primary)',
+              },
             },
           },
         },

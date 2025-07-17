@@ -3,9 +3,8 @@ import Layout from '../partials/layout';
 import {
   Button,
   Center,
-  H3,
+  H1,
   HStack,
-  Icon,
   Image,
   Paragraph,
   Stack,
@@ -46,13 +45,13 @@ export default function WorkDetailTemplate(props: WorkDetailTemplateProps) {
     >
       {/* Hero Section */}
       <Stack gap="3xl">
-        <Center className="mx-auto max-w-[700px] flex-col">
-          <H3>{projectTitle}</H3>
-          <Paragraph className="mt-2 text-center">{description}</Paragraph>
+        <Center className="mx-auto max-w-[700px] flex-col pt-12" gap="none">
+          <H1>{projectTitle}</H1>
+          <Paragraph className="text-center">{description}</Paragraph>
           <Image
             src={heroImage}
             alt={projectTitle || ''}
-            containerClassName="mt-4"
+            containerClassName="mt-12"
           />
         </Center>
         {metadata && (
@@ -60,7 +59,7 @@ export default function WorkDetailTemplate(props: WorkDetailTemplateProps) {
             equal={false}
             className="mx-auto max-w-[950px] items-start gap-12"
           >
-            <Stack className="basis-[18%]">
+            <Stack className="basis-[18%]" gap="lg">
               {Object.entries(metadata).map(([key, value]) => (
                 <Stack key={key} className="gap-1">
                   <strong className="text-sm font-semibold capitalize">
@@ -72,36 +71,36 @@ export default function WorkDetailTemplate(props: WorkDetailTemplateProps) {
                 </Stack>
               ))}
             </Stack>
-            <Stack className="flex-1 gap-0">
+            <Stack className="flex-1 gap-0 text-lg">
               {mdxRenderer?.(heroMdxContent)}
             </Stack>
           </HStack>
         )}
       </Stack>
       {/* Main Content (MDX content) */}
-      <div className="mx-auto max-w-[700px] flex-1 py-12">{children}</div>
+      <div className="mx-auto max-w-[700px] flex-1 py-12 font-serif">
+        {children}
+      </div>
 
       {/* Navigation Links */}
       {links && (
-        <HStack className="mx-auto max-w-[700px] justify-between pt-20">
+        <HStack className="mx-auto max-w-[700px] justify-between pt-16 pb-20">
           {links.previous && (
             <Button
               variant="link"
               href={links.previous.url}
-              className="w-auto flex-none self-start underline"
+              className="!text-primary w-auto flex-none self-start px-0 !font-normal !underline"
             >
-              <Icon name="arrowLeft" />
-              {links.previous.title}
+              ← {links.previous.title}
             </Button>
           )}
           {links.next && (
             <Button
               variant="link"
               href={links.next.url}
-              className="w-auto flex-none self-end underline"
+              className="!text-primary w-auto flex-none self-end px-0 !font-normal !underline"
             >
-              {links.next.title}
-              <Icon name="arrowRight" />
+              {links.next.title} →
             </Button>
           )}
         </HStack>
