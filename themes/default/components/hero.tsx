@@ -8,6 +8,7 @@ interface HeroProps {
   titleClassName?: string;
   subtitle?: string;
   description?: string;
+  descriptionClassName?: string;
   ctaText?: string;
   ctaLink?: string;
   backgroundImage?: string;
@@ -19,6 +20,7 @@ export default function Hero({
   titleClassName = '',
   subtitle,
   description,
+  descriptionClassName,
   ctaText,
   ctaLink,
   backgroundImage,
@@ -36,7 +38,7 @@ export default function Hero({
         backgroundPosition: 'center',
       }}
     >
-      <div className="max-w-paragraph relative z-10">
+      <div className="relative z-10">
         {subtitle && (
           <Paragraph className="text-muted-foreground text-md mb-4 font-bold uppercase">
             {subtitle}
@@ -52,7 +54,12 @@ export default function Hero({
           {title?.replace(/\\n/g, '\n')}
         </H1>
         {description && (
-          <Paragraph className="text-foreground max-w-paragraph mb-8 text-xl whitespace-pre-line">
+          <Paragraph
+            className={cn(
+              'text-foreground max-w-paragraph mb-8 text-xl whitespace-pre-line',
+              descriptionClassName,
+            )}
+          >
             {description.replace(/\\n/g, '\n')}
           </Paragraph>
         )}
