@@ -3,10 +3,11 @@ import { StepOneForm, StepOneFormData } from './contact-form-step-one';
 import { StepTwoForm, StepTwoFormData } from './contact-form-step-two';
 import { StepThreeForm } from './contact-form-step-three';
 import { cn } from '../../utils';
+import { createHubspotContact, sendEmail } from '../../services/emailer';
 
 interface ContactFormProps {
   id?: string;
-  onSendEmail?: (formData: FormData) => Promise<void>;
+  onSendEmail?: (formData: StepOneFormData & StepTwoFormData) => Promise<void>;
   className?: string;
   title?: string;
   description?: string;
@@ -59,6 +60,15 @@ export const ContactFormMain: React.FC<ContactFormProps> = ({
       ...updatedFormData.stepTwo,
     };
 
+    try {
+      await createHubspotContact({
+        ...allValues,
+        source: `d.foundation/${id}`,
+      });
+    } catch (err) {
+      console.error(err);
+    }
+
     const submitFormData = new FormData();
     // form fields
     Object.entries(allValues).forEach(([key, value]) => {
@@ -82,11 +92,11 @@ export const ContactFormMain: React.FC<ContactFormProps> = ({
     try {
       // Send email using provided handler or default implementation
       if (onSendEmail) {
-        await onSendEmail(submitFormData);
+        await onSendEmail(
+          Object.assign({}, updatedFormData.stepOne, updatedFormData.stepTwo),
+        );
       } else {
-        // Default implementation - can be replaced with actual email service
-        console.log('Form data:', submitFormData);
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        await sendEmail(allValues, attachments);
       }
 
       setStep(o => o + 1);

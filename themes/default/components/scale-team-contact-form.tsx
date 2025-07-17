@@ -11,6 +11,7 @@ import { FileWithId } from './ui/file-input';
 import Input from './ui/input';
 import Pell from './ui/pell';
 import Select from './ui/select';
+import { createHubspotContact, sendEmail } from '../services/emailer';
 
 const teamStructureOptions = structureOptions.map(opt => ({
   value: opt,
@@ -69,8 +70,15 @@ const ScaleTeamContact: React.FC<ContactFormProps> = ({
 
   const onSubmit = async (data: ContactFormData) => {
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await createHubspotContact({
+        ...data,
+        source: 'd.foundation/scale-up-team-form',
+      });
+    } catch (err) {
+      console.error(err);
+    }
+    try {
+      await sendEmail(data);
       setShowSuccessDialog(true);
       console.log('Form submitted:', data);
       reset();

@@ -11,6 +11,7 @@ import Input from './ui/input';
 import Pell from './ui/pell';
 import RadioInput from './ui/radio-input';
 import Select from './ui/select';
+import { createHubspotContact, sendEmail } from '../services/emailer';
 
 const cohortOptions = cohorts.map(option => ({
   value: option,
@@ -63,9 +64,15 @@ const IdeateForm: React.FC<ContactFormProps> = ({
 
   const onSubmit = async (data: ContactFormData) => {
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      console.log('Form submitted:', data);
+      await createHubspotContact({
+        ...data,
+        source: 'd.foundation/ideate-form',
+      });
+    } catch (err) {
+      console.error(err);
+    }
+    try {
+      await sendEmail(data);
       setShowSuccessDialog(true);
       reset();
     } catch (error) {

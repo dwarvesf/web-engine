@@ -9,14 +9,15 @@
   "type": "module",
   "dependencies": {
     "@sendgrid/mail": "^7.6.0",
+    "axios": "^1.10.0",
     "busboy": "^0.2.14",
-    "encoding": "^0.1.13",
-    "axios": "^1.10.0"
+    "encoding": "^0.1.13"
   },
   "devDependencies": {
-    "@types/node": "^20.19.4",
-    "@types/aws-lambda": "^8.10.138",
+    "@types/aws-lambda": "^8.10.150",
     "@types/busboy": "^1.5.3",
+    "@types/node": "^20.19.4",
+    "dotenv": "^17.2.0",
     "tsup": "^8.5.0",
     "typescript": "^5.8.3"
   }

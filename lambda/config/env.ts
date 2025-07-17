@@ -1,3 +1,7 @@
+import dotenv from 'dotenv';
+
+dotenv.config({ quiet: true });
+
 function getEnvVariable(key: string, strict = true): string {
   const value = process.env[key];
   if (!value && strict) {

@@ -20,7 +20,6 @@
     "lint-staged": "lint-staged"
   },
   "devDependencies": {
-    "@types/aws-lambda": "^8.10.150",
     "husky": "^9.1.7",
     "lint-staged": "^16.1.2",
     "prettier": "^3.6.2"

@@ -8,9 +8,6 @@ importers:
 
   .:
     devDependencies:
-      '@types/aws-lambda':
-        specifier: ^8.10.150
-        version: 8.10.150
       husky:
         specifier: ^9.1.7
         version: 9.1.7
@@ -176,7 +173,7 @@ importers:
         version: 0.1.13
     devDependencies:
       '@types/aws-lambda':
-        specifier: ^8.10.138
+        specifier: ^8.10.150
         version: 8.10.150
       '@types/busboy':
         specifier: ^1.5.3
@@ -184,6 +181,9 @@ importers:
       '@types/node':
         specifier: ^20.19.4
         version: 20.19.6
+      dotenv:
+        specifier: ^17.2.0
+        version: 17.2.0
       tsup:
         specifier: ^8.5.0
         version: 8.5.0(jiti@2.4.2)(postcss@8.5.6)(tsx@4.20.3)(typescript@5.8.3)(yaml@2.8.0)

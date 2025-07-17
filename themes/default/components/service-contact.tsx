@@ -12,6 +12,7 @@ import Input from './ui/input';
 import Pell, { PellRef } from './ui/pell';
 import RadioInput from './ui/radio-input';
 import Select from './ui/select';
+import { createHubspotContact, sendEmail } from '../services/emailer';
 
 const contactFormSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
@@ -68,9 +69,16 @@ const ServiceContact: React.FC<ServiceContactProps> = ({
 
   const onSubmit = async (data: ContactFormData) => {
     try {
+      await createHubspotContact({
+        ...data,
+        source: `d.foundation/${serviceName}-form`,
+      });
+    } catch (err) {
+      console.error(err);
+    }
+    try {
       // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      console.log('Form submitted:', data);
+      await sendEmail(data);
       setShowSuccessDialog(true);
       reset();
     } catch (error) {
