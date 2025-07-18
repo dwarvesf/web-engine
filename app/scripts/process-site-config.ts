@@ -6,6 +6,7 @@ import {
   GENERATED_OUTDIR,
   ORIGINAL_CONTENT,
   ORIGINAL_SITE_CONFIG_CONTENT,
+  PUBLIC_DIR,
   PUBLIC_FAVICON,
   THEMES_DIR,
   THEMES_IMPORT_FILE,
@@ -125,6 +126,7 @@ export interface SiteConfig {
     url: string;
   };
   favicon?: string;
+  thumbnail?: string;
   header: HeaderConfig;
   navigation?: NavigationConfig;
   footer?: FooterConfig;
@@ -179,7 +181,7 @@ class SiteConfigProcessor {
     const unifiedConfig = await this.generateStaticConfig(config);
     await this.generateGlobalCss(unifiedConfig);
     await this.generateTheme(unifiedConfig);
-    await this.copyFavicon(unifiedConfig);
+    await this.copyPublicImages(unifiedConfig);
     return unifiedConfig;
   }
 
@@ -217,6 +219,7 @@ class SiteConfigProcessor {
         }) || {}),
       },
       favicon: (config.favicon as string) || defaultSiteConfig.favicon,
+      thumbnail: (config.thumbnail as string) || defaultSiteConfig.thumbnail,
       header: {
         ...defaultSiteConfig.header,
         ...((config.header as HeaderConfig) || {}),
@@ -291,6 +294,7 @@ class SiteConfigProcessor {
       navigation: config.navigation,
       footer: config.footer,
       '404': config['404'],
+      thumbnail: config.thumbnail,
     }) as unknown as SiteConfig;
 
     writeFileSync(this.outputPath, JSON.stringify(staticConfig, null, 2));
@@ -373,23 +377,45 @@ ${exports}
 `;
   }
 
-  private async copyFavicon(siteConfig: SiteConfig): Promise<void> {
+  private async copyPublicImages(siteConfig: SiteConfig): Promise<void> {
     if (siteConfig.favicon) {
       const absFaviconPath = path.resolve(
-        path.dirname(ORIGINAL_SITE_CONFIG_CONTENT),
-        siteConfig.favicon,
+        path.join(
+          path.dirname(ORIGINAL_SITE_CONFIG_CONTENT),
+          siteConfig.favicon,
+        ),
       );
       if (!existsSync(absFaviconPath)) {
         console.error(
           `❌ Favicon file not found at ${absFaviconPath}. Please check the path in site.json.`,
         );
-        return;
+      } else {
+        await copyFile(absFaviconPath, PUBLIC_FAVICON);
+        console.log(
+          '✅ Copied favicon to:',
+          path.relative(process.cwd(), PUBLIC_FAVICON),
+        );
       }
-      await copyFile(absFaviconPath, PUBLIC_FAVICON);
-      console.log(
-        '✅ Copied favicon to:',
-        path.relative(process.cwd(), PUBLIC_FAVICON),
+    }
+    if (siteConfig.thumbnail) {
+      const absThumbnailPath = path.resolve(
+        path.join(
+          path.dirname(ORIGINAL_SITE_CONFIG_CONTENT),
+          siteConfig.thumbnail,
+        ),
       );
+      if (!existsSync(absThumbnailPath)) {
+        console.error(
+          `❌ Thumbnail file not found at ${absThumbnailPath}. Please check the path in site.json.}`,
+        );
+      } else {
+        const fileName = path.basename(absThumbnailPath);
+        await copyFile(absThumbnailPath, path.join(PUBLIC_DIR, fileName));
+        console.log(
+          '✅ Copied thumbnail to: ',
+          path.relative(process.cwd(), path.join(PUBLIC_DIR, fileName)),
+        );
+      }
     }
   }
 

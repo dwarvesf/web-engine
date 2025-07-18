@@ -76,6 +76,7 @@ export interface SiteConfig {
     url: string;
   };
   favicon?: string;
+  thumbnail?: string;
   header: HeaderConfig;
   navigation?: NavigationConfig;
   footer?: FooterConfig;
