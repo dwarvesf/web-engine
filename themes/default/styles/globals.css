@@ -487,13 +487,9 @@ body {
   transition: outline-color var(--transition-duration-fast) ease;
 }
 
-.dwarves-focus-ring:focus {
+.dwarves-focus-ring:focus-visible {
   outline-color: var(--color-primary);
   outline-offset: 2px;
-}
-
-.dwarves-focus-ring-none {
-  outline-color: transparent !important;
 }
 
 .dwarves-text-balance {

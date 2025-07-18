@@ -32,7 +32,7 @@ const variants = {
     'border border-primary text-primary hover:bg-primary hover:border-primary hover:text-primary-foreground dwarves-button-transition',
   ghost:
     'text-primary hover:bg-primary/10 hover:text-primary-hover dwarves-highlight-on-hover',
-  link: 'text-primary hover:text-primary-hover dwarves-focus-ring-none p-0',
+  link: 'text-primary hover:text-primary-hover p-0',
   gradient:
     'dwarves-gradient text-primary-foreground hover:opacity-90 dwarves-button-transition shadow-lg',
   danger: 'bg-error text-white hover:bg-error/90 dwarves-button-transition',
@@ -76,7 +76,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ) => {
     const baseClasses = cn(
       'cursor-pointer inline-flex items-center justify-center font-medium transition-all duration-normal focus:outline-none dwarves-focus-ring disabled:opacity-50 disabled:cursor-not-allowed',
-      'relative overflow-hidden not-prose',
+      'relative overflow-hidden',
       roundedOptions[rounded],
       fullWidth && 'w-full',
       loading && 'cursor-not-allowed',
@@ -91,12 +91,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             <div className="dwarves-loading-spin h-4 w-4 rounded-full border-2 border-current border-t-transparent" />
           </div>
         )}
-        <div
-          className={cn(
-            'flex items-center gap-2 *:mt-0',
-            loading && 'opacity-50',
-          )}
-        >
+        <div className={cn('flex items-center gap-2', loading && 'opacity-50')}>
           {icon && iconPosition === 'left' && (
             <span className="shrink-0">{icon}</span>
           )}
