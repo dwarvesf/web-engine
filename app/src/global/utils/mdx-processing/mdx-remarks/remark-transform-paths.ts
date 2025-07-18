@@ -110,6 +110,7 @@ function walkESTreeForTemplateLiterals(program: any, filePath: string) {
       typeof node.value === 'string'
     ) {
       const literalValue = node.value;
+      const regexTestStyleSource = /url\(['"]?([^'"]+)['"]?\)/g;
 
       // Transform literal nodes that contain asset paths
       if (literalValue.startsWith('./') || literalValue.startsWith('../')) {
@@ -120,6 +121,18 @@ function walkESTreeForTemplateLiterals(program: any, filePath: string) {
         );
         node.value = transformedPath;
         node.raw = `'${transformedPath}'`;
+      }
+
+      if (regexTestStyleSource.test(literalValue)) {
+        // Transform CSS url() values
+        node.value = (literalValue as string).replace(
+          regexTestStyleSource,
+          (_match, p1) => {
+            const transformedPath = getRelativeImagePath(p1, filePath, true);
+            return `url(${transformedPath})`;
+          },
+        );
+        node.raw = `'${node.value}'`; // Update raw value to match the new value
       }
     }
 
@@ -197,13 +210,33 @@ export const remarkTransformPaths = (filePath: string) => {
     // Transform MDX JSX image elements (MDX v2)
     visit(tree, 'mdxJsxFlowElement', (node: ElementNode) => {
       if ((node.name === 'img' || node.name === 'Image') && node.attributes) {
-        const srcAttr = node.attributes.find(
-          (attr: Record<string, unknown>) => attr.name === 'src',
+        const srcAttr = node.attributes.filter(
+          (attr: Record<string, unknown>) =>
+            attr.name === 'src' || attr.name === 'srcSet',
         );
-        if (srcAttr && typeof srcAttr.value === 'string') {
-          const oldSrc = srcAttr.value;
-          const newSrc = getRelativeImagePath(oldSrc, filePath);
-          srcAttr.value = newSrc;
+        for (const attr of srcAttr) {
+          if (typeof attr.value === 'string') {
+            const oldSrc = attr.value as string;
+            // Check if is the src set ...1x, ...2x, etc.
+            if (oldSrc.includes(', ')) {
+              // Split and transform each part
+              const parts = oldSrc.split(', ');
+              const transformedParts = parts.map(part => {
+                // Split src url and descriptor
+                const [src, descriptor] = part.split(' ');
+                // Transform the src part
+                const transformedSrc = getRelativeImagePath(src, filePath);
+                // Return the transformed src with descriptor if exists
+                return descriptor
+                  ? `${transformedSrc} ${descriptor}`
+                  : transformedSrc;
+              });
+              attr.value = transformedParts.join(', ');
+            } else {
+              const newSrc = getRelativeImagePath(oldSrc, filePath);
+              attr.value = newSrc;
+            }
+          }
         }
       } else if (node.attributes) {
         node.attributes.forEach((attr: Record<string, unknown>) => {
