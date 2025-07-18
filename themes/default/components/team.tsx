@@ -58,7 +58,7 @@ const Team = ({ title, description, team }: TeamProps) => {
                 'inline-flex flex-1 cursor-pointer items-center justify-center border-b-2 border-solid px-4 py-3 font-medium whitespace-nowrap focus:outline-none',
                 activeTab === index
                   ? 'border-primary text-primary'
-                  : 'border-transparent text-gray-600',
+                  : 'text-foreground border-transparent',
               )}
             >
               <svg width="28" height="28">
@@ -82,9 +82,9 @@ const Team = ({ title, description, team }: TeamProps) => {
                 objectFit="cover"
                 containerClassName="aspect-[2/3] w-full flex"
               />
-              <figcaption className="absolute left-0 w-full rounded-b bg-white p-4 transition-transform duration-300 group-hover:-translate-y-full group-hover:transform">
+              <figcaption className="bg-muted absolute left-0 w-full rounded-b p-4 transition-transform duration-300 group-hover:-translate-y-full group-hover:transform">
                 {user.socials && user.socials.length > 0 && (
-                  <ul className="mb-2 text-sm leading-tight text-gray-500">
+                  <ul className="text-foreground/80 mb-2 text-sm leading-tight">
                     {user.socials.map(social => (
                       <li key={social.type} className="mr-2 inline-block">
                         <a
@@ -111,9 +111,9 @@ const Team = ({ title, description, team }: TeamProps) => {
                     user.full_name
                   )}
                 </strong>
-                <span className="text-sm text-gray-600">{user.role}</span>
+                <span className="text-foreground/80 text-sm">{user.role}</span>
                 {user.number_of_year && (
-                  <div className="text-sm text-gray-600">
+                  <div className="text-foreground/80 text-sm">
                     Year {user.number_of_year}
                   </div>
                 )}
