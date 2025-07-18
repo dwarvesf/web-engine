@@ -30,7 +30,7 @@ export default function ServicesTemplate(props: TemplateRenderArgs) {
   return (
     <Layout siteConfig={siteConfig}>
       {/* Main Content */}
-      <div className="dwarves-container flex-1 py-12">{children}</div>
+      {children}
 
       {formOptions?.['service-name'] && (
         <ServiceContact
