@@ -91,7 +91,12 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             <div className="dwarves-loading-spin h-4 w-4 rounded-full border-2 border-current border-t-transparent" />
           </div>
         )}
-        <div className={cn('flex items-center gap-2', loading && 'opacity-50')}>
+        <div
+          className={cn(
+            'flex items-center gap-2 *:mt-0',
+            loading && 'opacity-50',
+          )}
+        >
           {icon && iconPosition === 'left' && (
             <span className="shrink-0">{icon}</span>
           )}

@@ -20,7 +20,10 @@ export function remarkUnwrapCustomBlocks() {
           node.children &&
           node.children.length === 1 &&
           node.children[0].type === 'paragraph' &&
-          parent.type === 'paragraph'
+          ['paragraph', 'anchor', 'button', 'p', 'a']
+            .map(i => [i, i.slice(0, 1).toUpperCase() + i.slice(1)])
+            .flat()
+            .includes(parent.type)
         ) {
           // Replace the paragraph node with its children
           node.children = (node.children[0] as Paragraph).children as (

@@ -15,6 +15,15 @@ import { PUBLIC_CONTENT } from '../../../../scripts/paths';
 import { getSiteConfig } from '@wse/global/adapters';
 import remarkGfm from 'remark-gfm';
 import { remarkUnwrapCustomBlocks } from '../mdx-processing/mdx-remarks/remark-unwrap-custom-blocks';
+import { remarkLineBreaks } from '../mdx-processing/mdx-remarks/remark-break';
+
+const getPlugins = (filePath: string) => [
+  remarkGfm,
+  remarkLineBreaks,
+  remarkMdxImports,
+  remarkUnwrapCustomBlocks, // Add the new plugin here
+  () => remarkTransformPaths(filePath),
+];
 
 export function getAllMdxFiles(
   dir: string,
@@ -122,12 +131,7 @@ export async function getFrontmatterMdxSerializedContent(
           parseFrontmatter: false, // Frontmatter already parsed by gray-matter
           mdxOptions: {
             recmaPlugins: [recmaMdxEscapeMissingComponents],
-            remarkPlugins: [
-              remarkGfm,
-              remarkMdxImports,
-              remarkUnwrapCustomBlocks, // Add the new plugin here
-              () => remarkTransformPaths(filePath),
-            ], // Ensure order: imports first, then path transforms
+            remarkPlugins: getPlugins(filePath), // Use the getPlugins function to get the plugins
           },
           scope: {
             siteConfig: getSiteConfig(),
@@ -164,12 +168,7 @@ export async function getMdxContent(slug: string[]): Promise<
       parseFrontmatter: false, // Frontmatter already parsed by gray-matter
       mdxOptions: {
         recmaPlugins: [recmaMdxEscapeMissingComponents],
-        remarkPlugins: [
-          remarkGfm,
-          remarkMdxImports,
-          remarkUnwrapCustomBlocks, // Add the new plugin here
-          () => remarkTransformPaths(filePath),
-        ], // Ensure order: imports first, then path transforms
+        remarkPlugins: getPlugins(filePath), // Use the getPlugins function to get the plugins
       },
       scope: {
         siteConfig: getSiteConfig(),
