@@ -98,6 +98,7 @@
 
   /* Spacing Variables */
   --spacing-container-max: 1280px;
+  --spacing-container-tablet: 768px;
   --spacing-element: 1.5rem;
   --spacing-heading: 2rem;
   --spacing-subheading: 1rem;
@@ -548,13 +549,23 @@ body {
 
 /* Container Utilities */
 .dwarves-container {
-  max-width: var(--spacing-container-max);
   margin-left: auto;
   margin-right: auto;
   padding-left: var(--spacing-4);
   padding-right: var(--spacing-4);
 }
 
+@media screen and (min-width: 768px) {
+  .dwarves-container {
+    max-width: var(--spacing-container-tablet);
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .dwarves-container {
+    max-width: var(--spacing-container-max);
+  }
+}
 .dwarves-container-wide {
   max-width: 1400px;
   margin-left: auto;

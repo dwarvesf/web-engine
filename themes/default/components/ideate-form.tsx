@@ -110,7 +110,7 @@ const IdeateForm: React.FC<ContactFormProps> = ({
           </div>
           <div>
             <Input
-              label="Full Name"
+              label="What is your name?"
               {...register('name')}
               error={errors.name?.message}
             />
@@ -156,7 +156,7 @@ const IdeateForm: React.FC<ContactFormProps> = ({
             }}
           />
         </div>
-        <Column className="items-center xl:items-start">
+        <Column>
           <Paragraph className="text-secondary-foreground mb-4 text-xl opacity-75 md:mb-6">
             By sending this form, you agree with our{' '}
             <a

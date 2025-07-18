@@ -217,12 +217,12 @@ const ServiceContact: React.FC<ServiceContactProps> = ({
 
   return (
     <Section
-      className={cn('flex flex-col gap-4 py-16', className)}
+      className={cn('mb-16 flex flex-col gap-4 py-16', className)}
       id="contact"
       contentClassName="!mx-0 xl:!mx-auto"
     >
       {title ? (
-        <H3 className="!pb-12 text-center text-3xl font-semibold">{title}</H3>
+        <H3 className="!pb-12 text-3xl font-semibold">{title}</H3>
       ) : null}
       <Container className="max-w-none flex-1 flex-shrink-0">
         <div
@@ -242,8 +242,8 @@ const ServiceContact: React.FC<ServiceContactProps> = ({
           <div
             className={cn(
               showImageGrid || onlyForm
-                ? 'xl:col-span-1'
-                : 'mx-auto max-w-2xl xl:col-span-2',
+                ? 'max-w-2xl xl:col-span-1'
+                : 'max-w-2xl xl:col-span-2',
             )}
           >
             <div className={cn('h-full', className)}>
@@ -428,7 +428,7 @@ const ServiceContact: React.FC<ServiceContactProps> = ({
                       }}
                     />
                   </div>
-                  <Column className="items-center xl:items-start">
+                  <Column>
                     <Paragraph className="text-secondary-foreground pb-6 text-xl">
                       By sending this form, you agree with our{' '}
                       <a

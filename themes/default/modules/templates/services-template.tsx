@@ -32,7 +32,7 @@ export default function ServicesTemplate(props: TemplateRenderArgs) {
       {/* Main Content */}
       {children}
 
-      {formOptions?.['service-name'] && (
+      {formOptions?.['service-name'] ? (
         <ServiceContact
           title={formOptions.title}
           serviceName={formOptions['service-name']}
@@ -42,9 +42,9 @@ export default function ServicesTemplate(props: TemplateRenderArgs) {
           isShowSelectLocation={isShowSelectLocation}
           additionalInfoFieldLabel={additionalInfoFieldLabel}
         />
+      ) : (
+        <Contact />
       )}
-
-      <Contact />
     </Layout>
   );
 }
