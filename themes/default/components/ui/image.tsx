@@ -7,13 +7,11 @@ interface ImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   src: string;
   alt: string;
   lazy?: boolean;
-  placeholder?: string;
   fallback?: string;
   aspectRatio?: 'square' | 'video' | 'photo' | string;
   objectFit?: 'contain' | 'cover' | 'fill' | 'none' | 'scale-down';
-  showSkeleton?: boolean;
   blur?: boolean;
-  scaleEffect?: boolean; // <-- Added scaleEffect prop
+  scaleEffect?: boolean;
   onLoad?: () => void;
   onError?: () => void;
   containerClassName?: string;
@@ -37,19 +35,17 @@ export default function Image({
   src,
   alt,
   lazy = true,
-  placeholder,
   fallback,
   aspectRatio,
   objectFit = 'cover',
-  showSkeleton = true,
   blur = false,
-  scaleEffect = false, // <-- Default to true for backward compatibility
+  scaleEffect = false,
   containerClassName = '',
   onLoad,
   onError,
   ...props
 }: ImageProps) {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoaded, setIsLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
   const [isInView, setIsInView] = useState(!lazy);
   const imgRef = useRef<HTMLImageElement>(null);
@@ -76,12 +72,11 @@ export default function Image({
   }, []);
 
   const handleLoad = () => {
-    setIsLoading(false);
+    setIsLoaded(true);
     onLoad?.();
   };
 
   const handleError = () => {
-    setIsLoading(false);
     setHasError(true);
     onError?.();
   };
@@ -101,41 +96,14 @@ export default function Image({
     'h-auto max-w-full transition-all duration-500',
     objectFits[objectFit],
     aspectRatio && 'h-full w-full',
-    isLoading &&
-      (blur
-        ? `opacity-0 blur-sm${scaleEffect ? ' scale-105' : ''}`
-        : `opacity-0${scaleEffect ? ' scale-105' : ''}`),
-    !isLoading &&
-      (blur
-        ? `opacity-100 blur-0${scaleEffect ? ' scale-100' : ''}`
-        : `opacity-100${scaleEffect ? ' scale-100' : ''}`),
-  );
-
-  const skeletonClasses = cn(
-    'absolute inset-0 dwarves-skeleton rounded-lg',
-    !isLoading && 'opacity-0',
+    !isLoaded && blur && 'blur-sm scale-105',
+    isLoaded && blur && 'blur-0 scale-100',
+    !isLoaded && !blur && scaleEffect && 'scale-105',
+    isLoaded && !blur && scaleEffect && 'scale-100',
   );
 
   return (
     <div ref={containerRef} className={containerClasses}>
-      {showSkeleton && isLoading && <div className={skeletonClasses} />}
-
-      {placeholder && (
-        <img
-          src={placeholder}
-          alt=""
-          className={cn(
-            'absolute inset-0 h-full w-full object-cover transition-all duration-500',
-            isLoading &&
-              (blur ? `scale-100 opacity-60 blur-md` : `scale-100 opacity-60`),
-            !isLoading &&
-              (blur
-                ? `${scaleEffect ? 'scale-110' : ''} opacity-0 blur-lg`
-                : `${scaleEffect ? 'scale-110' : ''} opacity-0`),
-          )}
-        />
-      )}
-
       {isInView && !hasError && (
         <img
           ref={imgRef}
@@ -154,7 +122,7 @@ export default function Image({
           src={fallback}
           alt={alt}
           className={imgClasses}
-          onLoad={() => setIsLoading(false)}
+          onLoad={() => setIsLoaded(true)}
         />
       )}
 

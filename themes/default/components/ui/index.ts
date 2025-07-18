@@ -24,7 +24,9 @@ export {
   TableRow,
 } from './table';
 export { default as Tag } from './tag';
+export { default as Textarea } from './textarea';
 export { default as FeatureCard } from './feature-card';
+export { default as FeatureShowcase } from './feature-showcase';
 export { default as SolutionHighlight } from './solution-highlight';
 
 // UI components (not directly exported to avoid conflicts with modules/partials)
