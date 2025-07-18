@@ -16,7 +16,6 @@ import { getSiteConfig } from '@wse/global/adapters';
 import remarkGfm from 'remark-gfm';
 import { remarkUnwrapCustomBlocks } from '../mdx-processing/mdx-remarks/remark-unwrap-custom-blocks';
 import { remarkLineBreaks } from '../mdx-processing/mdx-remarks/remark-break';
-import { rehypeNextjsLinks } from '../mdx-processing/mdx-rehypes/rehype-mdx-next-link';
 
 const getPlugins = (filePath: string) => [
   remarkGfm,
@@ -133,7 +132,6 @@ export async function getFrontmatterMdxSerializedContent(
           mdxOptions: {
             recmaPlugins: [recmaMdxEscapeMissingComponents],
             remarkPlugins: getPlugins(filePath), // Use the getPlugins function to get the plugins
-            rehypePlugins: [rehypeNextjsLinks],
           },
           scope: {
             siteConfig: getSiteConfig(),
@@ -148,31 +146,16 @@ export async function getFrontmatterMdxSerializedContent(
   return frontmatter;
 }
 
-export async function getMdxContent(slug: string[] | undefined): Promise<
+export async function getMdxContent(slug: string[]): Promise<
   | {
       frontmatter: Record<string, any>;
       mdxSource: SerializeResult;
     }
   | undefined
 > {
-  let filePath: string = '';
-  if (!slug) {
-    const filePaths = ['index', 'readme', '_index', '_readme']
-      .map(file => [file, file.toUpperCase()])
-      .flat();
-    for (const fileName of filePaths) {
-      const file = path.join(PUBLIC_CONTENT, fileName) + '.mdx';
-      if (!fs.existsSync(file)) {
-        continue;
-      }
-      filePath = file;
-      break;
-    }
-  } else {
-    filePath = path.join(PUBLIC_CONTENT, ...slug) + '.mdx';
-  }
+  const filePath = path.join(PUBLIC_CONTENT, ...slug) + '.mdx';
   // Check if file exists
-  if (!filePath || !fs.existsSync(filePath)) {
+  if (!fs.existsSync(filePath)) {
     return;
   }
 
@@ -186,7 +169,6 @@ export async function getMdxContent(slug: string[] | undefined): Promise<
       mdxOptions: {
         recmaPlugins: [recmaMdxEscapeMissingComponents],
         remarkPlugins: getPlugins(filePath), // Use the getPlugins function to get the plugins
-        rehypePlugins: [rehypeNextjsLinks],
       },
       scope: {
         siteConfig: getSiteConfig(),

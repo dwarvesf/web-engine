@@ -2,18 +2,6 @@ import React, { JSX, lazy, Suspense, useEffect, useState } from 'react';
 import { TemplateRenderArgs, ThemeTemplates } from '../types/theme';
 import { appConfigService } from '../services/app-config';
 
-// Components
-const AboutTemplate = lazy(() => import('./templates/about-template'));
-const OpensourceTemplate = lazy(
-  () => import('./templates/opensource-template'),
-);
-const WorkTemplate = lazy(() => import('./templates/work-template'));
-const WorkDetailTemplate = lazy(
-  () => import('./templates/work-detail-template'),
-);
-const ServicesTemplate = lazy(() => import('./templates/services-template'));
-const DefaultTemplate = lazy(() => import('./templates/default-template'));
-
 const TemplateRender: React.FC<TemplateRenderArgs> = props => {
   const [isClient, setIsClient] = useState(false);
 
@@ -33,22 +21,22 @@ const TemplateRender: React.FC<TemplateRenderArgs> = props => {
   >;
   switch (template) {
     case ThemeTemplates.About:
-      Component = AboutTemplate;
+      Component = lazy(() => import('./templates/about-template'));
       break;
     case ThemeTemplates.Opensource:
-      Component = OpensourceTemplate;
+      Component = lazy(() => import('./templates/opensource-template'));
       break;
     case ThemeTemplates.Work:
-      Component = WorkTemplate;
+      Component = lazy(() => import('./templates/work-template'));
       break;
     case ThemeTemplates.WorkDetail:
-      Component = WorkDetailTemplate;
+      Component = lazy(() => import('./templates/work-detail-template'));
       break;
     case ThemeTemplates.Services:
-      Component = ServicesTemplate;
+      Component = lazy(() => import('./templates/services-template'));
       break;
     default:
-      Component = DefaultTemplate;
+      Component = lazy(() => import('./templates/default-template'));
       break;
   }
   return (
