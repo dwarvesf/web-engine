@@ -43,7 +43,13 @@ export const getStaticPaths: GetStaticPaths = async () => {
         ];
       }),
     ).values(),
-  );
+  ) as {
+    params: {
+      slug: string[] | undefined; // Allow for index path
+    };
+  }[];
+  // Add index path
+  uniquePaths.unshift({ params: { slug: undefined } });
   return {
     paths: uniquePaths,
     fallback: false,
@@ -52,9 +58,6 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const slug = params?.slug as string[];
-  if (!slug || slug.length === 0) {
-    return { notFound: true };
-  }
 
   const props = await getMdxContent(slug);
   if (props?.mdxSource && !('error' in props.mdxSource)) {
