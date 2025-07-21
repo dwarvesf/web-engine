@@ -128,6 +128,10 @@ function walkESTreeForTemplateLiterals(program: any, filePath: string) {
         node.value = (literalValue as string).replace(
           regexTestStyleSource,
           (_match, p1) => {
+            const isHashValue = p1.startsWith('#') || p1.startsWith('/#');
+            if (isHashValue) {
+              return `url(${p1})`; // Keep hash values as is
+            }
             const transformedPath = getRelativeImagePath(p1, filePath, true);
             return `url(${transformedPath})`;
           },
