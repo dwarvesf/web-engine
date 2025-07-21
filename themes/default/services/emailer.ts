@@ -40,16 +40,20 @@ export function sendEmail(payload: Record<string, any>, attachments?: File[]) {
   });
 }
 
-export function createHubspotContact(payload: Record<string, any>) {
-  const functionAPI = appConfigService.getValue('HUBSPOT_API');
-  if (!functionAPI) {
-    throw new Error(
-      '[THEME DEFAULT] - HUBSPOT_API is not defined in app config',
-    );
-  }
-  return axios.post(functionAPI, payload, {
-    headers: {
-      'content-type': 'application/json',
-    },
-  });
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export function createHubspotContact(_payload: Record<string, any>) {
+  // This function is currently a placeholder and does not perform any action.
+  // Since POST contact route not available in Fortress
+  return Promise.resolve();
+  // const functionAPI = appConfigService.getValue('HUBSPOT_API');
+  // if (!functionAPI) {
+  //   throw new Error(
+  //     '[THEME DEFAULT] - HUBSPOT_API is not defined in app config',
+  //   );
+  // }
+  // return axios.post(functionAPI, payload, {
+  //   headers: {
+  //     'content-type': 'application/json',
+  //   },
+  // });
 }
