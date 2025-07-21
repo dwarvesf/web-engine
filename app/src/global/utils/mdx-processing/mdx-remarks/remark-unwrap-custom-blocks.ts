@@ -26,10 +26,11 @@ export function remarkUnwrapCustomBlocks() {
           whiteList.some(type => typesChecking.includes(type))
         ) {
           // Replace the paragraph node with its children
-          node.children = (node.children[0] as Paragraph).children as (
-            | BlockContent
-            | DefinitionContent
-          )[];
+          node.children =
+            ((node.children[0] as Paragraph).children as (
+              | BlockContent
+              | DefinitionContent
+            )[]) ?? node.children;
         }
       },
     );
