@@ -6,6 +6,7 @@ import { createHubspotContact, sendEmail } from '../services/emailer';
 import { cn } from '../utils';
 import { SuccessDialog } from './dialog';
 import { Button, Input, RadioInput, Textarea } from './ui';
+import FormPrivacyNote from './form-privacy-note';
 
 // Zod schema for form validation
 const csrContactFormSchema = z.object({
@@ -199,18 +200,7 @@ const CSRContactForm: React.FC<CSRContactFormProps> = ({
           </div>
 
           <div className="mt-8 space-y-4 text-center lg:text-right">
-            <p className="text-foreground/80 text-base">
-              By sending this form, you agree with our{' '}
-              <a
-                href="https://www.iubenda.com/privacy-policy/23856015"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-foreground hover:text-primary underline transition-colors"
-              >
-                Privacy Policy
-              </a>
-              .
-            </p>
+            <FormPrivacyNote />
 
             {submitError && (
               <div className="text-error bg-error/10 rounded-sm p-3 text-sm">

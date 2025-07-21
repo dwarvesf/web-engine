@@ -6,12 +6,13 @@ import { cohorts, locations } from '../constants/select';
 import { createHubspotContact, sendEmail } from '../services/emailer';
 import { cn } from '../utils';
 import { SuccessDialog } from './dialog';
-import { Column, Paragraph } from './ui';
+import { Column } from './ui';
 import Button from './ui/button';
 import Input from './ui/input';
 import Pell from './ui/pell';
 import RadioInput from './ui/radio-input';
 import Select from './ui/select';
+import FormPrivacyNote from './form-privacy-note';
 
 const cohortOptions = cohorts.map(option => ({
   value: option,
@@ -157,17 +158,7 @@ const IdeateForm: React.FC<ContactFormProps> = ({
           />
         </div>
         <Column>
-          <Paragraph className="text-secondary-foreground mb-4 text-xl opacity-75 md:mb-6">
-            By sending this form, you agree with our{' '}
-            <a
-              href="https://www.iubenda.com/privacy-policy/23856015"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="!text-secondary-foreground !no-underline"
-            >
-              Privacy Policy
-            </a>
-          </Paragraph>
+          <FormPrivacyNote />
           <Button
             type="submit"
             variant="primary"

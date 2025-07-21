@@ -6,13 +6,14 @@ import { cn } from '../utils';
 import ContactImageGrid from './contact-image-grid';
 import { SuccessDialog } from './dialog';
 import Section from './section';
-import { Column, Container, H3, Paragraph } from './ui';
+import { Column, Container, H3 } from './ui';
 import Button from './ui/button';
 import Input from './ui/input';
 import Pell, { PellRef } from './ui/pell';
 import RadioInput from './ui/radio-input';
 import Select from './ui/select';
 import { createHubspotContact, sendEmail } from '../services/emailer';
+import FormPrivacyNote from './form-privacy-note';
 
 export interface TemplateInputField {
   type: string;
@@ -429,17 +430,8 @@ const ServiceContact: React.FC<ServiceContactProps> = ({
                     />
                   </div>
                   <Column>
-                    <Paragraph className="text-secondary-foreground pb-6 text-xl">
-                      By sending this form, you agree with our{' '}
-                      <a
-                        href="https://www.iubenda.com/privacy-policy/23856015"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="!text-secondary-foreground !no-underline"
-                      >
-                        Privacy Policy
-                      </a>
-                    </Paragraph>
+                    <FormPrivacyNote />
+
                     <Button
                       type="submit"
                       variant="primary"

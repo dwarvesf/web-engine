@@ -15,6 +15,7 @@ import {
 } from './contact-form-constants';
 import { FileWithId } from '../ui/file-input';
 import { Column } from '../ui';
+import FormPrivacyNote from '../form-privacy-note';
 
 const stepTwoSchema = z
   .object({
@@ -243,17 +244,7 @@ export const StepTwoForm: React.FC<StepTwoFormProps> = ({
           </Button>
         </div>
 
-        <p className="text-muted-foreground mt-4 text-sm">
-          By sending this form, you agree with our{' '}
-          <a
-            href="https://www.iubenda.com/privacy-policy/23856015"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-primary"
-          >
-            Privacy Policy
-          </a>
-        </p>
+        <FormPrivacyNote />
       </Column>
     </form>
   );
