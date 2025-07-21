@@ -10,6 +10,10 @@ export function remarkUnwrapCustomBlocks() {
       tree,
       'mdxJsxFlowElement',
       (node: MdxJsxFlowElement, index, parent: Parent) => {
+        const typesChecking = [node.name, parent.type];
+        const whiteList = ['paragraph', 'anchor', 'button', 'p', 'a']
+          .map(i => [i, i.slice(0, 1).toUpperCase() + i.slice(1)])
+          .flat();
         // If the node is an MDX JSX flow element,
         // we want to "unwrap" its children from any auto-generated paragraphs.
         // This is a common pattern when MDX auto-wraps text in <p> tags.
@@ -18,12 +22,8 @@ export function remarkUnwrapCustomBlocks() {
         if (
           parent &&
           node.children &&
-          node.children.length === 1 &&
-          node.children[0].type === 'paragraph' &&
-          ['paragraph', 'anchor', 'button', 'p', 'a']
-            .map(i => [i, i.slice(0, 1).toUpperCase() + i.slice(1)])
-            .flat()
-            .includes(parent.type)
+          node.children?.length === 1 &&
+          whiteList.some(type => typesChecking.includes(type))
         ) {
           // Replace the paragraph node with its children
           node.children = (node.children[0] as Paragraph).children as (
