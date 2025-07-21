@@ -195,9 +195,10 @@ const ServiceContact: React.FC<ServiceContactProps> = ({
 
   const onSubmit = async (data: z.infer<typeof contactFormSchema>) => {
     try {
+      const pathName = window.location.pathname;
       await createHubspotContact({
         ...data,
-        source: `d.foundation/${serviceName}-form`,
+        source: `d.foundation/${pathName}`,
       });
     } catch (err) {
       console.error(err);

@@ -73,7 +73,7 @@ const IdeateForm: React.FC<ContactFormProps> = ({
     try {
       await createHubspotContact({
         ...data,
-        source: 'd.foundation/ideate-form',
+        source: 'd.foundation/startup/ideate',
       });
     } catch (err) {
       console.error(err);

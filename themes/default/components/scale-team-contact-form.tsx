@@ -73,7 +73,7 @@ const ScaleTeamContact: React.FC<ContactFormProps> = ({
     try {
       await createHubspotContact({
         ...data,
-        source: 'd.foundation/scale-up-team-form',
+        source: 'd.foundation/startup/scale',
       });
     } catch (err) {
       console.error(err);
