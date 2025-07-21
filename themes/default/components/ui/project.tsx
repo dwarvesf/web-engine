@@ -108,7 +108,7 @@ export default function Project({
         className="not-prose flex h-10"
         containerClassName={cn('block', imageClassName)}
       />
-      <div className="prose max-w-none py-4 **:m-0">{children}</div>
+      <div className="prose max-w-none py-4 text-lg **:m-0">{children}</div>
     </div>
   );
 }
