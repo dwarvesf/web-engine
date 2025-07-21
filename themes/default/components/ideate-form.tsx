@@ -13,6 +13,7 @@ import Pell from './ui/pell';
 import RadioInput from './ui/radio-input';
 import Select from './ui/select';
 import FormPrivacyNote from './form-privacy-note';
+import { plausible } from '../services/analytics/plausible';
 
 const cohortOptions = cohorts.map(option => ({
   value: option,
@@ -85,6 +86,10 @@ const IdeateForm: React.FC<ContactFormProps> = ({
     } catch (error) {
       console.error('Form submission error:', error);
     }
+
+    plausible.trackFormSubmission('Ideate Form', {
+      props: data,
+    });
   };
 
   const handleCloseDialog = () => {

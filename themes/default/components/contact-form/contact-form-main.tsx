@@ -4,6 +4,7 @@ import { StepTwoForm, StepTwoFormData } from './contact-form-step-two';
 import { StepThreeForm } from './contact-form-step-three';
 import { cn } from '../../utils';
 import { createHubspotContact, sendEmail } from '../../services/emailer';
+import { plausible } from '../../services/analytics/plausible';
 
 interface ContactFormProps {
   id?: string;
@@ -17,12 +18,6 @@ interface ContactFormProps {
 interface ContactFormData {
   stepOne?: StepOneFormData;
   stepTwo?: StepTwoFormData;
-}
-
-declare global {
-  interface Window {
-    dataLayer?: Array<Record<string, unknown>>;
-  }
 }
 
 export const ContactFormMain: React.FC<ContactFormProps> = ({
@@ -101,14 +96,10 @@ export const ContactFormMain: React.FC<ContactFormProps> = ({
 
       setStep(o => o + 1);
 
-      // Analytics tracking (optional)
-      if (typeof window !== 'undefined' && window.dataLayer) {
-        window.dataLayer.push({
-          event: 'gaEvent',
-          eventCategory: 'Contact Form',
-          eventAction: 'Submit',
-        });
-      }
+      // Plausible analytics tracking (optional)
+      plausible.trackFormSubmission('Contact Form', {
+        props: allValues,
+      });
     } catch (err) {
       const errMsg =
         err instanceof Error
