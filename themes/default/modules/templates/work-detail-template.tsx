@@ -3,7 +3,6 @@ import Layout from '../partials/layout';
 import {
   Button,
   Center,
-  H1,
   HStack,
   Image,
   Paragraph,
@@ -39,15 +38,14 @@ export default function WorkDetailTemplate(props: WorkDetailTemplateProps) {
   const links = frontmatter?.links;
 
   return (
-    <Layout
-      siteConfig={siteConfig}
-      contentClassName={cn('dwarves-container article-content')}
-    >
+    <Layout siteConfig={siteConfig} contentClassName={cn('dwarves-container')}>
       {/* Hero Section */}
-      <Stack gap="3xl">
-        <Center className="mx-auto max-w-[700px] flex-col pt-12" gap="none">
-          <H1>{projectTitle}</H1>
-          <Paragraph className="text-center">{description}</Paragraph>
+      <Stack gap="3xl" className="mb-20">
+        <Center className="mx-auto max-w-[700px] flex-col pt-14" gap="none">
+          <h1 className="mt-3 text-center text-4xl font-semibold">
+            {projectTitle}
+          </h1>
+          <Paragraph className="!mt-2 text-center">{description}</Paragraph>
           <Image
             src={heroImage}
             alt={projectTitle || ''}
@@ -71,15 +69,17 @@ export default function WorkDetailTemplate(props: WorkDetailTemplateProps) {
                 </Stack>
               ))}
             </Stack>
-            <Stack className="flex-1 gap-0 text-lg">
+            <Stack className="work-summary flex-1 gap-0 text-lg">
               {mdxRenderer?.(heroMdxContent)}
             </Stack>
           </HStack>
         )}
       </Stack>
       {/* Main Content (MDX content) */}
-      <div className="mx-auto max-w-[700px] flex-1 py-12 font-serif">
-        {children}
+      <div className="article-content">
+        <div className="mx-auto max-w-[700px] flex-1 py-12 font-serif">
+          {children}
+        </div>
       </div>
 
       {/* Navigation Links */}

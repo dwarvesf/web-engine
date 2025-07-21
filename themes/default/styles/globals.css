@@ -610,3 +610,17 @@ body {
     font-size: var(--font-size-lg);
   }
 }
+
+.work-summary {
+  @apply space-y-6;
+  *:first-child {
+    margin-top: 0;
+  }
+
+  a {
+    text-decoration: underline;
+    &:hover {
+      @apply text-primary;
+    }
+  }
+}
