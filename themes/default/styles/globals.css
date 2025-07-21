@@ -55,8 +55,8 @@
   --color-tag-foreground: #374151;
 
   /* Input Colors */
-  --color-input: #ffffff;
-  --color-input-hover: #f9fafb;
+  --color-input: #f8f8f8;
+  --color-input-hover: #ffffff;
 
   /* Gray Scale System */
   --color-gray-50: #f9fafb;
@@ -508,11 +508,6 @@ body {
   padding: 0.75rem 1rem;
   transition: all var(--transition-duration-normal) ease;
   color: var(--color-foreground);
-}
-
-.dwarves-form-input:hover {
-  background: var(--color-input-hover);
-  border-color: var(--color-border-hover);
 }
 
 .dwarves-form-input:focus {
