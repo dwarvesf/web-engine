@@ -5,6 +5,7 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   basePath: process.env.NEXT_PUBLIC_PAGES_BASE_PATH,
   pageExtensions: ['ts', 'tsx', 'js', 'jsx'],
+  trailingSlash: true,
   experimental: {
     mdxRs: false, // Use @next/mdx instead of experimental MDX support
     largePageDataBytes: 1024 * 1024,
