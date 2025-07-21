@@ -144,12 +144,9 @@ export default function OpensourceProjects({ data }: Props) {
             aria-labelledby={tab.id}
           >
             {activeTab === tab.id && (
-              <ul className="row mt-12 md:flex md:flex-wrap">
+              <ul className="mt-12 grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-3">
                 {filteredProjects.map(project => (
-                  <li
-                    key={project.name}
-                    className="col mb-10 md:w-1/2 lg:w-1/3"
-                  >
+                  <li key={project.name}>
                     <a
                       href={project.href}
                       target="_blank"
