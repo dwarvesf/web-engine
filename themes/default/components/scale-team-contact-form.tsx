@@ -13,6 +13,7 @@ import Input from './ui/input';
 import Pell from './ui/pell';
 import Select from './ui/select';
 import FormPrivacyNote from './form-privacy-note';
+import { plausible } from '../services/analytics/plausible';
 
 const teamStructureOptions = structureOptions.map(opt => ({
   value: opt,
@@ -86,6 +87,10 @@ const ScaleTeamContact: React.FC<ContactFormProps> = ({
     } catch (error) {
       console.error('Form submission error:', error);
     }
+
+    plausible.trackFormSubmission('Scale Form', {
+      props: data,
+    });
   };
 
   const handleCloseDialog = () => {

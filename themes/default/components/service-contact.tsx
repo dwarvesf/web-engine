@@ -14,6 +14,7 @@ import RadioInput from './ui/radio-input';
 import Select from './ui/select';
 import { createHubspotContact, sendEmail } from '../services/emailer';
 import FormPrivacyNote from './form-privacy-note';
+import { plausible } from '../services/analytics/plausible';
 
 export interface TemplateInputField {
   type: string;
@@ -211,6 +212,10 @@ const ServiceContact: React.FC<ServiceContactProps> = ({
     } catch (error) {
       console.error('Form submission error:', error);
     }
+
+    plausible.trackFormSubmission('Service Form', {
+      props: data,
+    });
   };
 
   const handleCloseDialog = () => {

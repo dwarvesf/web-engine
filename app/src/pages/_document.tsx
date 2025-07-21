@@ -1,4 +1,5 @@
 import { Html, Head, Main, NextScript } from 'next/document';
+import Script from 'next/script';
 
 function getAssetPath(path: string): string {
   const basePath = (() => {
@@ -28,6 +29,12 @@ export default function Document() {
           rel="preconnect"
           href="https://fonts.gstatic.com"
           crossOrigin="anonymous"
+        />
+        <Script
+          src="https://plausible.io/js/script.js"
+          data-domain="dwarves.foundation"
+          defer
+          strategy="beforeInteractive"
         />
       </Head>
       <body className="antialiased">

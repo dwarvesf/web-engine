@@ -7,6 +7,7 @@ import { cn } from '../utils';
 import { SuccessDialog } from './dialog';
 import { Button, Input, RadioInput, Textarea } from './ui';
 import FormPrivacyNote from './form-privacy-note';
+import { plausible } from '../services/analytics/plausible';
 
 // Zod schema for form validation
 const csrContactFormSchema = z.object({
@@ -88,14 +89,9 @@ const CSRContactForm: React.FC<CSRContactFormProps> = ({
       // Reset form
       reset();
 
-      // Analytics tracking
-      if (typeof window !== 'undefined' && window.dataLayer) {
-        window.dataLayer.push({
-          event: 'gaEvent',
-          eventCategory: 'CSR Contact Form',
-          eventAction: 'Submit',
-        });
-      }
+      plausible.trackFormSubmission('Contact Form', {
+        props: data,
+      });
     } catch (error) {
       console.error('Form submission error:', error);
       const errorMessage =
