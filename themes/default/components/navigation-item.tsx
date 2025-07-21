@@ -254,7 +254,10 @@ export default function NavigationItem({
         >
           <NavigationDropDownContent
             groups={tab.groups!}
-            onItemClick={onItemClick}
+            onItemClick={() => {
+              setIsOpen(false);
+              if (onItemClick) onItemClick();
+            }}
           />
         </div>
       )}

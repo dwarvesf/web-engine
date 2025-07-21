@@ -22,10 +22,10 @@ const AutoScrollToTop: React.FC<AutoScrollToTopProps> = ({ children }) => {
         window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
       });
     };
-    router.events.on('routeChangeComplete', handleRouteChange);
+    router.events.on('beforeHistoryChange', handleRouteChange);
 
     return () => {
-      router.events.off('routeChangeComplete', handleRouteChange);
+      router.events.off('beforeHistoryChange', handleRouteChange);
     };
   }, [router.events]);
 
