@@ -196,6 +196,63 @@ function transformAssetArrayExpression(
   }
 }
 
+function mdxJsxElementResolvePaths(node: ElementNode, filePath: string) {
+  if ((node.name === 'img' || node.name === 'Image') && node.attributes) {
+    const srcAttr = node.attributes.filter(
+      (attr: Record<string, unknown>) =>
+        attr.name === 'src' || attr.name === 'srcSet',
+    );
+    for (const attr of srcAttr) {
+      if (typeof attr.value === 'string') {
+        const oldSrc = attr.value as string;
+        // Check if is the src set ...1x, ...2x, etc.
+        if (oldSrc.includes(', ')) {
+          // Split and transform each part
+          const parts = oldSrc.split(', ');
+          const transformedParts = parts.map(part => {
+            // Split src url and descriptor
+            const [src, descriptor] = part.split(' ');
+            // Transform the src part
+            const transformedSrc = getRelativeImagePath(src, filePath);
+            // Return the transformed src with descriptor if exists
+            return descriptor
+              ? `${transformedSrc} ${descriptor}`
+              : transformedSrc;
+          });
+          attr.value = transformedParts.join(', ');
+        } else {
+          const newSrc = getRelativeImagePath(oldSrc, filePath);
+          attr.value = newSrc;
+        }
+      }
+    }
+  } else if (node.attributes) {
+    node.attributes.forEach((attr: Record<string, unknown>) => {
+      if (
+        attr.value &&
+        typeof attr.value === 'object' &&
+        attr.value !== null &&
+        'type' in attr.value &&
+        attr.value.type === 'mdxJsxAttributeValueExpression'
+      ) {
+        // Handle JSX expression attributes like logos={[...]}
+        const attrValue = attr.value as {
+          type: string;
+          value: unknown;
+          data: Record<string, any>;
+        };
+        if (attrValue.data.estree.body) {
+          // Transform array expressions containing asset paths
+          transformAssetArrayExpression(attrValue.data, filePath);
+        }
+      } else if (typeof attr.value === 'string' && isAssetPath(attr.value)) {
+        // Transform string attributes that look like asset paths
+        attr.value = getRelativeImagePath(attr.value as string, filePath);
+      }
+    });
+  }
+}
+
 /**
  * Remark plugin to transform relative paths in MDX files
  * Converts paths like "/images/hero.png" to work with content directory structure
@@ -213,63 +270,11 @@ export const remarkTransformPaths = (filePath: string) => {
 
     // Transform MDX JSX image elements (MDX v2)
     visit(tree, 'mdxJsxFlowElement', (node: ElementNode) => {
-      if ((node.name === 'img' || node.name === 'Image') && node.attributes) {
-        const srcAttr = node.attributes.filter(
-          (attr: Record<string, unknown>) =>
-            attr.name === 'src' || attr.name === 'srcSet',
-        );
-        for (const attr of srcAttr) {
-          if (typeof attr.value === 'string') {
-            const oldSrc = attr.value as string;
-            // Check if is the src set ...1x, ...2x, etc.
-            if (oldSrc.includes(', ')) {
-              // Split and transform each part
-              const parts = oldSrc.split(', ');
-              const transformedParts = parts.map(part => {
-                // Split src url and descriptor
-                const [src, descriptor] = part.split(' ');
-                // Transform the src part
-                const transformedSrc = getRelativeImagePath(src, filePath);
-                // Return the transformed src with descriptor if exists
-                return descriptor
-                  ? `${transformedSrc} ${descriptor}`
-                  : transformedSrc;
-              });
-              attr.value = transformedParts.join(', ');
-            } else {
-              const newSrc = getRelativeImagePath(oldSrc, filePath);
-              attr.value = newSrc;
-            }
-          }
-        }
-      } else if (node.attributes) {
-        node.attributes.forEach((attr: Record<string, unknown>) => {
-          if (
-            attr.value &&
-            typeof attr.value === 'object' &&
-            attr.value !== null &&
-            'type' in attr.value &&
-            attr.value.type === 'mdxJsxAttributeValueExpression'
-          ) {
-            // Handle JSX expression attributes like logos={[...]}
-            const attrValue = attr.value as {
-              type: string;
-              value: unknown;
-              data: Record<string, any>;
-            };
-            if (attrValue.data.estree.body) {
-              // Transform array expressions containing asset paths
-              transformAssetArrayExpression(attrValue.data, filePath);
-            }
-          } else if (
-            typeof attr.value === 'string' &&
-            isAssetPath(attr.value)
-          ) {
-            // Transform string attributes that look like asset paths
-            attr.value = getRelativeImagePath(attr.value as string, filePath);
-          }
-        });
-      }
+      mdxJsxElementResolvePaths(node, filePath);
+    });
+
+    visit(tree, 'mdxJsxTextElement', (node: ElementNode) => {
+      mdxJsxElementResolvePaths(node, filePath);
     });
 
     // Transform markdown image syntax
