@@ -11,7 +11,7 @@ export function remarkUnwrapCustomBlocks() {
       'mdxJsxFlowElement',
       (node: MdxJsxFlowElement, index, parent: Parent) => {
         const typesChecking = [node.name, parent.type];
-        const whiteList = ['paragraph', 'anchor', 'button', 'p', 'a']
+        const whiteList = ['paragraph', 'anchor', 'button', 'p', 'a', 'link']
           .map(i => [i, i.slice(0, 1).toUpperCase() + i.slice(1)])
           .flat();
         // If the node is an MDX JSX flow element,
