@@ -88,7 +88,7 @@ class PlausibleAnalytics {
     return this.trackEvent('Form Submit', {
       props: {
         form_name: formName,
-        pagePath: `d.foundation/${window.location.pathname}`,
+        pagePath: `d.foundation${window.location.pathname}`,
         ...props,
       },
     });
