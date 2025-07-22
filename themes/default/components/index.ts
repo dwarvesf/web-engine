@@ -36,3 +36,6 @@ export { default as WhatWeStandFor } from './what-we-stand-for';
 export { default as WhatWeValue } from './what-we-value';
 export { default as WorkCard } from './work-card';
 export { default as WhatNext } from './what-next';
+export { default as JoinUs } from './join-us';
+export { default as SubSection } from './sub-section';
+export { default as Timeline } from './timeline';

@@ -13,6 +13,7 @@ const WorkDetailTemplate = lazy(
 );
 const ServicesTemplate = lazy(() => import('./templates/services-template'));
 const DefaultTemplate = lazy(() => import('./templates/default-template'));
+const FiveTemplate = lazy(() => import('./templates/five-template'));
 
 const TemplateRender: React.FC<TemplateRenderArgs> = props => {
   const [isClient, setIsClient] = useState(false);
@@ -46,6 +47,9 @@ const TemplateRender: React.FC<TemplateRenderArgs> = props => {
       break;
     case ThemeTemplates.Services:
       Component = ServicesTemplate;
+      break;
+    case ThemeTemplates.Five:
+      Component = FiveTemplate;
       break;
     default:
       Component = DefaultTemplate;

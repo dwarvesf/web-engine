@@ -11,6 +11,10 @@ export interface ThemeConfig {
 export class ThemeAdapter {
   private static instance: ThemeAdapter;
   private isDarkMode: boolean = false;
+  private isEnabledToggleDarkMode: boolean = (() => {
+    const envEnabled = process.env.NEXT_PUBLIC_ENABLED_DARK_MODE;
+    return envEnabled === 'true';
+  })();
 
   private constructor() {
     this.initializeDarkMode();
@@ -34,7 +38,7 @@ export class ThemeAdapter {
   }
 
   private initializeDarkMode() {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== 'undefined' && this.isEnabledToggleDarkMode) {
       // Check for saved theme preference or system preference
       const savedTheme = localStorage.getItem('theme-mode');
       if (savedTheme) {
@@ -49,7 +53,7 @@ export class ThemeAdapter {
   }
 
   private applyDarkMode() {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== 'undefined' && this.isEnabledToggleDarkMode) {
       const html = document.documentElement;
       if (this.isDarkMode) {
         html.setAttribute('data-theme', 'dark');

@@ -10,7 +10,7 @@ export { default as Radio } from './radio';
 export { default as RadioInput } from './radio-input';
 export { default as Select } from './select';
 export { default as SuccessDialog } from './success-dialog';
-export { default as Link } from './link';
+export { default as Link, HighlightedLink } from './link';
 export { ListItem, OrderedList, default as UnorderedList } from './list';
 export { default as Logo } from './logo';
 export { default as Paragraph } from './paragraph';
@@ -59,4 +59,5 @@ export {
   HStack,
   Container,
   ParagraphBlock,
+  FiveContainer,
 } from './flex';

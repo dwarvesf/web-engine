@@ -20,3 +20,20 @@ export default function Link({
     </a>
   );
 }
+
+export const HighlightedLink: React.FC<
+  React.AnchorHTMLAttributes<HTMLAnchorElement>
+> = ({ children, href, className = '', ...props }) => (
+  <a
+    href={href}
+    target="_blank"
+    rel="noopener noreferrer"
+    className={cn(
+      "before:bg-primary relative z-10 inline-block before:absolute before:bottom-0.5 before:left-0 before:-z-10 before:h-1 before:w-full before:content-['']",
+      className,
+    )}
+    {...props}
+  >
+    {children}
+  </a>
+);

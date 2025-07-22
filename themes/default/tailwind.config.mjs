@@ -129,6 +129,8 @@ const config = {
         20: 'var(--spacing-20)',
         40: 'var(--spacing-40)',
         80: 'var(--spacing-80)',
+        100: 'var(--spacing-100)',
+        200: 'var(--spacing-200)',
         'screen-50': '50vw',
         'screen-90': '90vw',
       },

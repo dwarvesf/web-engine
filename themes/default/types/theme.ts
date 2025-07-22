@@ -201,4 +201,5 @@ export enum ThemeTemplates {
   WorkDetail = 'work-detail',
   Services = 'services',
   Startup = 'startup',
+  Five = 'five',
 }

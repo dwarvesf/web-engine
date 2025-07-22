@@ -313,3 +313,14 @@ export const ParagraphBlock = ({
     </div>
   );
 };
+
+export const FiveContainer = ({
+  children,
+  className,
+}: React.HTMLAttributes<HTMLDivElement>) => {
+  return (
+    <div className={cn('mx-auto px-5', 'max-w-[800px]', className)}>
+      {children}
+    </div>
+  );
+};
