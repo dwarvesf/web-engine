@@ -9,7 +9,7 @@ const DEFAULT_TITLE =
 const DEFAULT_DESCRIPTION =
   'A software development firm based in Asia. Helping tech startups, entrepreneurs and makers build world-class products since 2013.';
 const DEFAULT_WEBSITE_URL = 'https://d.foundation';
-const DEFAULT_THUMBNAIL = 'thumbnail.jpg';
+const DEFAULT_THUMBNAIL = '/thumbnail.jpg';
 const DEFAULT_KEYWORDS = [
   'dwarves',
   'dwarves foundation',
@@ -33,11 +33,13 @@ const SEO: React.FC<{ frontmatter: Record<string, any> }> = ({
   const title = frontmatter.title;
   const description = frontmatter.description || DEFAULT_DESCRIPTION;
   const ogURL = frontmatter['og:url'] || DEFAULT_WEBSITE_URL;
-  const thumbnailImage = getFileNameFromPath(
-    getSiteConfig()?.thumbnail || DEFAULT_THUMBNAIL,
-  );
+  const templateThumbnail = frontmatter.thumbnail;
+  const keywords = frontmatter.keywords || DEFAULT_KEYWORDS;
+  const thumbnailImage =
+    templateThumbnail ||
+    getFileNameFromPath(getSiteConfig()?.thumbnail || DEFAULT_THUMBNAIL);
   const pageTitle = title ? `${title} - ${SITE_NAME}` : DEFAULT_TITLE;
-  const thumbnailPath = `${ogURL}/${thumbnailImage}`;
+  const thumbnailPath = `${ogURL}${thumbnailImage}`;
 
   const getCurrentUrl = () => {
     if (typeof window !== 'undefined') {
@@ -54,7 +56,7 @@ const SEO: React.FC<{ frontmatter: Record<string, any> }> = ({
       />
       <title>{pageTitle}</title>
       <meta name="description" content={description} />
-      <meta name="keywords" content={DEFAULT_KEYWORDS} />
+      <meta name="keywords" content={keywords} />
       {/* SEO markups */}
       <meta property="ia:markup_url" content={getCurrentUrl()} />
       {/* OpenGraph tags */}
