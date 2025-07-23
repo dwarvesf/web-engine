@@ -8,7 +8,7 @@ export default function Paragraph({
 }: React.HTMLAttributes<HTMLParagraphElement>) {
   return (
     <p
-      className={cn('mt-4 leading-relaxed whitespace-pre-line', className)}
+      className={cn('mt-3 leading-relaxed whitespace-pre-line', className)}
       {...props}
       suppressHydrationWarning
     >

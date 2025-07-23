@@ -102,9 +102,9 @@
   --spacing-container-tablet: 768px;
   --spacing-element: 1.5rem;
   --spacing-heading: 2rem;
-  --spacing-subheading: 1rem;
+  --spacing-subheading: 1.5rem;
   --spacing-subsubheading: 1rem;
-  --spacing-list: 1.5rem;
+  --spacing-list: 0.85rem;
   --spacing-list-item: 0.75rem;
   --spacing-header: 64px;
   --spacing-paragraph: 35em;
@@ -310,6 +310,11 @@ body {
 
 .article-content {
   @apply prose;
+
+  :where(li):not(:where([class~='not-prose'], [class~='not-prose'] *)) {
+    margin-top: 0.35em;
+    margin-bottom: 0.35em;
+  }
 }
 
 .dwarves-shadow {
