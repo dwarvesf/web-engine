@@ -37,7 +37,7 @@ const SEO: React.FC<{ frontmatter: Record<string, any> }> = ({
   const keywords = frontmatter.keywords || DEFAULT_KEYWORDS;
   const thumbnailImage =
     templateThumbnail ||
-    getFileNameFromPath(getSiteConfig()?.thumbnail || DEFAULT_THUMBNAIL);
+    `/${getFileNameFromPath(getSiteConfig()?.thumbnail || DEFAULT_THUMBNAIL)}`;
   const pageTitle = title ? `${title} - ${SITE_NAME}` : DEFAULT_TITLE;
   const thumbnailPath = `${ogURL}${thumbnailImage}`;
 
