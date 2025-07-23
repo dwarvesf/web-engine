@@ -14,6 +14,8 @@ interface ProjectProps {
   imageAlt?: string;
   href?: string;
   imageClassName?: string;
+  customBackgroundColor?: string;
+  customBorderColor?: string;
 }
 
 export default function Project({
@@ -26,6 +28,8 @@ export default function Project({
   imageAlt = '',
   href,
   imageClassName,
+  customBackgroundColor,
+  customBorderColor,
 }: PropsWithChildren<ProjectProps>) {
   const getBackgroundClass = (bg?: string) => {
     switch (bg) {
@@ -46,7 +50,7 @@ export default function Project({
       case 'light-yellow': // artzy
         return 'bg-[#fff7e9] border border-[#fff7e9]';
       default:
-        return 'bg-white';
+        return 'bg-transparent border border-transparent';
     }
   };
 
@@ -67,11 +71,15 @@ export default function Project({
         className={cn(
           baseClasses,
           'justify-between pt-8 pb-8 sm:pb-0',
-          getBackgroundClass(background),
+          customBackgroundColor ? '' : getBackgroundClass(background),
           getTextColor(background),
           colored && 'flex flex-col',
           className,
         )}
+        style={{
+          backgroundColor: customBackgroundColor,
+          borderColor: customBorderColor,
+        }}
       >
         <div className="not-prose relative max-w-none px-8">
           <div className="**:m-0">{children}</div>
