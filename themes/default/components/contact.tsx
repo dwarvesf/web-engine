@@ -5,11 +5,11 @@ import Button from './ui/button';
 const Contact: React.FC<SectionProps> = p => {
   return (
     <Section fullWidth {...p} className={cn('bg-alabaster py-20', p.className)}>
-      <div className="dwarves-container space-y-[1.5rem] text-center">
+      <div className="dwarves-container text-center">
         <h2 className="dwarves-heading text-3xl font-semibold">
-          We'd love to work with you.
+          We’d love to work with you.
         </h2>
-        <p className="text-foreground text-xl">
+        <p className="text-foreground mt-3 mb-6 text-xl">
           Drop us a message if you need any helps from the Dwarves
         </p>
         <Button variant="primary" href="/contact">
