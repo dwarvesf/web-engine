@@ -16,7 +16,7 @@ export default function FiveTemplate(props: TemplateRenderArgs) {
       isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     }
 
-    if (!isDark) {
+    if (!isDark || html.getAttribute('data-theme') !== 'dark') {
       html.setAttribute('data-theme', 'dark');
       html.classList.add('dark');
       // If not dark mode, set the theme to dark and return to light mode on unmount
