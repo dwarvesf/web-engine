@@ -93,13 +93,13 @@ export default function Project({
             </Button>
           ) : null}
         </div>
-        <div className="hidden sm:block">
+        <div className="relative h-0 pb-[48.7%] leading-0">
           <Image
             src={image}
             alt={imageAlt}
             objectFit="contain"
             containerClassName={cn(
-              'not-prose w-full align-middle',
+              'not-prose w-full align-middle absolute inset-0',
               imageClassName,
             )}
           />
