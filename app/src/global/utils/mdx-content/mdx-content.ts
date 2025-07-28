@@ -155,25 +155,23 @@ export async function getMdxContent(slug: string[] | undefined): Promise<
     }
   | undefined
 > {
-  let filePath: string = '';
-  if (!slug) {
+  let filePath: string = path.join(PUBLIC_CONTENT, ...(slug ?? [])) + '.mdx';
+  if (!slug || !fs.existsSync(filePath)) {
     const filePaths = ['index', 'readme', '_index', '_readme']
       .map(file => [file, file.toUpperCase()])
       .flat();
     for (const fileName of filePaths) {
-      const file = path.join(PUBLIC_CONTENT, fileName) + '.mdx';
+      const file =
+        path.join(PUBLIC_CONTENT, ...(slug ?? []), fileName) + '.mdx';
       if (!fs.existsSync(file)) {
         continue;
       }
       filePath = file;
       break;
     }
-  } else {
-    filePath = path.join(PUBLIC_CONTENT, ...slug) + '.mdx';
-  }
-  // Check if file exists
-  if (!filePath || !fs.existsSync(filePath)) {
-    return;
+    if (!filePath || !fs.existsSync(filePath)) {
+      return;
+    }
   }
 
   const source = fs.readFileSync(filePath, 'utf8');

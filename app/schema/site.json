@@ -60,6 +60,10 @@
       "description": "Path to the favicon file",
       "default": "/favicon.ico"
     },
+    "thumbnail": {
+      "type": "string",
+      "description": "Path to the thumbnail image file"
+    },
     "header": {
       "type": "object",
       "description": "Header configuration",
@@ -84,6 +88,21 @@
           "required": ["src", "alt", "href"],
           "additionalProperties": false
         },
+        "opensource-navigation": {
+          "type": "object",
+          "description": "Open source navigation configuration",
+          "properties": {
+            "tabs": {
+              "type": "array",
+              "description": "Open source navigation tabs",
+              "items": {
+                "$ref": "#/definitions/tab"
+              }
+            }
+          },
+          "required": ["tabs"],
+          "additionalProperties": false
+        },
         "navigation": {
           "type": "object",
           "description": "Navigation configuration",
@@ -103,6 +122,22 @@
             }
           },
           "required": ["tabs"],
+          "additionalProperties": false
+        },
+        "mobile-navigation-footer": {
+          "type": "object",
+          "description": "Mobile navigation footer configuration",
+          "properties": {
+            "email": {
+              "type": "string",
+              "format": "email",
+              "description": "Contact email for mobile footer"
+            },
+            "socials": {
+              "$ref": "#/definitions/socials"
+            }
+          },
+          "required": ["email"],
           "additionalProperties": false
         }
       },
@@ -227,38 +262,97 @@
           "type": "array",
           "description": "Tab groups for dropdown navigation",
           "items": {
-            "type": "object",
-            "properties": {
-              "group": {
-                "type": "string",
-                "description": "Group name"
-              },
-              "tag": {
-                "type": "string",
-                "description": "Group tag"
-              },
-              "pages": {
-                "type": "array",
-                "description": "Pages in the group",
-                "items": {
-                  "oneOf": [
-                    {
-                      "type": "string"
-                    },
-                    {
-                      "type": "array",
-                      "items": {
-                        "type": "string"
-                      },
-                      "minItems": 2,
-                      "maxItems": 2
+            "oneOf": [
+              {
+                "type": "object",
+                "description": "Simple group with pages",
+                "properties": {
+                  "group": {
+                    "type": "string",
+                    "description": "Group name"
+                  },
+                  "tag": {
+                    "type": "string",
+                    "description": "Group tag"
+                  },
+                  "href": {
+                    "type": "string",
+                    "description": "Group URL"
+                  },
+                  "pages": {
+                    "type": "array",
+                    "description": "Pages in the group",
+                    "items": {
+                      "oneOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "minItems": 2,
+                          "maxItems": 2
+                        }
+                      ]
                     }
-                  ]
-                }
+                  }
+                },
+                "required": ["group", "pages"],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "description": "Nested group structure",
+                "properties": {
+                  "groups": {
+                    "type": "array",
+                    "description": "Nested groups",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "group": {
+                          "type": "string",
+                          "description": "Group name"
+                        },
+                        "tag": {
+                          "type": "string",
+                          "description": "Group tag"
+                        },
+                        "href": {
+                          "type": "string",
+                          "description": "Group URL"
+                        },
+                        "pages": {
+                          "type": "array",
+                          "description": "Pages in the group",
+                          "items": {
+                            "oneOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "array",
+                                "items": {
+                                  "type": "string"
+                                },
+                                "minItems": 2,
+                                "maxItems": 2
+                              }
+                            ]
+                          }
+                        }
+                      },
+                      "required": ["group", "pages"],
+                      "additionalProperties": false
+                    }
+                  }
+                },
+                "required": ["groups"],
+                "additionalProperties": false
               }
-            },
-            "required": ["group", "pages"],
-            "additionalProperties": false
+            ]
           }
         }
       },

@@ -60,28 +60,11 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const slug = params?.slug as string[];
 
   const props = await getMdxContent(slug);
-  if (props?.mdxSource && !('error' in props.mdxSource)) {
-    return { props };
-  }
-
-  const filePaths = ['index', 'readme', '_index', '_readme']
-    .map(file => [file, file.toUpperCase()])
-    .flat();
-  let existedData: Awaited<ReturnType<typeof getMdxContent>> | null = null;
-  for (const filePath of filePaths) {
-    const props = await getMdxContent([...slug, filePath]);
-    if (!props || !props.mdxSource || 'error' in props.mdxSource) {
-      continue;
-    }
-    existedData = props;
-    break;
-  }
-
-  if (!existedData) {
+  if (!props || !props.mdxSource || 'error' in props.mdxSource) {
     return { notFound: true };
   }
 
   return {
-    props: existedData,
+    props,
   };
 };
