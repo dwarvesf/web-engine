@@ -13,6 +13,7 @@ interface HeroProps {
   ctaLink?: string;
   backgroundImage?: string;
   className?: string;
+  id?: string;
 }
 
 export default function Hero({
@@ -26,6 +27,7 @@ export default function Hero({
   backgroundImage,
   className = '',
   children,
+  id,
 }: PropsWithChildren<HeroProps>) {
   return (
     <Section
@@ -37,6 +39,7 @@ export default function Hero({
         backgroundSize: 'cover',
         backgroundPosition: 'center',
       }}
+      id={id}
     >
       <div className="relative z-10">
         {subtitle && (
