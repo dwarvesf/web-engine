@@ -41,16 +41,21 @@ export default function WorkDetailTemplate(props: WorkDetailTemplateProps) {
     <Layout siteConfig={siteConfig} contentClassName={cn('dwarves-container')}>
       {/* Hero Section */}
       <Stack gap="3xl" className="mb-20">
-        <Center className="mx-auto max-w-[700px] flex-col pt-14" gap="none">
+        <Center
+          className="mx-auto w-full max-w-[700px] flex-col pt-14"
+          gap="none"
+        >
           <h1 className="mt-3 text-center text-4xl font-semibold">
             {projectTitle}
           </h1>
           <Paragraph className="!mt-2 text-center">{description}</Paragraph>
-          <Image
-            src={heroImage}
-            alt={projectTitle || ''}
-            containerClassName="mt-12"
-          />
+          <div className="relative mt-12 h-0 w-full pb-[54%] leading-0">
+            <Image
+              src={heroImage}
+              alt={projectTitle || ''}
+              containerClassName="absolute inset-0"
+            />
+          </div>
         </Center>
         {metadata && (
           <HStack
