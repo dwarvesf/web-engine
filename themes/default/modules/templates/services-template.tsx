@@ -10,6 +10,7 @@ interface FrontmatterMetadata {
   'form-options': {
     title: string;
     'form-image': string;
+    className: string;
     'service-name': string;
     'additional-info-field-label'?: string;
     'show-select-location': boolean;
@@ -37,6 +38,7 @@ export default function ServicesTemplate(props: TemplateRenderArgs) {
           title={formOptions.title}
           serviceName={formOptions['service-name']}
           bgImage={formOptions['form-image']}
+          className={formOptions['className']}
           templateSelectFields={selectFields}
           templateInputFields={inputFields}
           isShowSelectLocation={isShowSelectLocation}
