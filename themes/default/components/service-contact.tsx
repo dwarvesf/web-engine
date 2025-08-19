@@ -6,7 +6,7 @@ import { cn } from '../utils';
 import ContactImageGrid from './contact-image-grid';
 import { SuccessDialog } from './dialog';
 import Section from './section';
-import { Column, Container, H3 } from './ui';
+import { Column, Container, H3, Paragraph, ParagraphBlock } from './ui';
 import Button from './ui/button';
 import Input from './ui/input';
 import Pell, { PellRef } from './ui/pell';
@@ -107,6 +107,7 @@ function toOptions(field: TemplateSelectField) {
 interface ServiceContactProps {
   className?: string;
   title?: string;
+  subtitle?: string;
   serviceName: string;
   bgImage?: string;
   showImageGrid?: boolean;
@@ -120,6 +121,7 @@ interface ServiceContactProps {
 const ServiceContact: React.FC<ServiceContactProps> = ({
   className,
   title,
+  subtitle,
   serviceName,
   bgImage,
   showImageGrid = true,
@@ -224,14 +226,21 @@ const ServiceContact: React.FC<ServiceContactProps> = ({
 
   return (
     <Section
-      className={cn('mb-16 flex flex-col gap-4 py-16', className)}
+      className={cn('bg-alabaster mb-16 flex flex-col gap-4 py-16', className)}
       id="contact"
       contentClassName="!mx-0 xl:!mx-auto"
     >
       {title ? (
-        <H3 className="!pb-12 text-3xl font-semibold">{title}</H3>
+        <ParagraphBlock>
+          <H3 className="!pb-8 text-3xl font-semibold">{title}</H3>
+        </ParagraphBlock>
       ) : null}
-      <Container className="max-w-none flex-1 flex-shrink-0">
+      {subtitle ? (
+        <ParagraphBlock>
+          <Paragraph className="!pb-8 text-2xl">{subtitle}</Paragraph>
+        </ParagraphBlock>
+      ) : null}
+      <Container className="mt-4 max-w-none flex-1 flex-shrink-0">
         <div
           className={cn({
             'grid grid-cols-1 gap-12 xl:grid-cols-2': !onlyForm,

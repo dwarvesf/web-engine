@@ -9,6 +9,7 @@ import {
 interface FrontmatterMetadata {
   'form-options': {
     title: string;
+    subtitle?: string;
     'form-image': string;
     className: string;
     'service-name': string;
@@ -36,6 +37,7 @@ export default function ServicesTemplate(props: TemplateRenderArgs) {
       {formOptions?.['service-name'] ? (
         <ServiceContact
           title={formOptions.title}
+          subtitle={formOptions.subtitle}
           serviceName={formOptions['service-name']}
           bgImage={formOptions['form-image']}
           className={formOptions['className']}
