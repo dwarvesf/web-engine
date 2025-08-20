@@ -4,7 +4,6 @@ import '../generated/globals.css';
 import type { AppProps } from 'next/app';
 import HotReload from '@wse/global/components/hot-reload';
 import SEO from '@wse/global/components/SEO';
-import AutoScrollToTop from '@wse/global/components/auto-scroll-top';
 import GlobalRouteHandler from '@wse/global/components/global-route-handler';
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -12,9 +11,7 @@ export default function App({ Component, pageProps }: AppProps) {
     <>
       <SEO frontmatter={pageProps.frontmatter} />
       <GlobalRouteHandler>
-        <AutoScrollToTop>
-          <Component {...pageProps} />
-        </AutoScrollToTop>
+        <Component {...pageProps} />
       </GlobalRouteHandler>
       <HotReload />
     </>

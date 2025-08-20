@@ -23,7 +23,10 @@ const GlobalRouteHandler: React.FC<GlobalRouteHandlerProps> = ({
 
     const handleClick = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
-      const anchor = target.closest('a');
+      const isAnchor = target.tagName.toLowerCase() === 'a';
+      const anchor = isAnchor
+        ? (target as HTMLAnchorElement)
+        : target.closest('a');
 
       if (!anchor) return;
 
@@ -79,6 +82,9 @@ const GlobalRouteHandler: React.FC<GlobalRouteHandlerProps> = ({
           const url = new URL(href, `${window.location.origin}${currentPath}`);
           resolvedPath = url.pathname + url.search + url.hash;
         }
+        window.requestAnimationFrame(() => {
+          window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+        });
         // Use Next.js router for navigation
         routerRef.current.push(resolvedPath, resolvedPath, { scroll: false });
         return;
@@ -89,6 +95,9 @@ const GlobalRouteHandler: React.FC<GlobalRouteHandlerProps> = ({
         const url = new URL(href, window.location.origin);
         if (url.hostname === window.location.hostname) {
           e.preventDefault();
+          window.requestAnimationFrame(() => {
+            window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+          });
           routerRef.current.push(url.pathname + url.search + url.hash);
         }
       } catch {
