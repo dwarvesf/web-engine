@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
-import { cn, transformSocialLinks } from '../../utils';
-import { NavigationItem, SocialLink } from '../../components';
-import { Icon, Logo } from '../../components/ui';
+import { cn } from '../../utils';
+import { NavigationItem } from '../../components';
+import { Logo } from '../../components/ui';
 import { SocialConfig } from '../../types/theme';
+import MobileNav from './mobile-navigation';
 
 interface TabType {
   tab: string;
@@ -48,7 +49,6 @@ export default function Header({
   navigation,
   className = '',
 }: HeaderProps) {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -62,18 +62,9 @@ export default function Header({
 
   if (!header) return null;
 
-  const mobileNavigationFooter = header['mobile-navigation-footer'];
-
   const { logo } = header;
   const items = navigation?.tabs || [];
 
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
-
-  const closeMobileMenu = () => {
-    setIsMobileMenuOpen(false);
-  };
   return (
     <header
       className={cn(
@@ -104,79 +95,7 @@ export default function Header({
           )}
 
           {/* Mobile menu button */}
-          <button
-            className="flex h-10 w-10 cursor-pointer items-center justify-center lg:hidden"
-            aria-label="Toggle menu"
-            onClick={toggleMobileMenu}
-          >
-            <svg
-              className="h-8 w-8 font-bold"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d={
-                  isMobileMenuOpen
-                    ? 'M6 18L18 6M6 6l12 12'
-                    : 'M4 6h16M4 12h16M4 18h16'
-                }
-              />
-            </svg>
-          </button>
-        </div>
-
-        {/* Mobile menu */}
-        <div
-          className={cn(
-            'bg-background fixed inset-0 top-18 z-50 m-auto flex flex-col overflow-auto transition-all duration-200 ease-[cubic-bezier(.22,.61,.36,1)] lg:hidden',
-            isMobileMenuOpen
-              ? 'translate-x-0 opacity-100'
-              : 'translate-x-full opacity-15',
-          )}
-        >
-          <nav className="flex flex-grow flex-col justify-center gap-4">
-            {items.map((item, index) => (
-              <NavigationItem
-                key={index}
-                tab={item}
-                isMobile={true}
-                onItemClick={closeMobileMenu}
-              />
-            ))}
-          </nav>
-          {/* Mobile navigation footer */}
-          {mobileNavigationFooter && (
-            <div className="flex flex-col items-center justify-center gap-2 p-4">
-              {mobileNavigationFooter.socials && (
-                <div className="mb-4 flex space-x-4">
-                  {transformSocialLinks(mobileNavigationFooter.socials).map(
-                    ({ name, href, icon }, index) => (
-                      <SocialLink
-                        key={index}
-                        name={name}
-                        href={href}
-                        icon={icon}
-                      />
-                    ),
-                  )}
-                </div>
-              )}
-              <hr className="border-tag w-full border-t py-2" />
-              {mobileNavigationFooter.email && (
-                <a
-                  href={`mailto:${mobileNavigationFooter.email}`}
-                  className="text-muted-foreground text-sm"
-                >
-                  <Icon name="mail" size="sm" className="mr-2 inline-block" />
-                  {mobileNavigationFooter.email}
-                </a>
-              )}
-            </div>
-          )}
+          <MobileNav header={header} />
         </div>
       </div>
     </header>

@@ -1,16 +1,20 @@
 import { PropsWithChildren } from 'react';
 import { ConfigurationServiceName } from '../services/app-config';
 
+type GroupItem = {
+  group?: string;
+  href?: string;
+  tag?: string;
+  pages?: (string | [string, string])[];
+  groups?: GroupItem[];
+};
+
 export interface TabType {
   tab: string;
   href?: string;
   type?: string[] | string;
   tag?: string;
-  groups?: {
-    group: string;
-    tag?: string;
-    pages: (string | [string, string])[];
-  }[];
+  groups?: GroupItem[];
 }
 
 export interface LogoConfig {
@@ -28,6 +32,10 @@ export interface HeaderConfig {
   logo: LogoConfig;
   navigation: NavigationConfig;
   'opensource-navigation'?: NavigationConfig;
+  'mobile-navigation-footer'?: {
+    email?: string;
+    socials?: SocialConfig;
+  };
 }
 
 export interface SocialConfig {
