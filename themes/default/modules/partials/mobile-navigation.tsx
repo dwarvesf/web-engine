@@ -3,7 +3,8 @@
 import { useCallback, useEffect, useState } from 'react';
 import { cn, transformSocialLinks } from '../../utils';
 import { HeaderConfig, TabType } from '../../types/theme';
-import { Icon, SocialLink } from '../../components';
+import { Button, Icon, SocialLink } from '../../components';
+import { ButtonProps } from '../../components/ui/button';
 
 interface Props {
   header: HeaderConfig;
@@ -201,11 +202,12 @@ function NavRow({
     const Tag = item.href ? 'a' : 'button';
     if (item.type?.[0] === 'button') {
       return (
-        <Tag
+        <Button
           href={item.href || '#'}
+          variant={(item.type?.[1] || 'link') as ButtonProps['variant']}
           onClick={action}
           className={cn(
-            'hover:bg-primary/10 relative flex-1 cursor-pointer rounded-md px-3 py-3 text-base transition outline-none focus:outline-none',
+            'relative cursor-pointer rounded-md px-3 py-3',
             level === 0 ? 'font-medium' : 'font-normal',
             {
               'hover:bg-alto/40 opacity-70': !item.href && !hasChildren,
@@ -213,7 +215,7 @@ function NavRow({
           )}
         >
           {item.tab}
-        </Tag>
+        </Button>
       );
     }
 
