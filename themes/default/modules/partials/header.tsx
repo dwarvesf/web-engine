@@ -2,44 +2,11 @@ import { useState, useEffect } from 'react';
 import { cn } from '../../utils';
 import { NavigationItem } from '../../components';
 import { Logo } from '../../components/ui';
-import { SocialConfig } from '../../types/theme';
+import { HeaderConfig } from '../../types/theme';
 import MobileNav from './mobile-navigation';
 
-interface TabType {
-  tab: string;
-  href?: string;
-  type?: string[] | string;
-  tag?: string;
-  groups?: {
-    group: string;
-    tag?: string;
-    href?: string;
-    pages: (string | [string, string])[];
-  }[];
-}
-
-interface LogoConfig {
-  src: string;
-  alt: string;
-  href: string;
-}
-
-interface NavigationConfig {
-  position?: 'header' | 'aside';
-  tabs: TabType[];
-}
-
-interface HeaderConfig {
-  logo: LogoConfig;
-  navigation: NavigationConfig;
-  'mobile-navigation-footer'?: {
-    email?: string;
-    socials?: SocialConfig;
-  };
-}
-
 interface HeaderProps {
-  navigation?: NavigationConfig;
+  navigation?: HeaderConfig['navigation'];
   header?: HeaderConfig;
   className?: string;
 }
@@ -63,7 +30,7 @@ export default function Header({
   if (!header) return null;
 
   const { logo } = header;
-  const items = navigation?.tabs || [];
+  const items = navigation?.tabs ?? [];
 
   return (
     <header
@@ -86,7 +53,7 @@ export default function Header({
           </div>
 
           {/* Navigation */}
-          {items.length > 0 && (
+          {items?.length > 0 && (
             <nav className="hidden items-center space-x-6 lg:flex">
               {items.map((item, index) => (
                 <NavigationItem key={index} tab={item} />
