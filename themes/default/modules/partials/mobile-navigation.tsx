@@ -158,7 +158,8 @@ function NavRow({
   level: number;
   setOpen: (open: boolean) => void;
 }) {
-  const [expanded, setExpanded] = useState(false);
+  const defaultExpanded = item['default-expanded'] ?? false;
+  const [expanded, setExpanded] = useState(defaultExpanded);
 
   const getGroups = useCallback((tabGroups: TabType['groups']) => {
     if (!tabGroups?.length) {
@@ -207,7 +208,7 @@ function NavRow({
           variant={(item.type?.[1] || 'link') as ButtonProps['variant']}
           onClick={action}
           className={cn(
-            'relative cursor-pointer rounded-md px-3 py-3',
+            'relative my-2 cursor-pointer rounded-md px-3 py-3',
             level === 0 ? 'font-medium' : 'font-normal',
             {
               'hover:bg-alto/40 opacity-70': !item.href && !hasChildren,

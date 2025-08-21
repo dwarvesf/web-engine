@@ -29,7 +29,9 @@
               "description": "Plugin-specific configuration"
             }
           },
-          "required": ["enabled"],
+          "required": [
+            "enabled"
+          ],
           "additionalProperties": true
         }
       }
@@ -52,7 +54,11 @@
           "description": "The site URL"
         }
       },
-      "required": ["title", "description", "url"],
+      "required": [
+        "title",
+        "description",
+        "url"
+      ],
       "additionalProperties": false
     },
     "favicon": {
@@ -85,7 +91,11 @@
               "description": "Logo link href"
             }
           },
-          "required": ["src", "alt", "href"],
+          "required": [
+            "src",
+            "alt",
+            "href"
+          ],
           "additionalProperties": false
         },
         "opensource-navigation": {
@@ -100,7 +110,9 @@
               }
             }
           },
-          "required": ["tabs"],
+          "required": [
+            "tabs"
+          ],
           "additionalProperties": false
         },
         "navigation": {
@@ -109,7 +121,10 @@
           "properties": {
             "position": {
               "type": "string",
-              "enum": ["header", "aside"],
+              "enum": [
+                "header",
+                "aside"
+              ],
               "description": "Navigation position",
               "default": "header"
             },
@@ -121,7 +136,9 @@
               }
             }
           },
-          "required": ["tabs"],
+          "required": [
+            "tabs"
+          ],
           "additionalProperties": false
         },
         "mobile-navigation-footer": {
@@ -137,11 +154,16 @@
               "$ref": "#/definitions/socials"
             }
           },
-          "required": ["email"],
+          "required": [
+            "email"
+          ],
           "additionalProperties": false
         }
       },
-      "required": ["logo", "navigation"],
+      "required": [
+        "logo",
+        "navigation"
+      ],
       "additionalProperties": false
     },
     "footer": {
@@ -165,7 +187,10 @@
               "$ref": "#/definitions/socials"
             }
           },
-          "required": ["text", "email"],
+          "required": [
+            "text",
+            "email"
+          ],
           "additionalProperties": false
         },
         "column-sections": {
@@ -213,20 +238,37 @@
               },
               "type": {
                 "type": "string",
-                "enum": ["link", "outline", "primary", "secondary", "ghost"],
+                "enum": [
+                  "link",
+                  "outline",
+                  "primary",
+                  "secondary",
+                  "ghost"
+                ],
                 "description": "Button type/style"
               }
             },
-            "required": ["text", "href", "type"],
+            "required": [
+              "text",
+              "href",
+              "type"
+            ],
             "additionalProperties": false
           }
         }
       },
-      "required": ["description"],
+      "required": [
+        "description"
+      ],
       "additionalProperties": false
     }
   },
-  "required": ["theme", "language", "site", "header"],
+  "required": [
+    "theme",
+    "language",
+    "site",
+    "header"
+  ],
   "additionalProperties": true,
   "definitions": {
     "tab": {
@@ -235,6 +277,10 @@
         "tab": {
           "type": "string",
           "description": "Tab label"
+        },
+        "default-expanded": {
+          "type": "boolean",
+          "description": "Whether the tab is expanded by default"
         },
         "href": {
           "type": "string",
@@ -279,6 +325,10 @@
                     "type": "string",
                     "description": "Group URL"
                   },
+                  "default-expanded": {
+                    "type": "boolean",
+                    "description": "Whether the tab is expanded by default"
+                  },
                   "pages": {
                     "type": "array",
                     "description": "Pages in the group",
@@ -299,7 +349,10 @@
                     }
                   }
                 },
-                "required": ["group", "pages"],
+                "required": [
+                  "group",
+                  "pages"
+                ],
                 "additionalProperties": false
               },
               {
@@ -315,6 +368,10 @@
                         "group": {
                           "type": "string",
                           "description": "Group name"
+                        },
+                        "default-expanded": {
+                          "type": "boolean",
+                          "description": "Whether the tab is expanded by default"
                         },
                         "tag": {
                           "type": "string",
@@ -344,19 +401,26 @@
                           }
                         }
                       },
-                      "required": ["group", "pages"],
+                      "required": [
+                        "group",
+                        "pages"
+                      ],
                       "additionalProperties": false
                     }
                   }
                 },
-                "required": ["groups"],
+                "required": [
+                  "groups"
+                ],
                 "additionalProperties": false
               }
             ]
           }
         }
       },
-      "required": ["tab"],
+      "required": [
+        "tab"
+      ],
       "additionalProperties": false
     },
     "socials": {
@@ -416,7 +480,11 @@
                 "description": "Content text"
               }
             },
-            "required": ["type", "title", "text"],
+            "required": [
+              "type",
+              "title",
+              "text"
+            ],
             "additionalProperties": false
           }
         },
@@ -449,7 +517,10 @@
                 "description": "Tab tag"
               }
             },
-            "required": ["tab", "href"],
+            "required": [
+              "tab",
+              "href"
+            ],
             "additionalProperties": false
           }
         }

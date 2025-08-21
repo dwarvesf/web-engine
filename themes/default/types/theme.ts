@@ -15,6 +15,7 @@ export interface TabType {
   type?: string[] | string;
   tag?: string;
   groups?: GroupItem[];
+  'default-expanded'?: boolean;
 }
 
 export interface LogoConfig {
