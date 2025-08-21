@@ -228,7 +228,7 @@ const ServiceContact: React.FC<ServiceContactProps> = ({
     <Section
       className={cn('bg-alabaster mb-16 flex flex-col gap-4 py-16', className)}
       id="contact"
-      contentClassName="!mx-0 xl:!mx-auto"
+      contentClassName="w-full"
     >
       {title ? (
         <ParagraphBlock>
@@ -257,9 +257,7 @@ const ServiceContact: React.FC<ServiceContactProps> = ({
 
           <div
             className={cn(
-              showImageGrid || onlyForm
-                ? 'max-w-2xl xl:col-span-1'
-                : 'max-w-2xl xl:col-span-2',
+              showImageGrid || onlyForm ? 'xl:col-span-1' : 'xl:col-span-2',
             )}
           >
             <div className={cn('h-full', className)}>
