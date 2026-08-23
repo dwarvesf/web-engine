@@ -51,3 +51,6 @@ app/src/generated
 
 # Porting Artifacts
 porting-input
+
+# wrangler pages dev cache
+.wrangler/

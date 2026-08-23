@@ -6,6 +6,7 @@
     "dev": "pnpm --filter=@wse/app run dev",
     "build": "pnpm --filter=@wse/app run build",
     "start": "pnpm --filter=@wse/app run start",
+    "test": "pnpm --filter=@wse/app run test",
     "lint": "pnpm --filter=@wse/app run lint",
     "lint:fix": "pnpm --filter=@wse/app run lint:fix",
     "format": "pnpm --filter=@wse/app run format",

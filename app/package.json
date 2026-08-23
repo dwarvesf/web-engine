@@ -8,6 +8,7 @@
     "build": "npx -y tsx scripts/build.ts",
     "s:dev": "next dev",
     "start": "next start",
+    "test": "node --import tsx --test tests/*.test.mjs tests/*.test.ts tests/*.test.tsx",
     "lint": "next lint",
     "lint:fix": "eslint src --fix",
     "format": "prettier --write src",
