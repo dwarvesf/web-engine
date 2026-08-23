@@ -38,6 +38,12 @@ const NotFound: React.FC<Pick<TemplateRenderArgs, 'siteConfig'>> = ({
             </Button>
           ))}
         </div>
+        <p className="text-muted-foreground text-center text-sm">
+          Looking for something specific?{' '}
+          <a href="/sitemap.xml">/sitemap.xml</a> lists every page,{' '}
+          <a href="/llms.txt">/llms.txt</a> describes the site, and{' '}
+          <a href="/">the homepage</a> is the starting point.
+        </p>
       </div>
     </Layout>
   );

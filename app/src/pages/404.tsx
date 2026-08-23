@@ -6,6 +6,11 @@ const Default404 = () => {
     <div className="flex flex-1 flex-col items-center justify-center">
       <h3 className="text-2xl font-semibold">404 - Page Not Found</h3>
       <p className="mt-4">The page you are looking for does not exist.</p>
+      <p className="mt-2 text-sm">
+        Every page is listed in <a href="/sitemap.xml">/sitemap.xml</a>, the
+        site is described in <a href="/llms.txt">/llms.txt</a>, and{' '}
+        <a href="/">the homepage</a> is the starting point.
+      </p>
     </div>
   );
 };
