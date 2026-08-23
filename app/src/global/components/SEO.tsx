@@ -37,14 +37,12 @@ const SEO: React.FC<{ frontmatter: Record<string, any> }> = ({
 }) => {
   const title = frontmatter.title;
   const description = frontmatter.description || DEFAULT_DESCRIPTION;
-  const ogURL = frontmatter['og:url'] || DEFAULT_WEBSITE_URL;
   const templateThumbnail = frontmatter.thumbnail;
   const keywords = frontmatter.keywords || DEFAULT_KEYWORDS;
   const thumbnailImage =
     templateThumbnail ||
     `/${getFileNameFromPath(getSiteConfig()?.thumbnail || DEFAULT_THUMBNAIL)}`;
   const pageTitle = title ? `${title} - ${SITE_NAME}` : DEFAULT_TITLE;
-  const thumbnailPath = `${ogURL}${thumbnailImage}`;
 
   const getCurrentUrl = () => {
     if (typeof window !== 'undefined') {
@@ -59,6 +57,13 @@ const SEO: React.FC<{ frontmatter: Record<string, any> }> = ({
   const canonicalPath = route.endsWith('/') ? route : `${route}/`;
   const canonicalUrl = absoluteUrl(getSiteConfig(), canonicalPath);
   const organizationSchema = buildOrganizationSchema(getSiteConfig());
+
+  // og:url and og:image resolve against the site's own host from site.json, not
+  // DEFAULT_WEBSITE_URL. That constant is the apex, which redirects, and a scraper
+  // that does not follow the redirect drops the card. A page may still override
+  // og:url through frontmatter.
+  const ogUrl = frontmatter['og:url'] || canonicalUrl;
+  const thumbnailUrl = absoluteUrl(getSiteConfig(), thumbnailImage);
 
   return (
     <Head>
@@ -82,18 +87,18 @@ const SEO: React.FC<{ frontmatter: Record<string, any> }> = ({
       {/* SEO markups */}
       <meta property="ia:markup_url" content={getCurrentUrl()} />
       {/* OpenGraph tags */}
-      <meta property="og:title" content={title} />
+      <meta property="og:title" content={pageTitle} />
       <meta property="og:description" content={description} />
       <meta property="og:locale" content="en-US" />
-      <meta property="og:url" content={ogURL} />
+      <meta property="og:url" content={ogUrl} />
       <meta property="og:site_name" content={SITE_NAME} />
       <meta property="og:type" content="website" />
-      <meta property="og:image" content={thumbnailPath} />
+      <meta property="og:image" content={thumbnailUrl} />
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:site" content="@dwarvesf" />
       <meta name="twitter:title" content={pageTitle} />
       <meta name="twitter:description" content={description} />
-      <meta name="twitter:image" content={thumbnailPath} />
+      <meta name="twitter:image" content={thumbnailUrl} />
     </Head>
   );
 };
