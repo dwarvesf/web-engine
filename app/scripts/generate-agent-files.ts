@@ -160,6 +160,22 @@ ${linkLines.join('\n')}
   console.log('✅ Generated llms.txt');
 }
 
+// With no robots.txt in the export, Cloudflare answers /robots.txt with its own
+// managed file. On this zone that file is 24 lines of comment explaining what
+// content signals mean and sets no directive at all, so replacing it costs
+// nothing and buys the Sitemap pointer. Setting real content signals later is a
+// Cloudflare-side choice that would have to move back in here.
+function writeRobotsTxt(siteJson: SiteJson) {
+  const text = `User-agent: *
+Allow: /
+
+Sitemap: ${absolute(siteJson, '/sitemap.xml')}
+`;
+  const target = path.join(BUILD_OUT_DIR, 'robots.txt');
+  writeFileSync(target, text, 'utf-8');
+  console.log('✅ Generated robots.txt');
+}
+
 async function main() {
   if (!existsSync(BUILD_OUT_DIR)) {
     console.error('❌ Build output directory not found:', BUILD_OUT_DIR);
@@ -168,6 +184,7 @@ async function main() {
   const siteJson = readSiteJson();
   writeSitemap(siteJson, await exportedRoutes());
   writeLlmsTxt(siteJson);
+  writeRobotsTxt(siteJson);
 }
 
 main().catch(error => {
