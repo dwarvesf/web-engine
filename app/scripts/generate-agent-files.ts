@@ -1,22 +1,11 @@
 // Emits the machine-readable entry points for the exported site: sitemap.xml,
-// llms.txt, robots.txt, a markdown twin per page, and the Pages worker that
-// serves those twins under content negotiation. Runs after `next build`, over
-// the exported out/ directory.
+// llms.txt, robots.txt, and the Pages worker. Runs after `next build`, over the
+// exported out/ directory.
 import { glob } from 'glob';
-import {
-  copyFileSync,
-  existsSync,
-  mkdirSync,
-  readFileSync,
-  writeFileSync,
-} from 'fs';
+import { copyFileSync, existsSync, readFileSync, writeFileSync } from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import {
-  BUILD_OUT_DIR,
-  ORIGINAL_SITE_CONFIG_CONTENT,
-  PUBLIC_CONTENT,
-} from './paths';
+import { BUILD_OUT_DIR, ORIGINAL_SITE_CONFIG_CONTENT } from './paths';
 
 type Tab = { tab: string; href?: string };
 
@@ -164,10 +153,6 @@ Every page is static HTML served at its own URL. Fetch the URL and read the
 markup directly; no JavaScript execution is needed. ${absolute(siteJson, '/sitemap.xml')}
 lists every page on the site.
 
-Send \`Accept: text/markdown\` to any page URL and it answers with that page's
-markdown source instead of the HTML. The same markdown is also served directly
-at the page URL plus \`index.md\`.
-
 ## Links
 
 ${linkLines.join('\n')}
@@ -193,52 +178,9 @@ Sitemap: ${absolute(siteJson, '/sitemap.xml')}
   console.log('✅ Generated robots.txt');
 }
 
-// Mirrors the route-to-file resolution in
-// src/global/utils/mdx-content/mdx-content.ts. Only .mdx files become pages,
-// either at <slug>.mdx or as an index file inside <slug>/.
-const INDEX_FILE_NAMES = ['index', 'readme', '_index', '_readme']
-  .map(name => [name, name.toUpperCase()])
-  .flat();
-
-function contentFileForRoute(route: string): string | undefined {
-  const slug = route.replace(/^\/|\/$/g, '');
-  const candidates = slug
-    ? [
-        path.join(PUBLIC_CONTENT, `${slug}.mdx`),
-        ...INDEX_FILE_NAMES.map(name =>
-          path.join(PUBLIC_CONTENT, slug, `${name}.mdx`),
-        ),
-      ]
-    : INDEX_FILE_NAMES.map(name => path.join(PUBLIC_CONTENT, `${name}.mdx`));
-  return candidates.find(candidate => existsSync(candidate));
-}
-
-/**
- * A markdown twin per page, at <route>index.md, so a client that asks for
- * text/markdown gets the page's own source rather than the rendered HTML.
- * clean:outdir-md strips the raw content tree from the export before this
- * runs, so the twins are the only markdown the site ships, one per real route,
- * read from public/content rather than from what survived in out/.
- */
-function writeMarkdownTwins(routes: string[]): number {
-  let written = 0;
-  for (const route of routes) {
-    const source = contentFileForRoute(route);
-    if (!source) {
-      continue;
-    }
-    const target = path.join(BUILD_OUT_DIR, route.slice(1), 'index.md');
-    mkdirSync(path.dirname(target), { recursive: true });
-    writeFileSync(target, readFileSync(source, 'utf-8'), 'utf-8');
-    written += 1;
-  }
-  console.log(`✅ Generated ${written} markdown twins`);
-  return written;
-}
-
 // Cloudflare Pages runs out/_worker.js at request time; `wrangler pages deploy`
 // picks it up with no project change. GitHub Pages ignores it and serves the
-// same export statically, minus the negotiation.
+// same export statically, minus the 404 body.
 function writeWorker() {
   const scriptDir = path.dirname(fileURLToPath(import.meta.url));
   const source = path.join(scriptDir, '..', 'worker', '_worker.js');
@@ -256,9 +198,7 @@ async function main() {
     process.exit(1);
   }
   const siteJson = readSiteJson();
-  const routes = await exportedRoutes();
-  writeSitemap(siteJson, routes);
-  writeMarkdownTwins(routes);
+  writeSitemap(siteJson, await exportedRoutes());
   writeLlmsTxt(siteJson);
   writeRobotsTxt(siteJson);
   writeWorker();
