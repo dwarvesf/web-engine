@@ -10,6 +10,7 @@ const commands = [
   'pnpm run process:config',
   'next build',
   'pnpm run clean:outdir-md',
+  'pnpm run gen:agent-files',
 ];
 
 function postCleanOutDir() {

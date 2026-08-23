@@ -70,6 +70,41 @@
       "type": "string",
       "description": "Path to the thumbnail image file"
     },
+    "llms": {
+      "type": "object",
+      "description": "Overrides for the generated /llms.txt. Every field is optional; the build derives a default from site and header when a field is absent.",
+      "properties": {
+        "description": {
+          "type": "string",
+          "description": "One-paragraph description of the site, overriding site.description"
+        },
+        "when-to-use": {
+          "type": "array",
+          "description": "Concrete jobs an agent would come to this site for",
+          "items": {
+            "type": "string"
+          }
+        },
+        "links": {
+          "type": "array",
+          "description": "Named links for agents, overriding the ones derived from the header navigation",
+          "items": {
+            "type": "object",
+            "properties": {
+              "title": {
+                "type": "string"
+              },
+              "href": {
+                "type": "string"
+              }
+            },
+            "required": ["title", "href"],
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
     "header": {
       "type": "object",
       "description": "Header configuration",

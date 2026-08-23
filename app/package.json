@@ -12,6 +12,7 @@
     "lint:fix": "eslint src --fix",
     "format": "prettier --write src",
     "clean:outdir-md": "tsx scripts/clean-outdir.ts",
+    "gen:agent-files": "tsx scripts/generate-agent-files.ts",
     "clone:repo": "tsx scripts/clone-repo.ts",
     "process:config": "tsx scripts/process-site-config.ts"
   },

@@ -1,7 +1,12 @@
 import React from 'react';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import { getFileNameFromPath } from '../utils/misc';
 import { getSiteConfig } from '../adapters';
+import {
+  absoluteUrl,
+  buildOrganizationSchema,
+} from '../utils/organization-schema';
 
 const SITE_NAME = 'Dwarves Foundation';
 const DEFAULT_TITLE =
@@ -48,8 +53,25 @@ const SEO: React.FC<{ frontmatter: Record<string, any> }> = ({
     return DEFAULT_WEBSITE_URL;
   };
 
+  // Self-referencing canonical. The export uses trailing slashes, so normalise
+  // the route before joining so the build and the browser agree on one URL.
+  const route = useRouter().asPath.split(/[?#]/)[0];
+  const canonicalPath = route.endsWith('/') ? route : `${route}/`;
+  const canonicalUrl = absoluteUrl(getSiteConfig(), canonicalPath);
+  const organizationSchema = buildOrganizationSchema(getSiteConfig());
+
   return (
     <Head>
+      <link rel="canonical" href={canonicalUrl} />
+      {organizationSchema ? (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            // Escape `<` so a config value can never close the script tag.
+            __html: JSON.stringify(organizationSchema).replace(/</g, '\\u003c'),
+          }}
+        />
+      ) : null}
       <meta
         name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover"
