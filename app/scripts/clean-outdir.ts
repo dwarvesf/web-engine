@@ -16,8 +16,9 @@ async function cleanOutDir() {
   const mdFiles = await glob('**/*.md', { cwd: BUILD_OUT_DIR, absolute: true });
   await Promise.all(mdFiles.map(file => rimraf(file)));
 
-  // Clean the .content-hash file
-  const contentHashFile = path.join(BUILD_OUT_DIR, '.content-hash');
+  // Clean the .content-hash file. It is written into public/content by
+  // cp:content, so `next build` copies it to out/content, not to out/.
+  const contentHashFile = path.join(BUILD_OUT_DIR, 'content', '.content-hash');
   await rimraf(contentHashFile);
 
   console.log('Cleaned out directory of all .md and .mdx files.');

@@ -1,4 +1,4 @@
-import Heading, { H1 } from './ui/heading';
+import Heading, { H1, type HeadingLevel } from './ui/heading';
 import Image from './ui/image';
 import Paragraph from './ui/paragraph';
 import { cn } from '../utils';
@@ -6,6 +6,8 @@ import { cn } from '../utils';
 interface DwarvesProps {
   className?: string;
   title: string;
+  /** Tag for the title. Styling stays at level 1 whatever this says. */
+  headingLevel?: HeadingLevel;
   subtitle: string;
   description: string;
   companyName: string;
@@ -18,6 +20,7 @@ interface DwarvesProps {
 const Dwarves = ({
   className = '',
   title,
+  headingLevel,
   subtitle,
   description,
   companyName,
@@ -41,7 +44,10 @@ const Dwarves = ({
             {subtitle}
           </Paragraph>
         )}
-        <H1 className="text-foreground mb-6 leading-tight whitespace-pre-line">
+        <H1
+          headingLevel={headingLevel}
+          className="text-foreground mb-6 leading-tight whitespace-pre-line"
+        >
           {/* Break title */}
           {title?.replace(/\\n/g, '\n')}
         </H1>

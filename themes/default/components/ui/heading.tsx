@@ -1,8 +1,16 @@
 import React from 'react';
 import { cn } from '../../utils';
 
+export type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
+
 interface HeadingProps extends React.HTMLAttributes<HTMLHeadingElement> {
-  level: 1 | 2 | 3 | 4 | 5 | 6;
+  level: HeadingLevel;
+  /**
+   * Renders a different tag while keeping `level`'s styling. A page carries one
+   * `<h1>`, so a second page-title-sized heading has to become an `<h2>` without
+   * changing how it looks. The remark plugin `remark-single-h1` sets this.
+   */
+  headingLevel?: HeadingLevel;
   variant?: 'default' | 'gradient' | 'muted' | 'accent';
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
   weight?: 'normal' | 'medium' | 'semibold' | 'bold';
@@ -58,6 +66,7 @@ const spacings = {
 export default function Heading({
   children,
   level,
+  headingLevel,
   variant,
   size,
   weight,
@@ -78,17 +87,19 @@ export default function Heading({
   );
 
   return React.createElement(
-    `h${level}`,
+    `h${headingLevel ?? level}`,
     { className: classes, ...props },
     children,
   );
 }
 
+export interface LevelledHeadingProps
+  extends React.HTMLAttributes<HTMLHeadingElement> {
+  headingLevel?: HeadingLevel;
+}
+
 // Individual heading components
-export const H1 = ({
-  children,
-  ...props
-}: React.HTMLAttributes<HTMLHeadingElement>) => (
+export const H1 = ({ children, ...props }: LevelledHeadingProps) => (
   <Heading {...props} level={1}>
     {children}
   </Heading>

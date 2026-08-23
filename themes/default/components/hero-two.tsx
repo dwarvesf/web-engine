@@ -1,20 +1,25 @@
 import { PropsWithChildren } from 'react';
 import { Paragraph } from './ui';
+import type { HeadingLevel } from './ui/heading';
 import Section from './section';
 import { cn } from '../utils';
 
 interface HeroTwoProps {
   title: string;
+  /** Tag for the title. The classes below stay the same whatever this says. */
+  headingLevel?: HeadingLevel;
   description?: string;
   className?: string;
 }
 
 export default function HeroTwo({
   title,
+  headingLevel = 1,
   description,
   className = '',
   children,
 }: PropsWithChildren<HeroTwoProps>) {
+  const Title = `h${headingLevel}` as const;
   return (
     <Section
       variant="muted"
@@ -24,9 +29,9 @@ export default function HeroTwo({
       <div className="container">
         <div className="row py-16 lg:flex lg:items-center lg:justify-between lg:py-10">
           <div className="col lg:w-5/12">
-            <h1 className="mb-8 text-3xl leading-tight font-medium lg:-mr-8">
+            <Title className="mb-8 text-3xl leading-tight font-medium lg:-mr-8">
               {title?.replace(/\\n/g, '\n')}
-            </h1>
+            </Title>
             {description && (
               <Paragraph className="leading-relax">
                 {description.split('\n')?.map((line, index) => (

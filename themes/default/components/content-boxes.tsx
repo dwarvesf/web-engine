@@ -1,10 +1,12 @@
 import React from 'react';
 import Flex, { Column } from './ui/flex';
-import { H1 } from './ui/heading';
+import { H1, type HeadingLevel } from './ui/heading';
 import { Paragraph } from './ui';
 
 interface ContentBoxesProps {
   title?: React.ReactNode;
+  /** Tag for the title. Styling stays at level 1 whatever this says. */
+  headingLevel?: HeadingLevel;
   leftColumnContent?: React.ReactNode;
   rightColumnContent?: React.ReactNode;
   className?: string;
@@ -12,6 +14,7 @@ interface ContentBoxesProps {
 
 const ContentBoxes: React.FC<ContentBoxesProps> = ({
   title,
+  headingLevel,
   leftColumnContent,
   rightColumnContent,
   className = '',
@@ -19,7 +22,10 @@ const ContentBoxes: React.FC<ContentBoxesProps> = ({
   return (
     <Column className={className}>
       {typeof title === 'string' ? (
-        <H1 className="text-foreground mb-6 leading-tight whitespace-pre-line">
+        <H1
+          headingLevel={headingLevel}
+          className="text-foreground mb-6 leading-tight whitespace-pre-line"
+        >
           {title?.replace(/\\n/g, '\n')}
         </H1>
       ) : (

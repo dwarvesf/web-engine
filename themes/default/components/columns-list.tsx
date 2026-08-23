@@ -1,16 +1,20 @@
 import { cn } from '../utils';
 import { Container, H1 } from './ui';
+import type { HeadingLevel } from './ui/heading';
 
 function ColumnsList({
   children,
   className = '',
   as = 'ul',
   title,
+  headingLevel,
   columns,
   circle = true,
   ...props
 }: React.HTMLAttributes<HTMLUListElement> & {
   title?: string;
+  /** Tag for the title. Styling stays at level 1 whatever this says. */
+  headingLevel?: HeadingLevel;
   as?: React.ElementType;
   columns?: number;
   circle?: boolean;
@@ -36,7 +40,10 @@ function ColumnsList({
   return (
     <Container className="max-w-none py-4">
       {title && (
-        <H1 className="text-foreground mb-6 leading-tight whitespace-pre-line">
+        <H1
+          headingLevel={headingLevel}
+          className="text-foreground mb-6 leading-tight whitespace-pre-line"
+        >
           {title?.replace(/\\n/g, '\n')}
         </H1>
       )}

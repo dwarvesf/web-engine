@@ -1,8 +1,10 @@
-// Emits the machine-readable entry points for the exported site: sitemap.xml
-// and llms.txt. Runs after `next build`, over the exported out/ directory.
+// Emits the machine-readable entry points for the exported site: sitemap.xml,
+// llms.txt, robots.txt, and the Pages worker. Runs after `next build`, over the
+// exported out/ directory.
 import { glob } from 'glob';
-import { existsSync, readFileSync, writeFileSync } from 'fs';
+import { copyFileSync, existsSync, readFileSync, writeFileSync } from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'url';
 import { BUILD_OUT_DIR, ORIGINAL_SITE_CONFIG_CONTENT } from './paths';
 
 type Tab = { tab: string; href?: string };
@@ -176,6 +178,20 @@ Sitemap: ${absolute(siteJson, '/sitemap.xml')}
   console.log('✅ Generated robots.txt');
 }
 
+// Cloudflare Pages runs out/_worker.js at request time; `wrangler pages deploy`
+// picks it up with no project change. GitHub Pages ignores it and serves the
+// same export statically, minus the 404 body.
+function writeWorker() {
+  const scriptDir = path.dirname(fileURLToPath(import.meta.url));
+  const source = path.join(scriptDir, '..', 'worker', '_worker.js');
+  if (!existsSync(source)) {
+    console.warn('⚠️  Worker source not found, skipping:', source);
+    return;
+  }
+  copyFileSync(source, path.join(BUILD_OUT_DIR, '_worker.js'));
+  console.log('✅ Copied _worker.js');
+}
+
 async function main() {
   if (!existsSync(BUILD_OUT_DIR)) {
     console.error('❌ Build output directory not found:', BUILD_OUT_DIR);
@@ -185,6 +201,7 @@ async function main() {
   writeSitemap(siteJson, await exportedRoutes());
   writeLlmsTxt(siteJson);
   writeRobotsTxt(siteJson);
+  writeWorker();
 }
 
 main().catch(error => {

@@ -1,10 +1,13 @@
 import { PropsWithChildren } from 'react';
 import { cn } from '../utils';
 import { Button, H1, Paragraph } from './ui';
+import type { HeadingLevel } from './ui/heading';
 import Section from './section';
 
 interface HeroProps {
   title: string;
+  /** Tag for the title. Styling stays at level 1 whatever this says. */
+  headingLevel?: HeadingLevel;
   titleClassName?: string;
   subtitle?: string;
   description?: string;
@@ -18,6 +21,7 @@ interface HeroProps {
 
 export default function Hero({
   title,
+  headingLevel,
   titleClassName = '',
   subtitle,
   description,
@@ -48,6 +52,7 @@ export default function Hero({
           </Paragraph>
         )}
         <H1
+          headingLevel={headingLevel}
           className={cn(
             'text-foreground mb-6 leading-tight whitespace-pre-line',
             titleClassName,

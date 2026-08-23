@@ -15,6 +15,7 @@ import { PUBLIC_CONTENT } from '../../../../scripts/paths';
 import { getSiteConfig } from '@wse/global/adapters';
 import remarkGfm from 'remark-gfm';
 import { remarkUnwrapCustomBlocks } from '../mdx-processing/mdx-remarks/remark-unwrap-custom-blocks';
+import { remarkSingleH1 } from '../mdx-processing/mdx-remarks/remark-single-h1';
 import { remarkLineBreaks } from '../mdx-processing/mdx-remarks/remark-break';
 import { rehypeNextjsLinks } from '../mdx-processing/mdx-rehypes/rehype-mdx-next-link';
 
@@ -23,6 +24,7 @@ const getPlugins = (filePath: string) => [
   remarkLineBreaks,
   remarkMdxImports,
   remarkUnwrapCustomBlocks, // Add the new plugin here
+  remarkSingleH1,
   () => remarkTransformPaths(filePath),
 ];
 
