@@ -1,4 +1,4 @@
-import React, { JSX, lazy, Suspense, useEffect, useState } from 'react';
+import React, { JSX, lazy, Suspense } from 'react';
 import { TemplateRenderArgs, ThemeTemplates } from '../types/theme';
 import { appConfigService } from '../services/app-config';
 
@@ -16,17 +16,7 @@ const DefaultTemplate = lazy(() => import('./templates/default-template'));
 const FiveTemplate = lazy(() => import('./templates/five-template'));
 
 const TemplateRender: React.FC<TemplateRenderArgs> = props => {
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    // Set the app configuration
-    appConfigService.setConfig(props.env ?? {});
-    setIsClient(true);
-  }, []);
-
-  if (!isClient) {
-    return null; // Prevent rendering on the server
-  }
+  appConfigService.setConfig(props.env ?? {});
 
   const template = props.frontmatter?.template;
   let Component: React.LazyExoticComponent<
