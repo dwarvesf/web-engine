@@ -1,35 +1,27 @@
-// Strips the raw content tree from the export.
-//
-// The whole content repository is copied into public/content, and `next build`
-// copies public/ verbatim into out/, so without this step every source file
-// ships: page sources, files that are not pages at all, and the build's
-// content hash. The images and other assets under out/content are referenced
-// by the pages and stay.
-//
-// It is scoped to out/content on purpose. gen:agent-files writes a markdown
-// twin per page at out/<route>/index.md, which is the markdown the site does
-// mean to serve, and a repo-wide `**/*.md` sweep would delete those the moment
-// the two steps were reordered.
+// Script for cleaning all md and mdx files in the out directory recursively by using glob patterns
 import { glob } from 'glob';
 import { rimraf } from 'rimraf';
 import path from 'path';
 import { BUILD_OUT_DIR } from './paths';
 
-const CONTENT_OUT_DIR = path.join(BUILD_OUT_DIR, 'content');
-
 async function cleanOutDir() {
-  const sources = await glob('**/*.{md,mdx}', {
-    cwd: CONTENT_OUT_DIR,
+  // Clean all .mdx files
+  const mdxFiles = await glob('**/*.mdx', {
+    cwd: BUILD_OUT_DIR,
     absolute: true,
-    dot: true,
   });
-  await Promise.all(sources.map(file => rimraf(file)));
+  await Promise.all(mdxFiles.map(file => rimraf(file)));
 
-  await rimraf(path.join(CONTENT_OUT_DIR, '.content-hash'));
+  // Clean all .md files
+  const mdFiles = await glob('**/*.md', { cwd: BUILD_OUT_DIR, absolute: true });
+  await Promise.all(mdFiles.map(file => rimraf(file)));
 
-  console.log(
-    `Cleaned ${sources.length} .md and .mdx files from the exported content tree.`,
-  );
+  // Clean the .content-hash file. It is written into public/content by
+  // cp:content, so `next build` copies it to out/content, not to out/.
+  const contentHashFile = path.join(BUILD_OUT_DIR, 'content', '.content-hash');
+  await rimraf(contentHashFile);
+
+  console.log('Cleaned out directory of all .md and .mdx files.');
 }
 
 cleanOutDir().catch(err => {
