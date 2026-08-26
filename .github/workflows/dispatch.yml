@@ -1,22 +1,31 @@
 name: Dispatch Workflow
 
+# Retired the DWARVES_PAT personal-PAT secret (never set on this repo, so
+# every run has been failing since 2026-08-23) in favor of the shared
+# dwarves-ops-bot GitHub App, per dfoundation's PAT-retirement decision.
+# Worked example: dwarvesf/brainery's publish-on-push.yml.
+
 on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   dispatch:
     runs-on: ubuntu-latest
     steps:
-      - name: Trigger Workflow
-        uses: actions/github-script@v7
+      - name: Mint ops-bot token
+        id: app
+        uses: actions/create-github-app-token@v2
         with:
-          github-token: ${{secrets.DWARVES_PAT}}
-          script: |
-            github.rest.actions.createWorkflowDispatch({
-              owner: context.repo.owner,
-              repo: "d.foundation",
-              workflow_id: 'main.yml',
-              ref: 'main',
-            })
+          app-id: ${{ vars.OPS_BOT_APP_ID }}
+          private-key: ${{ secrets.OPS_BOT_PRIVATE_KEY }}
+          owner: dwarvesf
+          repositories: |
+            d.foundation
+      - name: Trigger d.foundation build
+        env:
+          GH_TOKEN: ${{ steps.app.outputs.token }}
+        run: |
+          gh workflow run main.yml -R dwarvesf/d.foundation --ref main
